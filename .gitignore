@@ -1,4 +1,10 @@
+# Manim
 manim
 media
+
+# Python things
 __pycache__
 .ipynb_checkpoints
+
+# VSCode
+.vscode
