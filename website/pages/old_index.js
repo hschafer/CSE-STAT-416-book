@@ -4,17 +4,17 @@ export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>CSE/STAT 416 Book</title>
+        <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <h1 className="title">
-            CSE/STAT 416 Book
+          Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
         <p className="description">
-            This book is designed to teach machine learning to a wide audience.
+          Get started by editing <code>pages/index.js</code>
         </p>
 
         <div className="grid">
