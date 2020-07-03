@@ -2,7 +2,7 @@ import Chapter from '../../components/chapter'
 
 export default function AssessingPerformance() {
     return <>
-        <Chapter chapterNumber='2' title='Assessing Performance'>
+        <Chapter fileName='assessing_performance'>
             <p>This is some assessing Performance text</p>
         </Chapter>
     </>

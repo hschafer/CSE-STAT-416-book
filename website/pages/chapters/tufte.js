@@ -8,7 +8,7 @@ export default function Tufte() {
     }
 
     return <>
-        <Chapter chapterNumber='0' title='Tufte'>
+        <Chapter fileName='tufte'>
                 { /* <p className='subtitle'>Subtitle</p> */ }
                 <section>
                     <p>This page will keep a very short reference of some common Tufte elements and how to create them.</p>

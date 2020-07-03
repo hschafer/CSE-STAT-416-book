@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
+import tableOfContents from '../table_of_contents.js'
+
 
 export default function Home() {
   return (
@@ -20,12 +22,13 @@ export default function Home() {
         </p>
 
         <h2>Table of Contents</h2>
-        
-        <ol start="0">
-          <li><Link href="/chapters/tufte"><a>Tufte</a></Link></li>
-          <li><Link href="/chapters/linear_regression"><a>Linear Regression</a></Link></li>
-          <li><Link href="/chapters/assessing_performance"><a>Assessing Performance</a></Link></li>
 
+        <ol>
+          {
+            tableOfContents.map((chapter) =>
+              <li value={chapter.chapterNumber}><Link href={`chapters/${chapter.file}`}><a>{chapter.title}</a></Link></li>
+            )
+          }
         </ol>
       </main>
     </div>
