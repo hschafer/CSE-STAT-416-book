@@ -3,7 +3,6 @@ import Link from 'next/link'
 
 import tableOfContents from '../table_of_contents.js'
 
-
 export default function Home() {
   return (
     <div className="container">
@@ -26,7 +25,7 @@ export default function Home() {
         <ol>
           {
             tableOfContents.map((chapter) =>
-              <li value={chapter.chapterNumber}><Link href={`chapters/${chapter.file}`}><a>{chapter.title}</a></Link></li>
+              <li key={chapter.file} value={chapter.chapterNumber}><Link href={`chapters/${chapter.file}`}><a>{chapter.title}</a></Link></li>
             )
           }
         </ol>
