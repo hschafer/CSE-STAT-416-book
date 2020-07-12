@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import styles from './chapter.module.css'
 
+import Layout from './layout'
+
 import tableOfContents from '../table_of_contents'
 
 function findChapterInfo(fileName) {
@@ -17,13 +19,12 @@ function findChapterInfo(fileName) {
 
 export default function Chapter({ children, fileName}) {
     const chapter = findChapterInfo(fileName);
-    return <>
+    return <Layout>
         <main>
             <article>
-            <p><Link href="/"><a>&#8592; Back Home</a></Link></p>
             <h1>Chapter {chapter.chapterNumber}: {chapter.title}</h1>
             {children}
-            </article>    
+            </article>
         </main>
-    </>
+    </Layout>
 }

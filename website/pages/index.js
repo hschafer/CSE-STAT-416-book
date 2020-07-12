@@ -1,11 +1,14 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
+import Layout from '../components/layout'
+
 import tableOfContents from '../table_of_contents.js'
+
 
 export default function Home() {
   return (
-    <div className="container">
+    <Layout showTOC='False'>
       <Head>
         <title>CSE/STAT 416 Book</title>
         <link rel="icon" href="/favicon.ico" />
@@ -25,11 +28,11 @@ export default function Home() {
         <ol>
           {
             tableOfContents.map((chapter) =>
-              <li key={chapter.file} value={chapter.chapterNumber}><Link href={`chapters/${chapter.file}`}><a>{chapter.title}</a></Link></li>
+              <li key={chapter.file} value={chapter.chapterNumber}><Link href={`/chapters/${chapter.file}`}><a>{chapter.title}</a></Link></li>
             )
           }
         </ol>
       </main>
-    </div>
+    </Layout>
   )
 }
