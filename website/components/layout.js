@@ -22,12 +22,6 @@ export default function Layout({ showTOC="True", children }) {
             {children}
         </main>
         <style jsx>{`
-            a {
-                color: red;
-                underline: none;
-                background: none;
-            }
-
             #container {
                 display: flex;
                 align-items: stretch;
@@ -36,6 +30,21 @@ export default function Layout({ showTOC="True", children }) {
             #navbar {
                 min-width: 250px;
                 max-width: 250px;
+                margin-left: -210px;
+
+                font-size: 1.3rem;
+                line-height: 1em;
+            }
+
+            /* To cancel out Tufte CSS style */
+            #navbar ol, #navbar p {
+                font-size: inherit;
+                line-height: inherit;
+            }
+
+            #navbar a {
+                underline: none;
+                background: none;
             }
         `}</style>
     </div>
