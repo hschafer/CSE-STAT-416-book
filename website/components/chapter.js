@@ -1,9 +1,10 @@
-import Link from 'next/link'
-import styles from './chapter.module.css'
+import Head from 'next/head'
 
 import Layout from './layout'
-
 import tableOfContents from '../table_of_contents'
+
+import styles from './chapter.module.css'
+
 
 function findChapterInfo(fileName) {
     const chapter = tableOfContents.filter(chapter => chapter.file === fileName);
@@ -20,6 +21,13 @@ function findChapterInfo(fileName) {
 export default function Chapter({ children, fileName}) {
     const chapter = findChapterInfo(fileName);
     return <Layout>
+        <Head>
+            <link
+                href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+                rel="stylesheet"
+            />
+        </Head>
+
         <main>
             <article>
             <h1>Chapter {chapter.chapterNumber}: {chapter.title}</h1>
