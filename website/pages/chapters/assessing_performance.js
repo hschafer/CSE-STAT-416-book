@@ -1,7 +1,7 @@
 import Chapter from '../../components/chapter'
 
 import Link from 'next/link'
-import Latex from 'react-latex'
+import {InlineMath, BlockMath} from 'react-katex'
 
 export default function AssessingPerformance() {
     return <>
@@ -9,13 +9,12 @@ export default function AssessingPerformance() {
             <p>This is some assessing Performance text <Link href="/chapters/linear_regression"><a>Lin reg</a></Link>.</p>
 
             <p>
-                This paragraph will have some inline LaTeX in it. <Latex>Some math $3 + 2 \rightarrow 5$</Latex>
+                This paragraph will have some inline LaTeX in it. Some math <InlineMath>3 + 2 \rightarrow 5</InlineMath>
             </p>
 
             <p>This paragraph has some in block display
-
-                <Latex displayMode={true}>$$\min_x f(x)$$</Latex>
             </p>
+            <BlockMath>\min_x f(x)</BlockMath>
         </Chapter>
     </>
 }
