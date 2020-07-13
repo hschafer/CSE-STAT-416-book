@@ -13,7 +13,6 @@ conda create --name 416-book python=3.7
 conda activate 416-book
 pip install -r requirements.txt
 ```
-
 You will potentially need some other system requirements based for the [manim](https://github.com/3b1b/manim) library.
 
 See `SetupErrors.md` for some issues others have run into while setting this up.
@@ -29,3 +28,6 @@ There a few useful `manim` flags (you can see `manim --help` for more info).
 * `-p` Immediately previews the result
 * `-l` Renders the animation in low quality. This is great for development to save time.
 * `-s` Outputs the final frame instead of the whole animation. Good for development when not working on the actual animations.
+
+# Website
+See the `README.md` in the `website` folder for more information.
