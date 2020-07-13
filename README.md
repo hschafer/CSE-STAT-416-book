@@ -14,7 +14,9 @@ conda activate 416-book
 pip install -r requirements.txt
 ```
 
-You will potentially need some other system requirements based for the [manim](https://github.com/3b1b/manim) library. 
+You will potentially need some other system requirements based for the [manim](https://github.com/3b1b/manim) library.
+
+See `SetupErrors.md` for some issues others have run into while setting this up.
 
 ## Generating a Video
 Once you've installed `manim` and are in your environment, you can run the `manim` command in any of the directories that have `manim` scripts. For example
