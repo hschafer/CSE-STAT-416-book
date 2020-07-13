@@ -145,7 +145,14 @@ export default function LinearRegression() {
             The animation below shows a visual representation of this model.
           </p>
 
-          <p>TODO animation.</p>
+          <video autoPlay controls loop>
+            <source
+              src="/animations/linear_regression/Model.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+
           <p>
             Earlier, we said a common goal for machine learning is to make
             predictions about future data. A common way this is accomplished is
