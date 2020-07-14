@@ -1,6 +1,7 @@
 import Chapter from "../../components/chapter";
 import { IM, BM } from "../../components/latex";
 import MarginNote from "../../components/marginnote";
+import Video from "../../components/video";
 
 export default function LinearRegression() {
   return (
@@ -161,13 +162,7 @@ export default function LinearRegression() {
             </MarginNote>
           </p>
 
-          <video autoPlay controls loop>
-            <source
-              src="/animations/linear_regression/Model.mp4"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
+          <Video src="/animations/linear_regression/Model.mp4" type="mp4" />
 
           <p>
             Earlier, we said a common goal for machine learning is to make
@@ -439,11 +434,430 @@ export default function LinearRegression() {
             metric is one that is closer to the training dataset points.{" "}
             <MarginNote id="mse">
               You might also see people use <b>mean-squared error (or MSE)</b>{" "}
-              which is just the RSS divided by the number of examples. In math,
-              that would mean{" "}
+              which is just the RSS divided by the number of training examples{" "}
+              <IM math={`n`} />. In math, that would mean{" "}
               <IM math={`MSE(w_0, w_1) = \\frac{1}{n}RSS(w_0, w_1)`} />
             </MarginNote>
           </p>
+
+          <p>
+            <b>ML Algorithm</b>
+          </p>
+
+          <p>TODO highlight ml pipeline</p>
+
+          <p>
+            As a quick recap, we have defined the linear regression model (how
+            we assume the world works and what we will try to learn) and the
+            quality metric (how good a possible predictor is). Now we define an
+            ML Algorithm to find the predictor that is the "best" according to
+            the quality metric.
+          </p>
+
+          <p>The goal of the ML Algorithm is to solve the formula.</p>
+
+          <BM
+            math={`
+            \\hat{w}_0, \\hat{w}_1 = \\min_{w_0, w_1} RSS(w_0, w_1)
+          `}
+          />
+
+          <p>
+            In English, this is finding the settings of <IM math={`w_0, w_1`} />{" "}
+            that minimize RSS and using those for our predictor by claiming they
+            are <IM math={`\\hat{w}_0, \\hat{w}_1`} />. This ends up being
+            easier said than done. <IM math={`w_0, w_1`} /> can be real numbers
+            (e.g., 14.3 or -7.4568) which means there are an infinite
+            combination of <IM math={`w_0s, w_1s`} /> to try out before we can
+            find the one that minimizes RSS!
+          </p>
+
+          <p>
+            Even though we can't compute the RSS for every combination, you
+            could imagine trying to plot it out to visualize the landscape of
+            the errors.
+            <MarginNote id="rss-graph">
+              <img
+                src="/animations/linear_regression/rss.png"
+                alt="3D rendition of RSS function."
+              ></img>
+            </MarginNote>
+            Since there are two inputs <IM math={`w_0s, w_1s`} />, the graph of
+            the function will be in 3D to show the RSS value for every input.
+          </p>
+
+          <p>
+            We don't actually plot this whole function in practice, but with a
+            little ML theory you can show that under some model and data
+            assumptions, this function is guaranteed to look like a bowl in the
+            image to the right. If we know it looks like this bowl shape, there
+            is a very clever algorithm that doesn't involve computing all the
+            points called <b>gradient descent</b>.
+          </p>
+
+          <p>
+            The idea behind gradient descent is to start at one point (any
+            point) and "roll down" the hill until you reach the bottom. Let's
+            consider an example with one parameter: suppose we know what{" "}
+            <IM math={`w_0`} /> is and our job is to just find{" "}
+            <IM math={`w_1`} /> that minimizes the RSS. In this context, we
+            don't have to visualize this 3D bowl but rather just a 2D graph
+            since there is only one degree of freedom.
+          </p>
+          <p>
+            If you are familiar with calculus, you might remember derivative of
+            a function tells you the slope at each point of a function. You
+            don't need to ever compute a derivative for this class, but just
+            know that there is a mathematical way to find the slope of many
+            functions. Gradient descent in this context (shown in the animation
+            below), starts at some point and computes the slope at each point to
+            figure out which direction is "down". Gradient descent is an
+            iterative algorithm so it repeatedly does this process until it
+            converges to the bottom.
+          </p>
+
+          <p>TODO animation of gradient descent on 1d function.</p>
+
+          <p>
+            In the context of our original problem where we are trying to
+            optimize both <IM math={`w_0, w_1`} />, people use a slightly more
+            advanced concept of the slope/derivative called the "gradient"; the
+            gradient is essentially an arrow that points in the direction of
+            steepest ascent. It's the exact same idea as the animation above,
+            but now we use this gradient idea to find the direction to go down.
+          </p>
+
+          <figure className="fullwidth">
+            <Video
+              src="/animations/linear_regression/gradient_descent.webm"
+              type="webm"
+            />
+            <div>
+              Source
+              https://alykhantejani.github.io/images/gradient_descent_line_graph.gif
+            </div>
+            <div>
+              Note: They use <IM math="b" /> for the intercept and{" "}
+              <IM math="m" /> for the slope instead of our{" "}
+              <IM math={`w_0, w_1`} />.
+            </div>
+          </figure>
+
+          <p>
+            Visually, this gradient descent algorithm looks like rolling down
+            the RSS hill until it converges. It's important to highlight that
+            the RSS function's input are the <IM math="w_0, w_1" /> that we
+            trying to use for our predictor. The right-hand side of the
+            animation above is showing the predictor that would result by using
+            the <IM math="w_0, w_1" /> at each step of the algorithm. Notice
+            that as the algorithm runs, the line seems to fit the data better!
+            This is precisely because the algorithm is updating the coefficients
+            bit-by-bit to reduce the error.
+          </p>
+
+          <p>
+            Mathematically, we write this process as{" "}
+            <MarginNote id="w^t">
+              📝 <em>Notation:</em> We use <IM math={`w`} /> to mean both{" "}
+              <IM math={`w_0`} /> and <IM math={`w_1`} /> and{" "}
+              <IM math={`w^{(t)}`} /> to mean our predictor coefficients at time{" "}
+              <IM math="t" />.
+              <br />
+              <br />
+              The <IM math={`\\nabla`} /> is the notation mathematicians use for
+              the gradient.
+            </MarginNote>
+            :
+          </p>
+
+          {/* Please God have a better way of formatting this */}
+          <pre>
+            <code>
+              start at some (random) point <IM math={"w^{(0)}"} /> when{" "}
+              <IM math={`t=0`} />
+              <br />
+              while we haven't converged:
+              <br />
+              {"    "}
+              <IM math={`w^{(t+1)} = w^{(t)} - \\eta\\nabla RSS(w^{(t)})`} />
+            </code>
+          </pre>
+
+          <p>
+            In this algorithm, we repeatedly adjust our predictor until we reach
+            the bottom of the bowl. There are some mathematical details we are
+            omitting about how to compute this gradient, but the big idea of
+            rolling down a hill is <em>extremely</em> important to know as an ML
+            algorithm. There is a constant in the pseudo-code above{" "}
+            <IM math={`\\eta`} /> called the <b>step-size</b>, or how far we
+            move on each iteration of the algorithm. We will talk more about how
+            this affects our result and how to choose it.
+          </p>
+
+          <p>
+            You might be wondering if this "hill rolling" algorithm is always
+            guaranteed to actually work. "Work" in this context would probably
+            mean that it finds the settings of <IM math={`w_0, w_1`} /> that
+            minimize the RSS (maybe find a setting with no errors). Gradient
+            descent can only guarantee you that it will eventually converge to
+            this global optimum if the RSS function is bowl-like
+            <MarginNote id="convex">
+              Mathematicians call this the function being "convex".
+            </MarginNote>
+            . If you don't have this guarantee of your quality metric, there are
+            very little guarantees about the quality of the predictor found
+            since it might get stuck in a "local optima".
+          </p>
+
+          <p>TODO animation of non-convex function and gradient descent.</p>
+
+          <p>
+            <b>Feature Extraction</b>
+          </p>
+
+          <p>TODO highlight ML pipeline</p>
+
+          <p>
+            <MarginNote id="data-2">
+              <img
+                src="/animations/linear_regression/higher_order_polynomial.png"
+                alt="Picture of data and higher degree polynomial"
+                style={{ width: "50%" }}
+              />
+            </MarginNote>
+            If you think back to our original dataset when introducing the
+            topic, you might wonder how we could do regression like this if we
+            don't believe the model of the world is linear. In this picture, we
+            show the true function as being some kind of polynomial. Any time
+            you are thinking about what assumptions we are making, that is the
+            model you are assuming. So if you think the world behaves like a
+            polynomial, you could say we would use that as our model.
+          </p>
+
+          <BM
+            math={`y_i = w_0 + w_1x_i + w_2x_i^2 + w_3x_i^3 + \\varepsilon_i`}
+          />
+
+          <p>
+            This is a special case of a general concept called{" "}
+            <b>polynomial regression</b> where you are fitting a more complex
+            curve to data. In general, polynomial regression uses a polynomial
+            of degree <IM math="p" /> that you choose as part of your modelling
+            assumptions.
+          </p>
+
+          <BM
+            math={`
+              y_i &= w_0 + w_1x_i + w_2x_i + ... + w_px_i^p + \\varepsilon_i
+          `}
+          />
+
+          <p>
+            How do you go about training a polynomial regression model? The
+            exact same as linear regression! We use RSS as the quality metric
+            and use an algorithm like gradient descent to find the optimal
+            setting of the parameters. One of the very powerful things about
+            gradient descent is it actually works really well for learning many
+            different types of models! We will see gradient descent come up many
+            times throughout the book.
+          </p>
+
+          <p>
+            So if we can learn a predictor under any of these polynomial models,
+            how do we choose what the right degree for <IM math="p" /> by just
+            looking at the data? That is a central question in the next chapter,
+            Assessing Performance.
+          </p>
+
+          <p> TODO animation of various degrees? Not sure</p>
+
+          <p>
+            More generally, a <b>feature</b> are the values that we select or
+            compute from the data inputs to use in our model.{" "}
+            <b>Feature extraction</b> is the process we use of turning our raw
+            input data into features.
+          </p>
+
+          <p>
+            We can then generalize our regression problem to work with any set
+            of features!
+            <MarginNote id="feature-extraction">
+              📝 <em>Notation:</em> We use <IM math={`h_j(x_i)`} /> to represent
+              the jth feature we extract from the data input <IM math={`x_i`} />
+              . We choose a number <IM math="D" /> for how many features we want
+              to use.
+            </MarginNote>
+          </p>
+
+          <BM
+            math={`
+            \\begin{aligned}
+              y_i &= w_0h_0(x_i) + w_1h_1(x_1) + ... + w_Dh_D(x_i) + \\varepsilon_i\\\\
+                  &= \\sum_{j=0}^D w_jh_j(x_i) + \\varepsilon_i
+            \\end{aligned}
+          `}
+          />
+
+          <p>
+            It's common to make <IM math={`h_0(x)`} /> some constant like 1 so
+            that <IM math={`w_0`} /> can represent the intercept. But you aren't
+            necessarily limited in how you want to transform your features! For
+            example, you could make <IM math={`h_1(x) = x^2`} /> and{" "}
+            <IM math={`h_2(x) = \\log(x)`} />. Each feature <IM math="j" /> will
+            have its associated parameter <IM math={"w_j"} />. You can convince
+            yourself that the linear regression and polynomial regression are
+            actually just special cases of this general regression problem, with
+            their own feature extraction steps.
+          </p>
+        </section>
+
+        <section>
+          <h3>Multiple Data Inputs</h3>
+
+          <p>
+            What if we wanted to include more than just square footage in our
+            model for house prices? You might imagine we know the number of
+            bathrooms in the house as well as whether or not it is a new
+            construction. Generally, we are given a data table of values that we
+            might be interested in looking at in our model. In a data table,
+            it's common to have a format like the following:
+          </p>
+
+          <ul>
+            <li>Each row is a single example (e.g,, one house)</li>
+            <li>
+              Each column (except one) is a data input. There is usually one
+              column reserved for the outcome value or target you want to
+              predict.
+            </li>
+          </ul>
+
+          <table className="data-table">
+            <tr>
+              <th>sq. ft.</th>
+              <th># bathrooms</th>
+              <th>owner's age</th>
+              <th>...</th>
+              <th>price</th>
+            </tr>
+            <tr>
+              <td>1400</td>
+              <td>3</td>
+              <td>47</td>
+              <td>...</td>
+              <td>70,800</td>
+            </tr>
+            <tr>
+              <td>700</td>
+              <td>3</td>
+              <td>19</td>
+              <td>...</td>
+              <td>65,000</td>
+            </tr>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>1250</td>
+              <td>2</td>
+              <td>36</td>
+              <td>...</td>
+              <td>100,000</td>
+            </tr>
+          </table>
+
+          <p>
+            <MarginNote id="two-features">
+              <img
+                src="/animations/linear_regression/two_features.png"
+                alt="Plane with two features"
+              />
+              Shows what regression like this looks like with two features.
+            </MarginNote>
+            Adding more features to a model allows for more complex
+            relationships to be learned. For example, a regression model that
+            uses two of the inputs as features for this house price problem
+            might look like the following.
+          </p>
+
+          <BM
+            math={`y_i = w_0 + w_1(sq.\\ ft.) + w_2(\\#\\ bathrooms) + \\varepsilon_i`}
+          />
+
+          <p>
+            It's important that we highlight the difference between a{" "}
+            <b>data input</b> and a <b>feature</b> and some notation used for
+            them.
+          </p>
+          <ul>
+            <li>Data input: Are columns of the raw data table provided</li>
+            <li>
+              Features are values (possible transformed) that the model will
+              use. This is performed by the feature extraction{" "}
+              <IM math={`h(x)`} />.
+            </li>
+            <MarginNote id="data-notation">
+              📝 <em>Notation:</em>
+              <ul>
+                <li>
+                  Data Input:{" "}
+                  <IM
+                    math={`x_i = \\left(x_i[1], x_i[2], ..., x_i[d]\\right)`}
+                  />{" "}
+                  where there are <IM math="d" /> input columns and we use array
+                  notation to access them.
+                </li>
+                <li>
+                  Output: <IM math={`y_i`} />.
+                </li>
+                <li>
+                  <IM math={`x_i`} /> is the <IM math={`i^{th}`} /> data table
+                  row.
+                </li>
+                <li>
+                  <IM math={`x_i[j]`} /> is the <IM math={`j^{th}`} /> column of
+                  the <IM math={`i^{th}`} /> row.
+                </li>
+                <li>
+                  <IM math={`h_j(x_i)`} /> is the <IM math={`j^{th}`} /> feature
+                  extracted from the <IM math={`i^{th}`} /> row.
+                </li>
+              </ul>
+            </MarginNote>
+          </ul>
+
+          <p>
+            You have the freedom to choose which data inputs you select to use
+            as features and how you transform them. Conventionally, you use{" "}
+            <IM math={`h_0(x) = 1`} /> so that <IM math={`w_0`} /> is the
+            intercept. But then for example, you could make{" "}
+            <IM math={`h_1(x) = x[1]`} /> (or the sq. ft.) and make{" "}
+            <IM math={`h_12(x) = \\log(x[7]) * x[2]`} />. Generally adding more
+            features means your model will be more complex which is not
+            necessarily a good thing!{" "}
+            <MarginNote id="complexity">
+              More on this in Assessing Performance.
+            </MarginNote>
+            Choosing how many features and what (if any) transformations to use
+            a bit of an art and a science, so understanding in the next chapter
+            how we evaluate our model is extremely important.
+          </p>
+
+          <p>
+            📝 As a notational remark, we should highlight that it's very common
+            for people to assume that the data table you are working with has
+            already been preprocessed to contain the features you want. They do
+            this to avoid having to write <IM math={`h_j(x)`} />. It's important
+            to remember that there is a step of transforming raw data to
+            features (even if its implicit) and should double check what type of
+            data you are working with.
+          </p>
+
+          <p>TODO recap / terms</p>
         </section>
       </Chapter>
     </>
