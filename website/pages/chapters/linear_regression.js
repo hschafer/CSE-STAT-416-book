@@ -610,6 +610,66 @@ export default function LinearRegression() {
           </p>
 
           <p>TODO animation of non-convex function and gradient descent.</p>
+
+          <p>
+            <b>Feature Extraction</b>
+          </p>
+
+          <p>TODO highlight ML pipeline</p>
+
+          <p>
+            <MarginNote id="data-2">
+              <img
+                src="/animations/linear_regression/higher_order_polynomial.png"
+                alt="Picture of data and higher degree polynomial"
+                style={{ width: "50%" }}
+              />
+            </MarginNote>
+            If you think back to our original dataset when introducing the
+            topic, you might wonder how we could do regression like this if we
+            don't believe the model of the world is linear. In this picture, we
+            show the true function as being some kind of polynomial. Any time
+            you are thinking about what assumptions we are making, that is the
+            model you are assuming. So if you think the world behaves like a
+            polynomial, you could say we would use that as our model.
+          </p>
+
+          <BM
+            math={`y_i = w_0 + w_1x_i + w_2x_i^2 + w_3x_i^3 + \\varepsilon_i`}
+          />
+
+          <p>
+            This is a special case of a general concept called{" "}
+            <b>polynomial regression</b> where you are fitting a more complex
+            curve to data. In general, polynomial regression uses a polynomial
+            of degree <IM math="p" /> that you choose as part of your modelling
+            assumptions.
+          </p>
+
+          <BM
+            math={`
+              y_i &= w_0 + w_1x_i + w_2x_i + ... + w_px_i^p + \\varepsilon_i
+          `}
+          />
+
+          <p>
+            How do you go about training a polynomial regression model? The
+            exact same as linear regression! We use RSS as the quality metric
+            and use an algorithm like gradient descent to find the optimal
+            setting of the parameters. One of the very powerful things about
+            gradient descent is it actually works really well for learning many
+            different types of models! We will see gradient descent come up many
+            times throughout the book.
+          </p>
+
+          <p>
+            So if we can learn a predictor under any of these polynomial models,
+            how do we choose what the right degree for <IM math="p" /> by just
+            looking at the data? That is a central question in the next chapter,
+            Assessing Performance.
+          </p>
+
+          <p> TODO animation of various degrees? Not sure</p>
         </section>
       </Chapter>
     </>
