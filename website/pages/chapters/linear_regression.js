@@ -670,6 +670,194 @@ export default function LinearRegression() {
           </p>
 
           <p> TODO animation of various degrees? Not sure</p>
+
+          <p>
+            More generally, a <b>feature</b> are the values that we select or
+            compute from the data inputs to use in our model.{" "}
+            <b>Feature extraction</b> is the process we use of turning our raw
+            input data into features.
+          </p>
+
+          <p>
+            We can then generalize our regression problem to work with any set
+            of features!
+            <MarginNote id="feature-extraction">
+              📝 <em>Notation:</em> We use <IM math={`h_j(x_i)`} /> to represent
+              the jth feature we extract from the data input <IM math={`x_i`} />
+              . We choose a number <IM math="D" /> for how many features we want
+              to use.
+            </MarginNote>
+          </p>
+
+          <BM
+            math={`
+            \\begin{aligned}
+              y_i &= w_0h_0(x_i) + w_1h_1(x_1) + ... + w_Dh_D(x_i) + \\varepsilon_i\\\\
+                  &= \\sum_{j=0}^D w_jh_j(x_i) + \\varepsilon_i
+            \\end{aligned}
+          `}
+          />
+
+          <p>
+            It's common to make <IM math={`h_0(x)`} /> some constant like 1 so
+            that <IM math={`w_0`} /> can represent the intercept. But you aren't
+            necessarily limited in how you want to transform your features! For
+            example, you could make <IM math={`h_1(x) = x^2`} /> and{" "}
+            <IM math={`h_2(x) = \\log(x)`} />. Each feature <IM math="j" /> will
+            have its associated parameter <IM math={"w_j"} />. You can convince
+            yourself that the linear regression and polynomial regression are
+            actually just special cases of this general regression problem, with
+            their own feature extraction steps.
+          </p>
+        </section>
+
+        <section>
+          <h3>Multiple Data Inputs</h3>
+
+          <p>
+            What if we wanted to include more than just square footage in our
+            model for house prices? You might imagine we know the number of
+            bathrooms in the house as well as whether or not it is a new
+            construction. Generally, we are given a data table of values that we
+            might be interested in looking at in our model. In a data table,
+            it's common to have a format like the following:
+          </p>
+
+          <ul>
+            <li>Each row is a single example (e.g,, one house)</li>
+            <li>
+              Each column (except one) is a data input. There is usually one
+              column reserved for the outcome value or target you want to
+              predict.
+            </li>
+          </ul>
+
+          <table className="data-table">
+            <tr>
+              <th>sq. ft.</th>
+              <th># bathrooms</th>
+              <th>owner's age</th>
+              <th>...</th>
+              <th>price</th>
+            </tr>
+            <tr>
+              <td>1400</td>
+              <td>3</td>
+              <td>47</td>
+              <td>...</td>
+              <td>70,800</td>
+            </tr>
+            <tr>
+              <td>700</td>
+              <td>3</td>
+              <td>19</td>
+              <td>...</td>
+              <td>65,000</td>
+            </tr>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>1250</td>
+              <td>2</td>
+              <td>36</td>
+              <td>...</td>
+              <td>100,000</td>
+            </tr>
+          </table>
+
+          <p>
+            <MarginNote id="two-features">
+              <img
+                src="/animations/linear_regression/two_features.png"
+                alt="Plane with two features"
+              />
+              Shows what regression like this looks like with two features.
+            </MarginNote>
+            Adding more features to a model allows for more complex
+            relationships to be learned. For example, a regression model that
+            uses two of the inputs as features for this house price problem
+            might look like the following.
+          </p>
+
+          <BM
+            math={`y_i = w_0 + w_1(sq.\\ ft.) + w_2(\\#\\ bathrooms) + \\varepsilon_i`}
+          />
+
+          <p>
+            It's important that we highlight the difference between a{" "}
+            <b>data input</b> and a <b>feature</b> and some notation used for
+            them.
+          </p>
+          <ul>
+            <li>Data input: Are columns of the raw data table provided</li>
+            <li>
+              Features are values (possible transformed) that the model will
+              use. This is performed by the feature extraction{" "}
+              <IM math={`h(x)`} />.
+            </li>
+            <MarginNote id="data-notation">
+              📝 <em>Notation:</em>
+              <ul>
+                <li>
+                  Data Input:{" "}
+                  <IM
+                    math={`x_i = \\left(x_i[1], x_i[2], ..., x_i[d]\\right)`}
+                  />{" "}
+                  where there are <IM math="d" /> input columns and we use array
+                  notation to access them.
+                </li>
+                <li>
+                  Output: <IM math={`y_i`} />.
+                </li>
+                <li>
+                  <IM math={`x_i`} /> is the <IM math={`i^{th}`} /> data table
+                  row.
+                </li>
+                <li>
+                  <IM math={`x_i[j]`} /> is the <IM math={`j^{th}`} /> column of
+                  the <IM math={`i^{th}`} /> row.
+                </li>
+                <li>
+                  <IM math={`h_j(x_i)`} /> is the <IM math={`j^{th}`} /> feature
+                  extracted from the <IM math={`i^{th}`} /> row.
+                </li>
+              </ul>
+            </MarginNote>
+          </ul>
+
+          <p>
+            You have the freedom to choose which data inputs you select to use
+            as features and how you transform them. Conventionally, you use{" "}
+            <IM math={`h_0(x) = 1`} /> so that <IM math={`w_0`} /> is the
+            intercept. But then for example, you could make{" "}
+            <IM math={`h_1(x) = x[1]`} /> (or the sq. ft.) and make{" "}
+            <IM math={`h_12(x) = \\log(x[7]) * x[2]`} />. Generally adding more
+            features means your model will be more complex which is not
+            necessarily a good thing!{" "}
+            <MarginNote id="complexity">
+              More on this in Assessing Performance.
+            </MarginNote>
+            Choosing how many features and what (if any) transformations to use
+            a bit of an art and a science, so understanding in the next chapter
+            how we evaluate our model is extremely important.
+          </p>
+
+          <p>
+            📝 As a notational remark, we should highlight that it's very common
+            for people to assume that the data table you are working with has
+            already been preprocessed to contain the features you want. They do
+            this to avoid having to write <IM math={`h_j(x)`} />. It's important
+            to remember that there is a step of transforming raw data to
+            features (even if its implicit) and should double check what type of
+            data you are working with.
+          </p>
+
+          <p>TODO recap / terms</p>
         </section>
       </Chapter>
     </>
