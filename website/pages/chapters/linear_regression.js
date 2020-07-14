@@ -67,8 +67,10 @@ export default function LinearRegression() {
 
           <p>
             Visually, we could plot these points on a graph to see if there is a
-            relationship between the input and the target. TODO picture.
+            relationship between the input and the target.
           </p>
+
+          <Video src="/animations/linear_regression/Data.mp4" type="mp4" />
 
           {/*
           <p>
