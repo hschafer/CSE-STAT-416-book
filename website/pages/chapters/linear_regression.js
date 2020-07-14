@@ -275,6 +275,176 @@ export default function LinearRegression() {
               *
           */}
         </section>
+
+        <section>
+          <h3>Linear Regression Model</h3>
+
+          <p>
+            A great place to start talking about machine learning and its
+            components is <b>linear regression</b>. This is a popular starting
+            point because it is simpler than many other types of models (e.g.,
+            that "deep learning" thing you might have heard of in the news). In
+            fact, its simplicity is generally one of its biggest strengths!
+            Linear regression is commonly used as a good place to start on a new
+            project since it can form a good baseline.
+          </p>
+
+          <p>
+            In each of the following section, we will show a picture of the ML
+            Pipeline in the margin to highlight how the piece we are introducing
+            fits in the overall picture.
+          </p>
+
+          <p>
+            <b>Linear Regression Model</b>
+          </p>
+          <p>
+            A <b>model</b> is an assumption about how the world works.
+            <MarginNote id="lin-reg-model">
+              TODO Pipeline highlight ML Model
+            </MarginNote>
+            In the <b>linear regression model</b>, we assume the input/target
+            are related by a linear function (a line)
+          </p>
+
+          <BM>y_i = w_0 + w_1x_i + \varepsilon_i</BM>
+
+          <p>
+            This is a specific case of the model we were assuming earlier. We
+            are imposing the restriction that the relationship between
+            input/output is a line. In other words, we are saying that the true
+            function
+            <IM math={`f(x)`} /> is of the form <IM math={`w_0 + w_1x`} /> for
+            some unknown <IM math={`w_0, w_1`} />.
+          </p>
+
+          <p>TODO animation showing line and components.</p>
+
+          <p>
+            These constants <IM math={`w_0`} /> and <IM math={`w_1`} /> are
+            known as <b>parameters</b> of the model. These parameters are values
+            that need to be learned by our ML system since they are unknown
+            values that dictate how we assume the world works. For linear
+            regression, we can interpret the value of each of the parameters
+            (focusing on our housing price example).
+          </p>
+          <ul>
+            <li>
+              <IM math={`w_0`} /> is the intercept of the line. In other words,
+              this is the price of a house with 0 sq.ft.
+            </li>
+            <li>
+              <IM math={`w_1`} /> is the slope of the line. In other words, this
+              is the increase in price per additional sq.ft. in the house.
+            </li>
+          </ul>
+
+          <p>
+            Under this model, our machine learning task is to estimate what we
+            think these values are by some learned values{" "}
+            <IM math={`\\hat{w}_0, \\hat{w}_1`} /> so that we can use them to
+            make predictions about other inputs. We will learn these parameters
+            using a learning algorithm (currently unspecified). When making a
+            prediction with our learned parameters, we will use the follwoing
+            formula.
+          </p>
+
+          <BM math={`\\hat{y} = \\hat{w}_0 + \\hat{w}_1x`} />
+
+          <p>
+            You might be wondering, "Why don't we add a term like{" "}
+            <IM math={`+ \\varepsilon`} /> in that equation above?" This is
+            because that <IM math={`\\varepsilon`} /> term is to account in the
+            uncertainty in the input data we received. It wouldn't necessarily
+            help us to add randomness to our predictions since the learned
+            parameters are our "best guess" at what the true parameter values
+            are.
+            <MarginNote id="mle">
+              A more technical reason comes from the mathematical formulation of
+              the linear regression problem. Under our model, which includes
+              this uncertainty, the formula above defines the{" "}
+              <em>most likely</em> outcome given the dataset we saw. This comes
+              from the fact that the noise of the model is equally likely to be
+              positive/negative so there is no benefit predicting something
+              above/below this most likely value. The technical name for this is{" "}
+              <em>maximum likelihood estimate</em>.
+            </MarginNote>
+          </p>
+
+          <p>
+            The basic idea of the ML algorithm we will describe in a few
+            sections is to try every possible line and identify which one is
+            "best".
+          </p>
+
+          <p>TODO animation of many linear predictors</p>
+
+          <p>
+            What does "best" mean in this context? That's the job of the{" "}
+            <b>Quality Metric</b>.
+          </p>
+
+          <p>
+            <b>Quality Metric</b>
+          </p>
+
+          <p>TODO highlight quality metric</p>
+
+          <p>
+            The way we define how well a particular predictor fits the data is
+            the <b>quality metric</b>.
+            <MarginNote id="quality-metric">
+              Different choices of quality metrics lead to different results of
+              the "best" model. For example, the majority of the quality metrics
+              we introduce at the start of this book don't include any notion of
+              fairness or anti-discrimination in them. If this notion is not
+              included, the "best" model could permit one that discriminates
+              since that might not violate your definition of "best". We will
+              talk about this important field of fairness in ML later in this
+              book.
+              {/* Collapsable? */}
+            </MarginNote>
+            A common way to define the quality metric is to define the "cost" of
+            using this model by trying to quantify the errors it makes. Defining
+            the quality metric this way situates the ML algorithm as a process
+            of trying to find the predictor that minimizes this cost.
+          </p>
+
+          <p>
+            For the linear regression setting, a common definition of the
+            quality metric is the <b>residual sum of squares (or RSS)</b>.
+            <MarginNote id="sum-notation">
+              📝 <em>Notation:</em> A <IM math={`\\sum`} /> means "sum". It's a
+              concise way of writing the sum of multile things (like a for loop
+              from programming).
+            </MarginNote>
+          </p>
+
+          <BM
+            math={`
+            \\begin{aligned}
+              RSS(w_0, w_1) &= \\left(y_1 - \\hat{y}_1\\right)^2 + \\left(y_2 - \\hat{y}_2\\right)^2 + ... + \\left(y_2 - \\hat{y}_2\\right)^2\\\\
+                            &= \\sum_{i=1}^n\\left(y_i - \\hat{y}_i\\right)^2\\\\
+                            &= \\sum_{i=1}^n\\left(y_i - \\left(w_0 + w_1x_i\\right)\\right)^2
+            \\end{aligned}
+          `}
+          />
+
+          <p>
+            The English explanation of this definition is the sum of the errors
+            (squared) made by the model on the training dataset as shown in the
+            animation below. Notice this RSS function is parameterized by{" "}
+            <IM math={`w_0, w_1`} /> which lets you ask "what is this RSS error
+            if I use were to use this line?" A "better" model using this quality
+            metric is one that is closer to the training dataset points.{" "}
+            <MarginNote id="mse">
+              You might also see people use <b>mean-squared error (or MSE)</b>{" "}
+              which is just the RSS divided by the number of examples. In math,
+              that would mean{" "}
+              <IM math={`MSE(w_0, w_1) = \\frac{1}{n}RSS(w_0, w_1)`} />
+            </MarginNote>
+          </p>
+        </section>
       </Chapter>
     </>
   );
