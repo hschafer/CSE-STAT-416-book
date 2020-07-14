@@ -1,6 +1,7 @@
 import Chapter from "../../components/chapter";
 import { IM, BM } from "../../components/latex";
 import MarginNote from "../../components/marginnote";
+import Video from "../../components/video";
 
 export default function LinearRegression() {
   return (
@@ -161,13 +162,7 @@ export default function LinearRegression() {
             </MarginNote>
           </p>
 
-          <video autoPlay controls loop>
-            <source
-              src="/animations/linear_regression/Model.mp4"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
+          <Video src="/animations/linear_regression/Model.mp4" type="mp4" />
 
           <p>
             Earlier, we said a common goal for machine learning is to make
@@ -439,11 +434,182 @@ export default function LinearRegression() {
             metric is one that is closer to the training dataset points.{" "}
             <MarginNote id="mse">
               You might also see people use <b>mean-squared error (or MSE)</b>{" "}
-              which is just the RSS divided by the number of examples. In math,
-              that would mean{" "}
+              which is just the RSS divided by the number of training examples{" "}
+              <IM math={`n`} />. In math, that would mean{" "}
               <IM math={`MSE(w_0, w_1) = \\frac{1}{n}RSS(w_0, w_1)`} />
             </MarginNote>
           </p>
+
+          <p>
+            <b>ML Algorithm</b>
+          </p>
+
+          <p>TODO highlight ml pipeline</p>
+
+          <p>
+            As a quick recap, we have defined the linear regression model (how
+            we assume the world works and what we will try to learn) and the
+            quality metric (how good a possible predictor is). Now we define an
+            ML Algorithm to find the predictor that is the "best" according to
+            the quality metric.
+          </p>
+
+          <p>The goal of the ML Algorithm is to solve the formula.</p>
+
+          <BM
+            math={`
+            \\hat{w}_0, \\hat{w}_1 = \\min_{w_0, w_1} RSS(w_0, w_1)
+          `}
+          />
+
+          <p>
+            In English, this is finding the settings of <IM math={`w_0, w_1`} />{" "}
+            that minimize RSS and using those for our predictor by claiming they
+            are <IM math={`\\hat{w}_0, \\hat{w}_1`} />. This ends up being
+            easier said than done. <IM math={`w_0, w_1`} /> can be real numbers
+            (e.g., 14.3 or -7.4568) which means there are an infinite
+            combination of <IM math={`w_0s, w_1s`} /> to try out before we can
+            find the one that minimizes RSS!
+          </p>
+
+          <p>
+            Even though we can't compute the RSS for every combination, you
+            could imagine trying to plot it out to visualize the landscape of
+            the errors.
+            <MarginNote id="rss-graph">
+              <img
+                src="/animations/linear_regression/rss.png"
+                alt="3D rendition of RSS function."
+              ></img>
+            </MarginNote>
+            Since there are two inputs <IM math={`w_0s, w_1s`} />, the graph of
+            the function will be in 3D to show the RSS value for every input.
+          </p>
+
+          <p>
+            We don't actually plot this whole function in practice, but with a
+            little ML theory you can show that under some model and data
+            assumptions, this function is guaranteed to look like a bowl in the
+            image to the right. If we know it looks like this bowl shape, there
+            is a very clever algorithm that doesn't involve computing all the
+            points called <b>gradient descent</b>.
+          </p>
+
+          <p>
+            The idea behind gradient descent is to start at one point (any
+            point) and "roll down" the hill until you reach the bottom. Let's
+            consider an example with one parameter: suppose we know what{" "}
+            <IM math={`w_0`} /> is and our job is to just find{" "}
+            <IM math={`w_1`} /> that minimizes the RSS. In this context, we
+            don't have to visualize this 3D bowl but rather just a 2D graph
+            since there is only one degree of freedom.
+          </p>
+          <p>
+            If you are familiar with calculus, you might remember derivative of
+            a function tells you the slope at each point of a function. You
+            don't need to ever compute a derivative for this class, but just
+            know that there is a mathematical way to find the slope of many
+            functions. Gradient descent in this context (shown in the animation
+            below), starts at some point and computes the slope at each point to
+            figure out which direction is "down". Gradient descent is an
+            iterative algorithm so it repeatedly does this process until it
+            converges to the bottom.
+          </p>
+
+          <p>TODO animation of gradient descent on 1d function.</p>
+
+          <p>
+            In the context of our original problem where we are trying to
+            optimize both <IM math={`w_0, w_1`} />, people use a slightly more
+            advanced concept of the slope/derivative called the "gradient"; the
+            gradient is essentially an arrow that points in the direction of
+            steepest ascent. It's the exact same idea as the animation above,
+            but now we use this gradient idea to find the direction to go down.
+          </p>
+
+          <figure className="fullwidth">
+            <Video
+              src="/animations/linear_regression/gradient_descent.webm"
+              type="webm"
+            />
+            <div>
+              Source
+              https://alykhantejani.github.io/images/gradient_descent_line_graph.gif
+            </div>
+            <div>
+              Note: They use <IM math="b" /> for the intercept and{" "}
+              <IM math="m" /> for the slope instead of our{" "}
+              <IM math={`w_0, w_1`} />.
+            </div>
+          </figure>
+
+          <p>
+            Visually, this gradient descent algorithm looks like rolling down
+            the RSS hill until it converges. It's important to highlight that
+            the RSS function's input are the <IM math="w_0, w_1" /> that we
+            trying to use for our predictor. The right-hand side of the
+            animation above is showing the predictor that would result by using
+            the <IM math="w_0, w_1" /> at each step of the algorithm. Notice
+            that as the algorithm runs, the line seems to fit the data better!
+            This is precisely because the algorithm is updating the coefficients
+            bit-by-bit to reduce the error.
+          </p>
+
+          <p>
+            Mathematically, we write this process as{" "}
+            <MarginNote id="w^t">
+              📝 <em>Notation:</em> We use <IM math={`w`} /> to mean both{" "}
+              <IM math={`w_0`} /> and <IM math={`w_1`} /> and{" "}
+              <IM math={`w^{(t)}`} /> to mean our predictor coefficients at time{" "}
+              <IM math="t" />.
+              <br />
+              <br />
+              The <IM math={`\\nabla`} /> is the notation mathematicians use for
+              the gradient.
+            </MarginNote>
+            :
+          </p>
+
+          {/* Please God have a better way of formatting this */}
+          <pre>
+            <code>
+              start at some (random) point <IM math={"w^{(0)}"} /> when{" "}
+              <IM math={`t=0`} />
+              <br />
+              while we haven't converged:
+              <br />
+              {"    "}
+              <IM math={`w^{(t+1)} = w^{(t)} - \\eta\\nabla RSS(w^{(t)})`} />
+            </code>
+          </pre>
+
+          <p>
+            In this algorithm, we repeatedly adjust our predictor until we reach
+            the bottom of the bowl. There are some mathematical details we are
+            omitting about how to compute this gradient, but the big idea of
+            rolling down a hill is <em>extremely</em> important to know as an ML
+            algorithm. There is a constant in the pseudo-code above{" "}
+            <IM math={`\\eta`} /> called the <b>step-size</b>, or how far we
+            move on each iteration of the algorithm. We will talk more about how
+            this affects our result and how to choose it.
+          </p>
+
+          <p>
+            You might be wondering if this "hill rolling" algorithm is always
+            guaranteed to actually work. "Work" in this context would probably
+            mean that it finds the settings of <IM math={`w_0, w_1`} /> that
+            minimize the RSS (maybe find a setting with no errors). Gradient
+            descent can only guarantee you that it will eventually converge to
+            this global optimum if the RSS function is bowl-like
+            <MarginNote id="convex">
+              Mathematicians call this the function being "convex".
+            </MarginNote>
+            . If you don't have this guarantee of your quality metric, there are
+            very little guarantees about the quality of the predictor found
+            since it might get stuck in a "local optima".
+          </p>
+
+          <p>TODO animation of non-convex function and gradient descent.</p>
         </section>
       </Chapter>
     </>
