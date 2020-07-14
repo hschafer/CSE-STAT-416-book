@@ -30,3 +30,36 @@ YS = np.array([3.01574732, 1.15650066, 0.29587366, 3.63301317, 2.44639242,
                4.01503537, 2.72637157, 1.83949441, 4.05444247, 3.45548138,
                3.48042945, 2.81497412, 2.11811096, 3.47236632, 3.05471791,
                3.37113595, 2.48020868, 3.33907243, 3.05561223, 2.30361556])
+
+
+class ModelScene(Scene):
+    def __init__(self, **kwargs):
+        kwargs['camera_config']['background_color'] = BACKGROUND_COLOR
+        super().__init__(**kwargs)
+
+    def setup(self):
+        self.axes = Axes(x_min=X_MIN, x_max=X_MAX,
+                    y_min=Y_MIN, y_max=Y_MAX,
+                    # center_point=[-1, -1, 0],
+                    axis_config={
+                        'include_tip': False,
+                        'include_ticks': False
+                    },
+                    color=DRAW_COLOR)
+        self.axes.move_to([-1, -1, 0])
+
+
+        # Create text
+        self.data_text = TexMobject(r'(x_1, y_1), ..., (x_n, y_n)', color=DRAW_COLOR)
+        self.function_text = TextMobject(r'True function: {$f($}{$x$}{$)$}',
+                                    tex_to_color_map={'{$f($}': GREEN, '{$)$}': GREEN},
+                                    color=DRAW_COLOR)
+        self.text_group = VGroup(self.data_text, self.function_text).arrange(DOWN)
+        self.text_group.to_corner(UP + LEFT)
+
+        # Draw points
+        self.dots = Group()
+        for x, y in zip(XS, YS):
+            point = self.axes.coords_to_point(x, y, 0)
+            dot = Dot(point, color=DRAW_COLOR)
+            self.dots.add(dot)
