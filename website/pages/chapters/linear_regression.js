@@ -104,6 +104,11 @@ export default function LinearRegression() {
             `}
           />
 
+          <Video
+            src="/animations/linear_regression/TrueFunction.mp4"
+            type="mp4"
+          />
+
           <p>
             We are not saying that the output has to be exactly equal, but
             rather that it is close. The reason we allow for this wiggle-room is
