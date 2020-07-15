@@ -33,11 +33,14 @@ YS = np.array([3.01574732, 1.15650066, 0.29587366, 3.63301317, 2.44639242,
 
 DEFAULT_GRAPH_SHIFT = [-1, -1, 0]
 
-class ModelScene(Scene):
 
+class BookScene(Scene):
     def __init__(self, **kwargs):
         kwargs['camera_config']['background_color'] = BACKGROUND_COLOR
         super().__init__(**kwargs)
+
+
+class ModelScene(BookScene):
 
     def custom_setup(self, graph_shift=DEFAULT_GRAPH_SHIFT):
         self.graph_shift = graph_shift
@@ -47,9 +50,9 @@ class ModelScene(Scene):
                          # center_point=[-1, -1, 0],
                          axis_config={
                              'include_tip': False,
-                             'include_ticks': False
-                         },
-                         color=DRAW_COLOR)
+                             'include_ticks': False,
+                             'color': DRAW_COLOR
+                         })
         self.axes.move_to(self.graph_shift)
 
 
@@ -68,8 +71,8 @@ class ModelScene(Scene):
             dot = Dot(point, color=DRAW_COLOR)
             self.dots.add(dot)
 
-            self.function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
-            self.function.move_to(self.graph_shift)
+        self.function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
+        self.function.move_to(self.graph_shift)
 
 class LinearScene(ModelScene):
     def custom_setup(self, line_color, **kwargs):
@@ -97,3 +100,9 @@ class LinearScene(ModelScene):
         line = Line(start=start, end=end,
                     color=line_color)
         return line
+
+
+class GradientDescentScene(BookScene):
+    def custom_setup(self, f, starting_point):
+        pass
+
