@@ -665,7 +665,7 @@ export default function LinearRegression() {
 
           <BM
             math={`
-              y_i &= w_0 + w_1x_i + w_2x_i + ... + w_px_i^p + \\varepsilon_i
+              y_i = w_0 + w_1x_i + w_2x_i^2 + ... + w_px_i^p + \\varepsilon_i
           `}
           />
 
@@ -685,8 +685,6 @@ export default function LinearRegression() {
             looking at the data? That is a central question in the next chapter,
             Assessing Performance.
           </p>
-
-          <p> TODO animation of various degrees? Not sure</p>
 
           <p>
             More generally, a <b>feature</b> are the values that we select or
@@ -868,10 +866,11 @@ export default function LinearRegression() {
             📝 As a notational remark, we should highlight that it's very common
             for people to assume that the data table you are working with has
             already been preprocessed to contain the features you want. They do
-            this to avoid having to write <IM math={`h_j(x)`} />. It's important
-            to remember that there is a step of transforming raw data to
-            features (even if its implicit) and should double check what type of
-            data you are working with.
+            this to avoid having to write <IM math={`h_j(x)`} /> everywhere in
+            their work. It's important to remember that there is a step of
+            transforming raw data to features (even if its implicit and not
+            shown in the notation) and should double check what type of data you
+            are working with.
           </p>
 
           <p>TODO recap / terms</p>

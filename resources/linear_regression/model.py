@@ -32,7 +32,7 @@ class Model(ModelScene):
 
         # Generate the axes
         self.custom_setup()
-        self.add(self.axes, self.text_group, self.function, self.dots)
+        self.add(self.graph, self.text_group, self.dots)
 
         # Write Model
         model_text = TextMobject(r'Model: $y_i$ $=$ {$f($}{$x_i$}{$)$} + $\varepsilon_i$',
@@ -104,7 +104,7 @@ class Model(ModelScene):
 class Predictor(LinearScene):
     def construct(self):
         self.custom_setup(line_color=BLUE)
-        self.add(self.axes, self.text_group, self.function, self.dots)
+        self.add(self.graph, self.text_group, self.dots)
 
         # Draw the line and the text
         self.play(Write(self.predictor_text))

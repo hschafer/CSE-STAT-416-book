@@ -53,8 +53,10 @@ class ModelScene(BookScene):
                              'include_ticks': False,
                              'color': DRAW_COLOR
                          })
-        self.axes.move_to(self.graph_shift)
+        self.function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
 
+        self.graph = Group(self.axes, self.function)
+        self.graph.move_to(self.graph_shift)
 
         # Create text
         self.data_text = TexMobject(r'(x_1, y_1), ..., (x_n, y_n)', color=DRAW_COLOR)
@@ -71,8 +73,6 @@ class ModelScene(BookScene):
             dot = Dot(point, color=DRAW_COLOR)
             self.dots.add(dot)
 
-        self.function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
-        self.function.move_to(self.graph_shift)
 
 class LinearScene(ModelScene):
     def custom_setup(self, line_color, **kwargs):
