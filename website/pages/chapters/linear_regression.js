@@ -189,7 +189,8 @@ export default function LinearRegression() {
               📝 <em>Notation:</em> A <IM math={`\\hat{\\ }`} /> in math
               notation almost always means "estimate". In other words,{" "}
               <IM math={`\\hat{f}`} /> is our best estimate of this unknown
-              function <IM math={`f`} />.
+              function <IM math={`f`} />. What do you think{" "}
+              <IM math={`\\hat{y}`} /> is supposed to represent?
             </MarginNote>
             from the data that approximates <IM math={`f`} /> as best as we can.
             We can then use this <IM math={`\\hat{f}`} /> to make predictions
@@ -200,9 +201,13 @@ export default function LinearRegression() {
             with finding a function that closely matches the data were given.
           </p>
 
+          <Video src="/animations/linear_regression/Predictor.mp4" type="mp4" />
+
           <p>
-            TODO Animation of slide 24
-            https://courses.cs.washington.edu/courses/cse416/19su/files/lectures/lec1/1_regression.pdf
+            Since we can't actual observe the true function <IM math={`f`} />,
+            we will have to assess how close we are by looking at the errors our
+            predictor makes on the training data, highlighted in the animation
+            above. More on this in the next section.
           </p>
         </section>
 

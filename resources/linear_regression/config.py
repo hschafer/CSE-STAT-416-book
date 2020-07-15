@@ -33,27 +33,29 @@ YS = np.array([3.01574732, 1.15650066, 0.29587366, 3.63301317, 2.44639242,
 
 
 class ModelScene(Scene):
+    GRAPH_SHIFT = [-1, -1, 0]
+
     def __init__(self, **kwargs):
         kwargs['camera_config']['background_color'] = BACKGROUND_COLOR
         super().__init__(**kwargs)
 
     def setup(self):
         self.axes = Axes(x_min=X_MIN, x_max=X_MAX,
-                    y_min=Y_MIN, y_max=Y_MAX,
-                    # center_point=[-1, -1, 0],
-                    axis_config={
-                        'include_tip': False,
-                        'include_ticks': False
-                    },
-                    color=DRAW_COLOR)
-        self.axes.move_to([-1, -1, 0])
+                         y_min=Y_MIN, y_max=Y_MAX,
+                         # center_point=[-1, -1, 0],
+                         axis_config={
+                             'include_tip': False,
+                             'include_ticks': False
+                         },
+                         color=DRAW_COLOR)
+        self.axes.move_to(ModelScene.GRAPH_SHIFT)
 
 
         # Create text
         self.data_text = TexMobject(r'(x_1, y_1), ..., (x_n, y_n)', color=DRAW_COLOR)
         self.function_text = TextMobject(r'True function: {$f($}{$x$}{$)$}',
-                                    tex_to_color_map={'{$f($}': GREEN, '{$)$}': GREEN},
-                                    color=DRAW_COLOR)
+                                         tex_to_color_map={'{$f($}': GREEN, '{$)$}': GREEN},
+                                         color=DRAW_COLOR)
         self.text_group = VGroup(self.data_text, self.function_text).arrange(DOWN)
         self.text_group.to_corner(UP + LEFT)
 
@@ -63,3 +65,17 @@ class ModelScene(Scene):
             point = self.axes.coords_to_point(x, y, 0)
             dot = Dot(point, color=DRAW_COLOR)
             self.dots.add(dot)
+
+            self.function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
+            self.function.move_to(ModelScene.GRAPH_SHIFT)
+
+    def linear_function(self, w_0, w_1):
+        """
+        Returns a manim Line for the given linear function (translated to self.axes)
+        """
+
+        start = self.axes.coords_to_point(0, w_0, 0)
+        end = self.axes.coords_to_point(X_MAX, w_0 + w_1 * X_MAX, 0)
+        line = Line(start=start, end=end,
+                    color=BLUE)
+        return line

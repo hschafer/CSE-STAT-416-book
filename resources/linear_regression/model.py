@@ -18,12 +18,9 @@ class TrueFunction(ModelScene):
         self.add(self.axes, self.data_text, self.dots)
 
         # Draw Function
-        function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
-        function.move_to([-1, -1, 0])
-
         self.play(Write(self.function_text))
-        self.add(function, self.dots)
-        self.play(ShowCreation(function))
+        self.add(self.function, self.dots)
+        self.play(ShowCreation(self.function))
         self.wait(duration=1.5)
 
 
@@ -35,12 +32,7 @@ class Model(ModelScene):
 
         # Generate the axes
         self.setup()
-
-        # Draw Function
-        function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
-        function.move_to([-1, -1, 0])
-
-        self.add(self.axes, self.text_group, self.dots, function)
+        self.add(self.axes, self.text_group, self.function, self.dots)
 
         # Write Model
         model_text = TextMobject(r'Model: $y_i$ $=$ {$f($}{$x_i$}{$)$} + $\varepsilon_i$',
@@ -107,3 +99,47 @@ class Model(ModelScene):
         y_text.scale(TEXT_SCALE)
         self.play(FadeIn(y_line, duration=2), Write(y_text), lag_ratio=0.5)
         self.wait(duration=4)
+
+
+class Predictor(ModelScene):
+    def construct(self):
+        self.setup()
+        self.add(self.axes, self.text_group, self.function, self.dots)
+
+        # Create text for predictor
+        predictor_text = TextMobject(r'Predictor: {$\hat{f}($}{$x$}{$)$}',
+                                     tex_to_color_map={'{$\\hat{f}($}': BLUE, '{$)$}': BLUE},
+                                     color=DRAW_COLOR)
+        predictor_text.next_to(self.text_group, DOWN)
+
+        # Create line
+        w_0, w_1 = 2, 0.4
+        line = self.linear_function(w_0, w_1)
+
+        # Draw the line and the text
+        self.play(Write(predictor_text))
+        self.wait(1)
+        self.play(ShowCreation(line))
+        self.wait(2)
+
+        # Highlight error for one point
+        residuals = Group()
+        for x, y in zip(XS, YS):
+            # index = 3 # 10
+            point = self.axes.coords_to_point(x, y, 0)
+            prediction = w_0 + w_1 * x
+            prediction = self.axes.coords_to_point(x, prediction, 0)
+            residual = DashedLine(start=prediction, end=point, color=RED)
+            residuals.add(residual)
+
+        # Text for residual
+        residual_text = TextMobject(r'Errors observed', color=RED)
+        residual_text.next_to(self.text_group, RIGHT, buff=2)
+
+        # Animate text and residual
+        self.play(Write(residual_text))
+        self.wait()
+        self.add(residuals, self.function, line, self.dots) # Order matters
+        self.play(ShowCreation(residuals), duration=3)
+        self.wait(3)
+
