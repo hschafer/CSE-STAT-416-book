@@ -18,7 +18,7 @@ You will potentially need some other system requirements based for the [manim](h
 
 See `SetupErrors.md` for some issues others have run into while setting this up.
 
-## Generating a Video
+## Generating a Video (Directly with Manim)
 Once you've installed `manim` and are in your environment, you can run the `manim` command in any of the directories that have `manim` scripts. For example
 
 ```py
@@ -29,3 +29,21 @@ There a few useful `manim` flags (you can see `manim --help` for more info).
 * `-p` Immediately previews the result
 * `-l` Renders the animation in low quality. This is great for development to save time.
 * `-s` Outputs the final frame instead of the whole animation. Good for development when not working on the actual animations.
+
+## Generate Videos (using ./genvids.py)
+After you've installed `manim`, you can use the `./genvids.py` script to compile all videos in the `animations/` directory. The script by default renders all the videos in the highest quality.
+
+In order for files to be tracked by the build script, the following needs to be true:
+* One scene per file named `class Animation(Scene)`.
+* Any files have to end in `_anim.py` (ex: `lr_anim.py`, `ml_anim.py`).
+
+### Arguments
+You can target specfic files by calling `./getvids.py path/to/file1_anim.py path/to/file2_anim.py [...]`.
+
+### Parameters
+Use `./genvids.py --help` for all flags:
+
+* `-p` immediately previews the result
+* `-l` renders the animation in low quality. This is great for development to save time.
+* `-s` outputs the final frame instead of the whole animation. Good for development when not working on the actual animations.
+* `--hard` ignores the cached files and recompiles all animations in the `animations/` folder
