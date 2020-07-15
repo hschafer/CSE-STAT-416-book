@@ -31,15 +31,17 @@ YS = np.array([3.01574732, 1.15650066, 0.29587366, 3.63301317, 2.44639242,
                3.48042945, 2.81497412, 2.11811096, 3.47236632, 3.05471791,
                3.37113595, 2.48020868, 3.33907243, 3.05561223, 2.30361556])
 
+DEFAULT_GRAPH_SHIFT = [-1, -1, 0]
 
 class ModelScene(Scene):
-    GRAPH_SHIFT = [-1, -1, 0]
 
     def __init__(self, **kwargs):
         kwargs['camera_config']['background_color'] = BACKGROUND_COLOR
         super().__init__(**kwargs)
 
-    def setup(self):
+    def custom_setup(self, graph_shift=DEFAULT_GRAPH_SHIFT):
+        self.graph_shift = graph_shift
+
         self.axes = Axes(x_min=X_MIN, x_max=X_MAX,
                          y_min=Y_MIN, y_max=Y_MAX,
                          # center_point=[-1, -1, 0],
@@ -48,7 +50,7 @@ class ModelScene(Scene):
                              'include_ticks': False
                          },
                          color=DRAW_COLOR)
-        self.axes.move_to(ModelScene.GRAPH_SHIFT)
+        self.axes.move_to(self.graph_shift)
 
 
         # Create text
@@ -67,9 +69,25 @@ class ModelScene(Scene):
             self.dots.add(dot)
 
             self.function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
-            self.function.move_to(ModelScene.GRAPH_SHIFT)
+            self.function.move_to(self.graph_shift)
 
-    def linear_function(self, w_0, w_1):
+class LinearScene(ModelScene):
+    def custom_setup(self, line_color, **kwargs):
+        super().custom_setup(**kwargs)
+
+        # Create text for predictor
+        self.predictor_text = TextMobject(r'Predictor: {$\hat{f}($}{$x$}{$)$}',
+                                     tex_to_color_map={'{$\\hat{f}($}': BLUE, '{$)$}': BLUE},
+                                     color=DRAW_COLOR)
+        self.predictor_text.next_to(self.text_group, DOWN)
+
+        # Create line
+        self.w_0, self.w_1 = 2, 0.4
+        self.line = self.linear_function(self.w_0, self.w_1, line_color)
+
+
+
+    def linear_function(self, w_0, w_1, line_color):
         """
         Returns a manim Line for the given linear function (translated to self.axes)
         """
@@ -77,5 +95,5 @@ class ModelScene(Scene):
         start = self.axes.coords_to_point(0, w_0, 0)
         end = self.axes.coords_to_point(X_MAX, w_0 + w_1 * X_MAX, 0)
         line = Line(start=start, end=end,
-                    color=BLUE)
+                    color=line_color)
         return line

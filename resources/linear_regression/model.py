@@ -6,7 +6,7 @@ from config import *
 
 class Data(ModelScene):
     def construct(self):
-        self.setup()
+        self.custom_setup()
         self.play(ShowCreation(self.axes, run_time=2, lag_ratio=0.1))
         self.play(Write(self.data_text), FadeIn(self.dots), lag_ratio=0.1, run_time=4)
 
@@ -14,7 +14,7 @@ class Data(ModelScene):
 class TrueFunction(ModelScene):
     def construct(self):
         # Generate the axes
-        self.setup()
+        self.custom_setup()
         self.add(self.axes, self.data_text, self.dots)
 
         # Draw Function
@@ -31,7 +31,7 @@ class Model(ModelScene):
         TEXT_LBUFF = 0.4
 
         # Generate the axes
-        self.setup()
+        self.custom_setup()
         self.add(self.axes, self.text_group, self.function, self.dots)
 
         # Write Model
@@ -101,25 +101,15 @@ class Model(ModelScene):
         self.wait(duration=4)
 
 
-class Predictor(ModelScene):
+class Predictor(LinearScene):
     def construct(self):
-        self.setup()
+        self.custom_setup(line_color=BLUE)
         self.add(self.axes, self.text_group, self.function, self.dots)
 
-        # Create text for predictor
-        predictor_text = TextMobject(r'Predictor: {$\hat{f}($}{$x$}{$)$}',
-                                     tex_to_color_map={'{$\\hat{f}($}': BLUE, '{$)$}': BLUE},
-                                     color=DRAW_COLOR)
-        predictor_text.next_to(self.text_group, DOWN)
-
-        # Create line
-        w_0, w_1 = 2, 0.4
-        line = self.linear_function(w_0, w_1)
-
         # Draw the line and the text
-        self.play(Write(predictor_text))
+        self.play(Write(self.predictor_text))
         self.wait(1)
-        self.play(ShowCreation(line))
+        self.play(ShowCreation(self.line))
         self.wait(2)
 
         # Highlight error for one point
@@ -127,7 +117,7 @@ class Predictor(ModelScene):
         for x, y in zip(XS, YS):
             # index = 3 # 10
             point = self.axes.coords_to_point(x, y, 0)
-            prediction = w_0 + w_1 * x
+            prediction = self.w_0 + self.w_1 * x
             prediction = self.axes.coords_to_point(x, prediction, 0)
             residual = DashedLine(start=prediction, end=point, color=RED)
             residuals.add(residual)
@@ -139,7 +129,63 @@ class Predictor(ModelScene):
         # Animate text and residual
         self.play(Write(residual_text))
         self.wait()
-        self.add(residuals, self.function, line, self.dots) # Order matters
-        self.play(ShowCreation(residuals), duration=3)
+        self.add(residuals, self.function, self.line, self.dots) # Order matters
+        self.play(ShowCreation(residuals), duration=4)
+        self.wait(3)
+
+
+class InterpretCoefficients(LinearScene):
+    def construct(self):
+        TEXT_SCALE  = 0.7
+
+        self.custom_setup(line_color=GREEN, graph_shift=[0, 0, 0])
+        self.add(self.axes, self.dots)
+
+        # Model text
+        model_text = TextMobject(r'Model: {$y_i = w_0 + w_1x_i + \varepsilon_i$}',
+                                 color=GREEN,
+                                 tex_to_color_map={r'Model:': DRAW_COLOR})
+        model_text.to_corner(UP + LEFT)
+
+        self.play(Write(model_text))
+        self.add(self.line, self.dots) # To draw below
+        self.play(ShowCreation(self.line))
+
+        # Highlight w_0
+        w_0_point = self.axes.coords_to_point(0, self.w_0, 0)
+        w_0_point = Dot(w_0_point, color=GREEN)
+        w_0_text = TexMobject(r'w_0', color=GREEN)
+        w_0_text.scale(TEXT_SCALE)
+        w_0_text.next_to(w_0_point, LEFT)
+        self.play(Write(w_0_text), FadeIn(w_0_point))
+
+        # Highlight slope
+        def eval(x):
+            return self.w_0 + self.w_1 * x
+
+        start = 1.15
+        end = 2.62 # 1.9
+        start_point = self.axes.coords_to_point(start, eval(start), 0)
+        end_point = self.axes.coords_to_point(end, eval(end), 0)
+
+        corner = self.axes.coords_to_point(end, eval(start), 0)
+
+        # Create run
+        run = DashedLine(start=start_point, end=corner,
+                         color=BLUE)
+        run_text = TexMobject(r'1', color=BLUE)
+        run_text.scale(TEXT_SCALE)
+        run_text.next_to(run, DOWN)
+        self.play(ShowCreation(run), FadeIn(run_text))
+
+        # Create rise
+        rise = DashedLine(start=corner, end=end_point,
+                         color=BLUE)
+        rise_text = TexMobject(r'w_1', color=BLUE)
+        rise_text.scale(TEXT_SCALE)
+        rise_text.next_to(rise, RIGHT, buff=0.05)
+        self.play(ShowCreation(rise), FadeIn(rise_text))
+
+
         self.wait(3)
 

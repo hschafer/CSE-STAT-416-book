@@ -325,7 +325,10 @@ export default function LinearRegression() {
             some unknown <IM math={`w_0, w_1`} />.
           </p>
 
-          <p>TODO animation showing line and components.</p>
+          <Video
+            src="/animations/linear_regression/InterpretCoefficients.mp4"
+            type="mp4"
+          />
 
           <p>
             These constants <IM math={`w_0`} /> and <IM math={`w_1`} /> are
