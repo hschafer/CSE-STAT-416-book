@@ -533,7 +533,7 @@ export default function LinearRegression() {
             converges to the bottom.
           </p>
 
-          <p>TODO animation of gradient descent on 1d function.</p>
+          <Video src="/animations/linear_regression/Convex.mp4" type="mp4" />
 
           <p>
             In the context of our original problem where we are trying to
@@ -626,7 +626,7 @@ export default function LinearRegression() {
             since it might get stuck in a "local optima".
           </p>
 
-          <p>TODO animation of non-convex function and gradient descent.</p>
+          <Video src="/animations/linear_regression/NonConvex.mp4" type="mp4" />
 
           <p>
             <b>Feature Extraction</b>
