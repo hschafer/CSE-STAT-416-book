@@ -103,6 +103,48 @@ class LinearScene(ModelScene):
 
 
 class GradientDescentScene(BookScene):
-    def custom_setup(self, f, starting_point):
-        pass
+    def custom_setup(self, f, start_x, end_x):
+        # Must create the functions/axes before everything else so they all move together
+
+        # Create axes
+        axes = Axes(x_min=X_MIN, x_max=X_MAX, y_min=Y_MIN, y_max=Y_MAX,
+                    axis_config={
+                        'include_tip': False,
+                        'include_ticks': False,
+                        'color': DRAW_COLOR
+                    })
+        # Draw graph of original function
+        function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
+
+        # Create sub-graph for moving dot
+        path = FunctionGraph(function=f, x_min=start_x, x_max=end_x)
+
+        # Group them together for movement
+        group = Group(axes, function, path)
+        group.move_to([0, 0, 0])
+
+        # Create axis labels
+        axis_scale = 0.7
+        x_label = TexMobject(r'w_1', color=DRAW_COLOR)
+        x_label.next_to(axes.x_axis.get_last_point(), DOWN)
+        x_label.scale(axis_scale)
+        y_label = TexMobject(r'RSS(w_1)', color=DRAW_COLOR)
+        y_label.scale(axis_scale)
+        y_label.next_to(axes.y_axis, LEFT)
+        self.add(axes, x_label, y_label)
+
+        # Draw function
+        self.play(ShowCreation(function))
+
+        # Draw start point
+        point = axes.coords_to_point(start_x, f(start_x), 0)
+        dot = Dot(point, color=BLUE)
+        self.play(FadeIn(dot))
+
+        # Move the point down the function
+        self.play(MoveAlongPath(dot,
+                                path=path,
+                                run_time=2.5))
+
+        self.wait(3)
 
