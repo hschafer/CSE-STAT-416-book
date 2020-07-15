@@ -382,12 +382,14 @@ export default function LinearRegression() {
           </p>
 
           <p>
-            The basic idea of the ML algorithm we will describe in a few
-            sections is to try every possible line and identify which one is
-            "best".
+            We will describe the basic idea of the ML algorithm in a few
+            sections. As a brief preview, many ML algorithms essentially boil
+            down to trying many possible lines and identify which one is "best"
+            from that set. So before we describe an algorithm, we should
+            describe what makes one predictor the "best" over some others.
           </p>
 
-          <p>TODO animation of many linear predictors</p>
+          <Video src="/animations/linear_regression/ManyLines.mp4" type="mp4" />
 
           <p>
             What does "best" mean in this context? That's the job of the{" "}
