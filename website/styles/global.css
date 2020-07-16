@@ -8,6 +8,12 @@ section video {
 .data-table td {
   border: 1px solid black;
   text-align: left;
+  border-collapse: collapse;
+  padding-left: 0.5em;
+}
+
+.data-table th {
+  background-color: lightsteelblue;
 }
 
 /* Layout Styles */

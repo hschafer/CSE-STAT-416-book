@@ -872,8 +872,34 @@ export default function LinearRegression() {
             shown in the notation) and should double check what type of data you
             are working with.
           </p>
+        </section>
+        <section>
+          <h3>Recap / Reflection</h3>
+          <p>
+            In this chapter we introduced the machine learning pipeline as it is
+            applied to regression models, namely linear regression.
+          </p>
+          <p>
+            We introduced some terminology that we will use throughout the book
+            like the difference between a model and a predictor, the format of
+            the data we learn from, how we can determine features of the model,
+            and how to learn and assess a predictor. We will see these general
+            ideas in the ML pipeline surface frequently in this book. It is
+            always good to start using that as a reference point for the new
+            concepts you are learning.
+          </p>
 
-          <p>TODO recap / terms</p>
+          <p>
+            We specifically discussed the context of regression and linear
+            regression. Understanding how to formulate a problem as a regression
+            problem and use linear regression to help you learn a predictor is a
+            very important skill as part of your journey to mastering machine
+            learning! Additionally, understanding how linear regression and
+            polynomial regression are really the same model with different sets
+            of features is a very powerful building-block on that journey.
+          </p>
+
+          <p>TODO recap questions / concepts</p>
         </section>
       </Chapter>
     </>
