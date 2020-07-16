@@ -35,6 +35,11 @@ footer {
   color: gray;
 }
 
+/* Table of Contents */
+#table-of-contents li {
+  margin-bottom: 1em;
+}
+
 /* My modifications to Tufte */
 .marginnote p,
 .marginnote ol,

@@ -43,7 +43,7 @@ export default function Home() {
 
           <h2>Table of Contents</h2>
 
-          <ol>
+          <ol id="table-of-contents">
             {tableOfContents.map((chapter) => (
               <li key={chapter.file} value={chapter.chapterNumber}>
                 <Link href={`/chapters/${chapter.file}`}>

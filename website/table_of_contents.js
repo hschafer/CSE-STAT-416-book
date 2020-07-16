@@ -1,10 +1,5 @@
 const tableOfContents = [
   {
-    chapterNumber: "0",
-    title: "Tufte",
-    file: "tufte",
-  },
-  {
     chapterNumber: "1",
     title: "Linear Regression",
     file: "linear_regression",
@@ -13,6 +8,11 @@ const tableOfContents = [
     chapterNumber: "2",
     title: "Assessing Performance",
     file: "assessing_performance",
+  },
+  {
+    chapterNumber: "99",
+    title: "Tufte (layout example)",
+    file: "tufte",
   },
 ];
 
