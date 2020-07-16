@@ -67,8 +67,10 @@ export default function LinearRegression() {
 
           <p>
             Visually, we could plot these points on a graph to see if there is a
-            relationship between the input and the target. TODO picture.
+            relationship between the input and the target.
           </p>
+
+          <Video src="/animations/linear_regression/Data.mp4" type="mp4" />
 
           {/*
           <p>
@@ -100,6 +102,11 @@ export default function LinearRegression() {
             math={`
                 y \\approx f(x)
             `}
+          />
+
+          <Video
+            src="/animations/linear_regression/TrueFunction.mp4"
+            type="mp4"
           />
 
           <p>
@@ -182,7 +189,8 @@ export default function LinearRegression() {
               📝 <em>Notation:</em> A <IM math={`\\hat{\\ }`} /> in math
               notation almost always means "estimate". In other words,{" "}
               <IM math={`\\hat{f}`} /> is our best estimate of this unknown
-              function <IM math={`f`} />.
+              function <IM math={`f`} />. What do you think{" "}
+              <IM math={`\\hat{y}`} /> is supposed to represent?
             </MarginNote>
             from the data that approximates <IM math={`f`} /> as best as we can.
             We can then use this <IM math={`\\hat{f}`} /> to make predictions
@@ -193,9 +201,13 @@ export default function LinearRegression() {
             with finding a function that closely matches the data were given.
           </p>
 
+          <Video src="/animations/linear_regression/Predictor.mp4" type="mp4" />
+
           <p>
-            TODO Animation of slide 24
-            https://courses.cs.washington.edu/courses/cse416/19su/files/lectures/lec1/1_regression.pdf
+            Since we can't actual observe the true function <IM math={`f`} />,
+            we will have to assess how close we are by looking at the errors our
+            predictor makes on the training data, highlighted in the animation
+            above. More on this in the next section.
           </p>
         </section>
 
@@ -313,7 +325,10 @@ export default function LinearRegression() {
             some unknown <IM math={`w_0, w_1`} />.
           </p>
 
-          <p>TODO animation showing line and components.</p>
+          <Video
+            src="/animations/linear_regression/InterpretCoefficients.mp4"
+            type="mp4"
+          />
 
           <p>
             These constants <IM math={`w_0`} /> and <IM math={`w_1`} /> are
@@ -367,12 +382,14 @@ export default function LinearRegression() {
           </p>
 
           <p>
-            The basic idea of the ML algorithm we will describe in a few
-            sections is to try every possible line and identify which one is
-            "best".
+            We will describe the basic idea of the ML algorithm in a few
+            sections. As a brief preview, many ML algorithms essentially boil
+            down to trying many possible lines and identify which one is "best"
+            from that set. So before we describe an algorithm, we should
+            describe what makes one predictor the "best" over some others.
           </p>
 
-          <p>TODO animation of many linear predictors</p>
+          <Video src="/animations/linear_regression/ManyLines.mp4" type="mp4" />
 
           <p>
             What does "best" mean in this context? That's the job of the{" "}
@@ -516,7 +533,7 @@ export default function LinearRegression() {
             converges to the bottom.
           </p>
 
-          <p>TODO animation of gradient descent on 1d function.</p>
+          <Video src="/animations/linear_regression/Convex.mp4" type="mp4" />
 
           <p>
             In the context of our original problem where we are trying to
@@ -609,7 +626,7 @@ export default function LinearRegression() {
             since it might get stuck in a "local optima".
           </p>
 
-          <p>TODO animation of non-convex function and gradient descent.</p>
+          <Video src="/animations/linear_regression/NonConvex.mp4" type="mp4" />
 
           <p>
             <b>Feature Extraction</b>
@@ -648,7 +665,7 @@ export default function LinearRegression() {
 
           <BM
             math={`
-              y_i &= w_0 + w_1x_i + w_2x_i + ... + w_px_i^p + \\varepsilon_i
+              y_i = w_0 + w_1x_i + w_2x_i^2 + ... + w_px_i^p + \\varepsilon_i
           `}
           />
 
@@ -668,8 +685,6 @@ export default function LinearRegression() {
             looking at the data? That is a central question in the next chapter,
             Assessing Performance.
           </p>
-
-          <p> TODO animation of various degrees? Not sure</p>
 
           <p>
             More generally, a <b>feature</b> are the values that we select or
@@ -851,13 +866,40 @@ export default function LinearRegression() {
             📝 As a notational remark, we should highlight that it's very common
             for people to assume that the data table you are working with has
             already been preprocessed to contain the features you want. They do
-            this to avoid having to write <IM math={`h_j(x)`} />. It's important
-            to remember that there is a step of transforming raw data to
-            features (even if its implicit) and should double check what type of
-            data you are working with.
+            this to avoid having to write <IM math={`h_j(x)`} /> everywhere in
+            their work. It's important to remember that there is a step of
+            transforming raw data to features (even if its implicit and not
+            shown in the notation) and should double check what type of data you
+            are working with.
+          </p>
+        </section>
+        <section>
+          <h3>Recap / Reflection</h3>
+          <p>
+            In this chapter we introduced the machine learning pipeline as it is
+            applied to regression models, namely linear regression.
+          </p>
+          <p>
+            We introduced some terminology that we will use throughout the book
+            like the difference between a model and a predictor, the format of
+            the data we learn from, how we can determine features of the model,
+            and how to learn and assess a predictor. We will see these general
+            ideas in the ML pipeline surface frequently in this book. It is
+            always good to start using that as a reference point for the new
+            concepts you are learning.
           </p>
 
-          <p>TODO recap / terms</p>
+          <p>
+            We specifically discussed the context of regression and linear
+            regression. Understanding how to formulate a problem as a regression
+            problem and use linear regression to help you learn a predictor is a
+            very important skill as part of your journey to mastering machine
+            learning! Additionally, understanding how linear regression and
+            polynomial regression are really the same model with different sets
+            of features is a very powerful building-block on that journey.
+          </p>
+
+          <p>TODO recap questions / concepts</p>
         </section>
       </Chapter>
     </>

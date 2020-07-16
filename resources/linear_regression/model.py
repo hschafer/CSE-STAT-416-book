@@ -2,105 +2,213 @@ import numpy as np
 
 from manimlib.imports import *
 
-class Model(Scene):
+from config import *
+
+class Data(ModelScene):
     def construct(self):
+        self.custom_setup()
+        self.play(ShowCreation(self.axes, run_time=2, lag_ratio=0.1))
+        self.play(Write(self.data_text), FadeIn(self.dots), lag_ratio=0.1, run_time=4)
 
-        # True function
-        def f(x):
-            # Weird hacks so manim gives inputs of 0 to 4, but we want 0 to 1 for formula
-            x = x / 4
-            return 21 * x ** 3 - 37 * x ** 2 + 20 * x
 
-        # Generated from random experiments to look "nice"
-        # ys = f(xs) + gaussian_noise
-        xs = np.array([3.16087855, 0.42209176, 0.10747032, 2.29757283, 2.41755141,
-                       3.1312064 , 3.41274744, 0.54062515, 3.97612742, 3.88264967,
-                       1.00726116, 2.48506019, 0.52647503, 2.78625823, 2.74012214,
-                       2.6109622 , 0.99758877, 1.58532599, 3.68280559, 2.92428234])
-        ys = np.array([3.01574732, 1.15650066, 0.29587366, 3.63301317, 2.44639242,
-                       4.01503537, 2.72637157, 1.83949441, 4.05444247, 3.45548138,
-                       3.48042945, 2.81497412, 2.11811096, 3.47236632, 3.05471791,
-                       3.37113595, 2.48020868, 3.33907243, 3.05561223, 2.30361556])
-
+class TrueFunction(ModelScene):
+    def construct(self):
         # Generate the axes
-        axes = Axes(x_min=0, x_max=4,
-                    y_min=0, y_max=4,
-                    # center_point=[-1, -1, 0],
-                    axis_config={
-                        'include_tip': False,
-                        'include_ticks': False
-                    })
-        axes.move_to([-1, -1, 0])
-        self.play(ShowCreation(axes, run_time=2, lag_ratio=0.1))
-
-        # Create text
-        data_text = TexMobject(r'\{(x_i, y_i)\}_{i=1}^n')
-        function_text = TextMobject(r'True function: {$f($}{$x$}{$)$}',
-                                    tex_to_color_map={'{$f($}': GREEN, '{$)$}': GREEN})
-        text_group = VGroup(data_text, function_text).arrange(DOWN)
-        text_group.to_corner(UP + LEFT)
-
-        # Draw points
-        self.play(Write(data_text))
-        for x, y in zip(xs, ys):
-            point = axes.coords_to_point(x, y, 0)
-            dot = Dot(point)
-            self.play(FadeIn(dot), run_time=0.1)
-        self.wait()
+        self.custom_setup()
+        self.add(self.axes, self.data_text, self.dots)
 
         # Draw Function
-        self.play(Write(function_text))
-
-        function = FunctionGraph(x_min=0, x_max=4, function=f, color=GREEN)
-        function.move_to([-1, -1, 0])
-
-        self.play(ShowCreation(function))
+        self.play(Write(self.function_text))
+        self.add(self.function, self.dots)
+        self.play(ShowCreation(self.function))
         self.wait(duration=1.5)
 
+
+
+class Model(ModelScene):
+    def construct(self):
+        TEXT_SCALE = 0.7
+        TEXT_LBUFF = 0.4
+
+        # Generate the axes
+        self.custom_setup()
+        self.add(self.graph, self.text_group, self.dots)
+
         # Write Model
-        model_text = TextMobject(r'Model: $y_i$ $=$ {$f($}{$x_i$}{$)$} + $\epsilon_i$',
+        model_text = TextMobject(r'Model: $y_i$ $=$ {$f($}{$x_i$}{$)$} + $\varepsilon_i$',
                                  tex_to_color_map={
                                      '{$f($}': GREEN, '{$)$}': GREEN,
                                      '$y_i$': BLUE,
-                                     r'$\epsilon_i$': YELLOW
-                                 })
+                                     r'$\varepsilon_i$': MAROON
+                                 },
+                                 color=DRAW_COLOR)
         model_text.to_corner(UP + RIGHT)
         self.play(Write(model_text))
 
         # Pick one point to highlight
         index = 19
-        origin = axes.coords_to_point(0, 0, 0)
-        point = axes.coords_to_point(xs[index], ys[index], 0)
-        expected_value = axes.coords_to_point(xs[index], f(xs[index]), 0)
+        origin = self.axes.coords_to_point(0, 0, 0)
+        point = self.axes.coords_to_point(XS[index], YS[index], 0)
+        expected_value = self.axes.coords_to_point(XS[index], f(XS[index]), 0)
 
         # Draw a vertical line from its x to the expected value
+        x_mark = Line(start=[point[0], origin[1], 0],
+                      end=[point[0], origin[1] + .1, 0],
+                      color=DRAW_COLOR)
+        x_text = TexMobject(r'x_7', color=DRAW_COLOR)
+        x_text.next_to(x_mark, direction=DOWN)
+        x_text.scale(TEXT_SCALE)
+
         dot = Dot(expected_value, color=GREEN)
-        x_line = DashedLine(start=[point[0], origin[1], 0],
-                            end=expected_value)
-        x_text = TexMobject(r'x_7')
-        x_text.next_to(x_line, direction=DOWN)
+        ev_line = DashedLine(start=[point[0], origin[1], 0],
+                             end=[point[0], expected_value[1], 0], color=GREEN)
 
         self.play(
-            AnimationGroup(FadeIn(x_text), FadeIn(x_line, duration=1)),
+            AnimationGroup(FadeIn(x_mark), FadeIn(x_text)),
+            FadeIn(ev_line, duration=2),
             FadeIn(dot),
-            lag_ratio=0.1)
+            lag_ration=0.9, duration=4)
         self.wait()
+
+        ev_text = TextMobject(r'{$f($}{$x_i$}{$)$}',
+                              tex_to_color_map={
+                                     '{$f($}': GREEN, '{$)$}': GREEN,
+                                 }, color=DRAW_COLOR)
+        self.play(ApplyMethod(ev_line.next_to, origin - np.array([0.05, 0, 0]), UP, {'buff': 0}))
+        ev_text.next_to(ev_line, direction=LEFT * TEXT_LBUFF)
+        ev_text.scale(TEXT_SCALE)
+        self.play(FadeIn(ev_text))
+
 
         # Draw the epislon from the expected to observed
         epsilon = DashedLine(start=expected_value,
                              end=point,
-                             color=YELLOW)
-        epsilon_text = TexMobject(r'\epsilon_7', color=YELLOW)
-        epsilon_text.scale(0.7)
-        epsilon_text.next_to(epsilon, direction=LEFT*0.4)
+                             color=MAROON)
+        epsilon_text = TexMobject(r'\epsilon_7', color=MAROON)
+        epsilon_text.scale(TEXT_SCALE)
+        epsilon_text.next_to(epsilon, direction=LEFT * TEXT_LBUFF)
         self.play(ShowCreation(epsilon, duration=1), Write(epsilon_text))
         self.wait()
 
         # Draw a line to show how it computes the y from that
-        y_line = DashedLine(start=point,
-                            end=[origin[0], point[1], 0],
+        y_line = DashedLine(start=[point[0], origin[1], 0],
+                            end=[point[0], point[1], 0],
                             color=BLUE)
         y_text = TexMobject(r'y_7', color=BLUE)
-        y_text.next_to(y_line, direction=LEFT)
+        y_text.next_to(y_line, direction=LEFT * TEXT_LBUFF)
+        y_text.scale(TEXT_SCALE)
         self.play(FadeIn(y_line, duration=2), Write(y_text), lag_ratio=0.5)
         self.wait(duration=4)
+
+
+class Predictor(LinearScene):
+    def construct(self):
+        self.custom_setup(line_color=BLUE)
+        self.add(self.graph, self.text_group, self.dots)
+
+        # Draw the line and the text
+        self.play(Write(self.predictor_text))
+        self.wait(1)
+        self.play(ShowCreation(self.line))
+        self.wait(2)
+
+        # Highlight error for one point
+        residuals = Group()
+        for x, y in zip(XS, YS):
+            # index = 3 # 10
+            point = self.axes.coords_to_point(x, y, 0)
+            prediction = self.w_0 + self.w_1 * x
+            prediction = self.axes.coords_to_point(x, prediction, 0)
+            residual = DashedLine(start=prediction, end=point, color=RED)
+            residuals.add(residual)
+
+        # Text for residual
+        residual_text = TextMobject(r'Errors observed', color=RED)
+        residual_text.next_to(self.text_group, RIGHT, buff=2)
+
+        # Animate text and residual
+        self.play(Write(residual_text))
+        self.wait()
+        self.add(residuals, self.function, self.line, self.dots) # Order matters
+        self.play(ShowCreation(residuals), duration=4)
+        self.wait(3)
+
+
+class InterpretCoefficients(LinearScene):
+    def construct(self):
+        TEXT_SCALE  = 0.7
+
+        self.custom_setup(line_color=GREEN, graph_shift=[0, 0, 0])
+        self.add(self.axes, self.dots)
+
+        # Model text
+        model_text = TextMobject(r'Model: {$y_i = w_0 + w_1x_i + \varepsilon_i$}',
+                                 color=GREEN,
+                                 tex_to_color_map={r'Model:': DRAW_COLOR})
+        model_text.to_corner(UP + LEFT)
+
+        self.play(Write(model_text))
+        self.add(self.line, self.dots) # To draw below
+        self.play(ShowCreation(self.line))
+
+        # Highlight w_0
+        w_0_point = self.axes.coords_to_point(0, self.w_0, 0)
+        w_0_point = Dot(w_0_point, color=GREEN)
+        w_0_text = TexMobject(r'w_0', color=GREEN)
+        w_0_text.scale(TEXT_SCALE)
+        w_0_text.next_to(w_0_point, LEFT)
+        self.play(Write(w_0_text), FadeIn(w_0_point))
+
+        # Highlight slope
+        def eval(x):
+            return self.w_0 + self.w_1 * x
+
+        start = 1.15
+        end = 2.62 # 1.9
+        start_point = self.axes.coords_to_point(start, eval(start), 0)
+        end_point = self.axes.coords_to_point(end, eval(end), 0)
+
+        corner = self.axes.coords_to_point(end, eval(start), 0)
+
+        # Create run
+        run = DashedLine(start=start_point, end=corner,
+                         color=BLUE)
+        run_text = TexMobject(r'1', color=BLUE)
+        run_text.scale(TEXT_SCALE)
+        run_text.next_to(run, DOWN)
+        self.play(ShowCreation(run), FadeIn(run_text))
+
+        # Create rise
+        rise = DashedLine(start=corner, end=end_point,
+                         color=BLUE)
+        rise_text = TexMobject(r'w_1', color=BLUE)
+        rise_text.scale(TEXT_SCALE)
+        rise_text.next_to(rise, RIGHT, buff=0.05)
+        self.play(ShowCreation(rise), FadeIn(rise_text))
+
+
+        self.wait(3)
+
+class ManyLines(LinearScene):
+    def construct(self):
+        self.custom_setup(line_color=BLUE, graph_shift=[0, 0, 0])
+        self.add(self.axes, self.dots)
+
+        coeffs = [
+            (2, 0.5),
+            (3, 0.1),
+            (1, 0.4),
+            (2.8, -0.02),
+            (3.5, -0.5),
+            (1.5, 0.2)
+        ]
+
+        lines = Group()
+        for w_0, w_1 in coeffs:
+            line = self.linear_function(w_0, w_1, line_color=BLUE)
+            lines.add(line)
+
+        self.add(lines, self.dots)
+        self.play(ShowCreation(lines, run_time=5, lag_ratio=1))
+        self.wait(2)
+
