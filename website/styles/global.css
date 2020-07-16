@@ -31,6 +31,10 @@ section video {
   line-height: 1em;
 }
 
+footer {
+  color: gray;
+}
+
 /* My modifications to Tufte */
 .marginnote p,
 .marginnote ol,
