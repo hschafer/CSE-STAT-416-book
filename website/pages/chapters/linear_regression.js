@@ -748,41 +748,45 @@ export default function LinearRegression() {
           </ul>
 
           <table className="data-table">
-            <tr>
-              <th>sq. ft.</th>
-              <th># bathrooms</th>
-              <th>owner's age</th>
-              <th>...</th>
-              <th>price</th>
-            </tr>
-            <tr>
-              <td>1400</td>
-              <td>3</td>
-              <td>47</td>
-              <td>...</td>
-              <td>70,800</td>
-            </tr>
-            <tr>
-              <td>700</td>
-              <td>3</td>
-              <td>19</td>
-              <td>...</td>
-              <td>65,000</td>
-            </tr>
-            <tr>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>1250</td>
-              <td>2</td>
-              <td>36</td>
-              <td>...</td>
-              <td>100,000</td>
-            </tr>
+            <thead>
+              <tr>
+                <th>sq. ft.</th>
+                <th># bathrooms</th>
+                <th>owner's age</th>
+                <th>...</th>
+                <th>price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1400</td>
+                <td>3</td>
+                <td>47</td>
+                <td>...</td>
+                <td>70,800</td>
+              </tr>
+              <tr>
+                <td>700</td>
+                <td>3</td>
+                <td>19</td>
+                <td>...</td>
+                <td>65,000</td>
+              </tr>
+              <tr>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+              </tr>
+              <tr>
+                <td>1250</td>
+                <td>2</td>
+                <td>36</td>
+                <td>...</td>
+                <td>100,000</td>
+              </tr>
+            </tbody>
           </table>
 
           <p>
