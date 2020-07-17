@@ -1,5 +1,10 @@
 const tableOfContents = [
   {
+    chapterNumber: "0",
+    title: "Introduction",
+    file: "introduction",
+  },
+  {
     chapterNumber: "1",
     title: "Linear Regression",
     file: "linear_regression",
