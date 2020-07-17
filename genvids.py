@@ -83,6 +83,13 @@ def manim(af, vidcache, hard, tc, manim_args):
     if not os.path.exists(vidcache):
         os.makedirs(vidcache)
 
+    # extend python path to inclde this directory
+    env = os.environ.copy()
+    ppath = ""
+    if "PYTHONPATH" in env:
+        ppath = env["PYTHONPATH"]
+    env["PYTHONPATH"] = f".:{ppath}"
+
     args = ["manim", af.srcfile, ANIMATION_CLASS_NAME,
             "--video_output_dir", af.video_output_dir,
             "--file_name", af.manim_file_name,
@@ -103,7 +110,7 @@ def manim(af, vidcache, hard, tc, manim_args):
         sys.stdout.write(f"{tc.BLUE}[RUNNING]{tc.ENDC} {af.srcfile} ~> {filepath}")
         sys.stdout.flush()
 
-        r = subprocess.run(args, capture_output=True)
+        r = subprocess.run(args, capture_output=True, env=env)
         sys.stdout.write('\r')
         sys.stdout.flush()
 
@@ -112,10 +119,10 @@ def manim(af, vidcache, hard, tc, manim_args):
         else:
             print(f"{tc.RED}[FAIL]{tc.ENDC}    {af.srcfile} ~> {filepath}")
 
-            print("STD OUT")
-            print(f"{r.stdout.decode()}")
-            print("STD ERR")
-            print(f"{r.stderr.decode()}")
+        print("STD OUT")
+        print(f"{r.stdout.decode()}")
+        print("STD ERR")
+        print(f"{r.stderr.decode()}")
     else:
         print(f"{tc.YELLOW}[CACHE]{tc.ENDC}   {af.srcfile} ~> {filepath}")
         if "--preview" in args:

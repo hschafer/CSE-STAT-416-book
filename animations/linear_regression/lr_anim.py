@@ -1,12 +1,9 @@
 import numpy as np
+from manim_config import *
 
 
-from manimlib.imports import *
-
-
-class Animation(Scene):
+class Animation(BScene):
     def construct(self):
-
         # True function
         def f(x):
             # Weird hacks so manim gives inputs of 0 to 4, but we want 0 to 1 for formula
@@ -36,9 +33,9 @@ class Animation(Scene):
         self.play(ShowCreation(axes, run_time=2, lag_ratio=0.1))
 
         # Create text
-        data_text = TexMobject(r'\{(x_i, y_i)\}_{i=1}^n')
-        function_text = TextMobject(r'True function: {$f($}{$x$}{$)$}',
-                                    tex_to_color_map={'{$f($}': GREEN, '{$)$}': GREEN})
+        data_text = BTexMobject(r'\{(x_i, y_i)\}_{i=1}^n')
+        function_text = BTextMobject(r'True function: {$f($}{$x$}{$)$}',
+                                     tex_to_color_map={'{$f($}': GREEN, '{$)$}': GREEN})
         text_group = VGroup(data_text, function_text).arrange(DOWN)
         text_group.to_corner(UP + LEFT)
 
@@ -46,7 +43,7 @@ class Animation(Scene):
         self.play(Write(data_text))
         for x, y in zip(xs, ys):
             point = axes.coords_to_point(x, y, 0)
-            dot = Dot(point)
+            dot = Dot(point, color=COL_BLACK)
             self.play(FadeIn(dot), run_time=0.1)
         self.wait()
 
@@ -60,11 +57,11 @@ class Animation(Scene):
         self.wait(duration=1.5)
 
         # Write Model
-        model_text = TextMobject(r'Model: $y_i$ $=$ {$f($}{$x_i$}{$)$} + $\varepsilon_i$',
+        model_text = BTextMobject(r'Model: $y_i$ $=$ {$f($}{$x_i$}{$)$} + $\varepsilon_i$',
                                  tex_to_color_map={
-                                     '{$f($}': GREEN, '{$)$}': GREEN,
-                                     '$y_i$': BLUE,
-                                     r'$\varepsilon_i$': YELLOW
+                                     '{$f($}': COL_GREEN, '{$)$}': COL_GREEN,
+                                     '$y_i$': COL_BLUE,
+                                     r'$\varepsilon_i$': COL_PURPLE
                                  })
         model_text.to_corner(UP + RIGHT)
         self.play(Write(model_text))
@@ -78,8 +75,9 @@ class Animation(Scene):
         # Draw a vertical line from its x to the expected value
         dot = Dot(expected_value, color=GREEN)
         x_line = DashedLine(start=[point[0], origin[1], 0],
-                            end=expected_value)
-        x_text = TexMobject(r'x_7')
+                            end=expected_value,
+                            color=GREEN)
+        x_text = BTexMobject(r'x_7')
         x_text.next_to(x_line, direction=DOWN)
 
         self.play(
@@ -91,8 +89,8 @@ class Animation(Scene):
         # Draw the epislon from the expected to observed
         epsilon = DashedLine(start=expected_value,
                              end=point,
-                             color=YELLOW)
-        epsilon_text = TexMobject(r'\epsilon_7', color=YELLOW)
+                             color=PURPLE)
+        epsilon_text = BTexMobject(r'\epsilon_7', color=COL_PURPLE)
         epsilon_text.scale(0.7)
         epsilon_text.next_to(epsilon, direction=LEFT*0.4)
         self.play(ShowCreation(epsilon, duration=1), Write(epsilon_text))
@@ -102,7 +100,7 @@ class Animation(Scene):
         y_line = DashedLine(start=point,
                             end=[origin[0], point[1], 0],
                             color=BLUE)
-        y_text = TexMobject(r'y_7', color=BLUE)
+        y_text = BTexMobject(r'y_7', color=BLUE)
         y_text.next_to(y_line, direction=LEFT)
         self.play(FadeIn(y_line, duration=2), Write(y_text), lag_ratio=0.5)
         self.wait(duration=4)
