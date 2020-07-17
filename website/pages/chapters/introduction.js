@@ -13,10 +13,11 @@ export default function Introduction() {
             <b>"machine learning"</b> (ML) as it likely to be something you have
             heard at least in passing. There are near daily mentions of "machine
             learning systems" or "deep learning systems" in the news we read and
-            the media we consume. Machine learning is affecting aspects of our
-            lives we couldn't even imagine 5 or 10 years ago. As an example, we
-            showcase a very small number of examples, from the very fun to truly
-            terrifying:
+            the media we consume. Machine learning is changing the world. It is
+            affecting aspects of our lives we couldn't even imagine 5 or 10
+            years ago, and progress in the field is only growing more rapidly.
+            As an example, we showcase a very small number of examples, from the
+            very fun to truly terrifying:
           </p>
           <ul>
             <li>
@@ -256,6 +257,147 @@ export default function Introduction() {
             rare that we care about a word-for-word definition of a term or
             formula, but instead care about the intuition and understanding that
             comes from being familiar with that concept.
+          </p>
+        </section>
+
+        <section>
+          <h2>Introduction to Machine Learning</h2>
+
+          <p>
+            If we had to give a very general (and vague) definition of machine
+            learning, it would be one of the most cited ones:
+          </p>
+
+          <blockquote>
+            <p>
+              A computer program is said to learn from experience{" "}
+              <IM math={`E`} /> with respect to some class of tasks{" "}
+              <IM math={`T`} /> and performance measure <IM math={`P`} /> if its
+              performance at tasks in <IM math={`T`} />, as measured by{" "}
+              <IM math={`P`} />, improves with experience <IM math={`E`} />.
+            </p>
+            <footer>Tom M. Mitchell</footer>
+          </blockquote>
+
+          <p>
+            This is just trying to state in a very formal manner that machine
+            learning is generally programs that learn from data that improve at
+            some task by learning from data rather than a human hard-coding the
+            rules of the task.{" "}
+            <MarginNote id="ml-steps">
+              <img
+                src="/animations/introduction/ml-steps.png"
+                alt="High level steps of ML"
+              />
+              Pictorial representation of these steps.
+            </MarginNote>
+          </p>
+          <p>
+            For example, consider the task of trying to make a system that
+            classifies an image as containing a dog or a cat. One approach would
+            be to try to write a program (e.g., a Python program) that looks at
+            the pixels of the picture in a big <code>if/else</code> statement to
+            make the decision. You (nor I) would really have any idea where to
+            start writing such a program.
+          </p>
+
+          <p>
+            Instead, the machine learning approach is to feed a bunch of images
+            that have already been labelled as cat images or dog images as input
+            to some learning algorithm, and letting that algorithm learn the
+            patterns from the data itself. The ultimate goal of such a system is
+            to train the computer to not just be able to answer this dog-vs.-cat
+            question for images it has seen, but also to <em>generalize</em> to
+            any dog or cat picture it might encounter in the future.
+          </p>
+
+          <p>
+            In the next chapter, we will introduce more concrete concepts that
+            form a machine learning "pipeline", so we wont' dive into these
+            details further here. As our last point-of-order in this chapter, we
+            want to give a very broad overview of how this book is structured.
+          </p>
+
+          <p>
+            We will tackle this introduction to machine learning with 5
+            overarching case-studies to guide us. As we mentioned before, the
+            contexts that these case studies focus on are not the only
+            applications that are of import in machine learning. We spend the
+            majority of our focus on these five examples for consistency to make
+            the relationships between concepts more concrete. Each case study
+            will span more than one chapter as indicated in the table of
+            contents to show how the various sub-topics relate. As a reminder
+            from the section on "How Learning Works", it's important for you to
+            be constantly pausing and reflection so that you can test your
+            understanding and connect ideas to other sections.
+          </p>
+
+          <p>The five case studies we will examine in this book are:</p>
+          <ul>
+            <li>
+              <b>Regression:</b> Learning how to predict the price of a house.
+            </li>
+            <li>
+              <b>Classification:</b> Learning how to identify if a restaurant
+              review is good or bad (sentiment analysis).
+            </li>
+            <li>
+              <b>Document Retrieval and Clustering:</b> Given a news article,
+              suggest similar ones that the reader might be interested in.
+            </li>
+            <li>
+              <b>Recommender Systems:</b> Given the past purchases of a user,
+              what products should we recommend?
+            </li>
+            <li>
+              <b>Deep Learning:</b> Recognizing objects in images.
+            </li>
+          </ul>
+
+          <p>As a brief (and incomplete) list of topics we will cover:</p>
+          <ul>
+            <li>
+              <b>Models:</b> Different machine learning models that can be used.
+              <ul>
+                <li>
+                  Linear regression, regularized approaches (ridge, LASSO)
+                </li>
+                <li>Linear classifiers: logistic regression</li>
+                <li>Non-linear models: decision trees and ensemble methods</li>
+                <li>Nearest neighbors, clustering, kernel methods</li>
+                <li>Recommender systems</li>
+                <li>Neural networks and deep learning</li>
+              </ul>
+            </li>
+            <li>
+              <b>Algorithms:</b> Different algorithms for learning these models.
+              <ul>
+                <li>Gradient descent and its variations</li>
+                <li>Boosting and bagging</li>
+                <li>K-means</li>
+                <li>Agglomerative and divisive clustering</li>
+                <li>Hyperparameter optimization</li>
+              </ul>
+            </li>
+            <li>
+              <b>Concepts:</b> High-level ideas from machine learning, computer
+              science, statistics, and mathematics.
+              <ul>
+                <li>Point estimation, Maximum likelihood estimation (MLE)</li>
+                <li>
+                  Loss functions, bias-variance tradeoff, cross-validation
+                </li>
+                <li>Sparsity, overfitting, model selection</li>
+                <li>Decision boundaries</li>
+              </ul>
+            </li>
+          </ul>
+
+          <p>
+            With that, we have introduced what this book is about and some
+            intentions for how it is structured. Our hope is that you find this
+            book exciting and helps you build intuition for this incredibly
+            important field!
           </p>
         </section>
       </Chapter>

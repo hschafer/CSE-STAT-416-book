@@ -6,8 +6,8 @@ import styles from "./layout.module.css";
 
 export default function Layout({ showTOC = "True", children }) {
   return (
-    <>
-      <div id="container">
+    <div id="container">
+      <div id="content-container">
         <nav id="navbar" className={showTOC === "True" ? "" : styles.hidden}>
           <p>
             <Link href="/">
@@ -38,6 +38,6 @@ export default function Layout({ showTOC = "True", children }) {
           !
         </p>
       </footer>
-    </>
+    </div>
   );
 }
