@@ -41,7 +41,7 @@ class AnimationFile:
         # will be somthing like: anim_dir/{}/{}/*_anim.py, and wait to remove that extra anim_dir
         name, _ = os.path.splitext(filename)
         self.manim_file_name_vid = name + quality_string
-        self.manim_file_name_img = name
+        self.manim_file_name_img = name + quality_string
 
         self.imgloc = os.path.join(outdir, self.reldir, "images", self.manim_file_name_img + ".png")
         self.vidloc = os.path.join(outdir, self.reldir, self.manim_file_name_vid + ".mp4")
@@ -92,7 +92,7 @@ def manim(af, vidcache, hard, tc, manim_args):
     ppath = ""
     if "PYTHONPATH" in env:
         ppath = env["PYTHONPATH"]
-    env["PYTHONPATH"] = f".:{ppath}"
+    env["PYTHONPATH"] = f"{af.dirname}:.:{ppath}"
 
     args = ["manim", af.srcfile, ANIMATION_CLASS_NAME,
             "--video_output_dir", af.video_output_dir,
