@@ -23,24 +23,28 @@ class TermColors:
 
 
 class AnimationFile:
-    def __init__(self, outdir, dirname, filename):
+    def __init__(self, outdir, dirname, filename, hq):
         self.dirname = dirname
 
-        _, reldir = os.path.split(dirname)
-        self.reldir = reldir
+        # if there's only one directory in `dirname`, then we want the relative directory to be ""
+        parent, child = os.path.split(dirname)
+        if parent == "":
+            self.reldir = parent
+        else:
+            self.reldir = child
 
         self.srcfile = os.path.join(dirname, filename)
+        self.video_output_dir = os.path.join(outdir, self.reldir)
 
+        quality_string = "_hq" if hq else "_lq"
         # manim is smart enough to know that videos go in out_dir/manim_file_name, without extension
         # will be somthing like: anim_dir/{}/{}/*_anim.py, and wait to remove that extra anim_dir
         name, _ = os.path.splitext(filename)
-        self.manim_file_name = name
+        self.manim_file_name_vid = name + quality_string
+        self.manim_file_name_img = name
 
-        self.video_output_dir = os.path.join(outdir, self.reldir)
-        self.outfile = os.path.join(outdir, self.manim_file_name)
-
-        self.imgloc = os.path.join(outdir, self.reldir, "images", self.manim_file_name + ".png")
-        self.vidloc = os.path.join(outdir, self.reldir, self.manim_file_name + ".mp4")
+        self.imgloc = os.path.join(outdir, self.reldir, "images", self.manim_file_name_img + ".png")
+        self.vidloc = os.path.join(outdir, self.reldir, self.manim_file_name_vid + ".mp4")
 
     @property
     def genimg(self):
@@ -92,19 +96,22 @@ def manim(af, vidcache, hard, tc, manim_args):
 
     args = ["manim", af.srcfile, ANIMATION_CLASS_NAME,
             "--video_output_dir", af.video_output_dir,
-            "--file_name", af.manim_file_name,
             "--media_dir", vidcache]
-
     args.extend(manim_args)
 
     gen = True
     filepath = ""
+    manim_file_name = ""
     if "--save_last_frame" in args:
         gen = af.genimg
         filepath = af.imgloc
+        manim_file_name = af.manim_file_name_img
     else:
         gen = af.genvid
         filepath = af.vidloc
+        manim_file_name = af.manim_file_name_vid
+
+    args.extend(["--file_name", manim_file_name])
 
     if hard or gen:
         sys.stdout.write(f"{tc.BLUE}[RUNNING]{tc.ENDC} {af.srcfile} ~> {filepath}")
@@ -129,12 +136,12 @@ def manim(af, vidcache, hard, tc, manim_args):
             preview_file(filepath)
 
 
-def find_all(anim_dir, out_dir):
+def find_all(anim_dir, out_dir, hq):
     anims = []
     for dirname, subdir, filelist in os.walk(anim_dir):
         for fname in filelist:
             if fname.endswith("_anim.py"):
-                anims.append(AnimationFile(out_dir, dirname, fname))
+                anims.append(AnimationFile(out_dir, dirname, fname, hq))
     return anims
 
 
@@ -178,13 +185,13 @@ if __name__ == "__main__":
         anims = []
         for fname in args.files:
             if fname.endswith("_anim.py"):
-                anims.append(AnimationFile(args.out, *os.path.split(fname)))
+                anims.append(AnimationFile(args.out, *os.path.split(fname), not args.low_quality))
             else:
                 print(f"{f} must end in '_anim.py', ignoring")
         for af in anims:
             manim(af, args.vidcache, args.hard, tc, manim_args)
     else:
-        anims = find_all(args.dir, args.out)
+        anims = find_all(args.dir, args.out, not args.low_quality)
 
         for af in anims:
             manim(af, args.vidcache, args.hard, tc, manim_args)

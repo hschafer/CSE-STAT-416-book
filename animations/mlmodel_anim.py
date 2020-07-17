@@ -60,14 +60,14 @@ class Animation(BScene):
         qm2mla.next_to(qm, UP, buff=0.0)
 
         self.play(FadeIn(td))
-        self.play(GrowArrow(td2fe), FadeIn(td2qm1))
-        self.play(GrowArrow(td2qm2))
+        self.play(ShowCreation(td2fe), FadeIn(td2qm1))
+        self.play(ShowCreation(td2qm2))
         self.play(FadeIn(fe))
-        self.play(GrowArrow(fe2mlm))
+        self.play(ShowCreation(fe2mlm))
         self.play(FadeIn(mlm))
-        self.play(GrowArrow(mlm2mla))
+        self.play(ShowCreation(mlm2mla))
         self.play(FadeIn(mla))
-        self.play(GrowArrow(qm2mla))
+        self.play(ShowCreation(qm2mla))
         self.play(FadeIn(qm))
 
     def train_data(self):

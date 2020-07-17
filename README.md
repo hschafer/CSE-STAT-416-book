@@ -31,11 +31,28 @@ There a few useful `manim` flags (you can see `manim --help` for more info).
 * `-s` Outputs the final frame instead of the whole animation. Good for development when not working on the actual animations.
 
 ## Generate Videos (using ./genvids.py)
-After you've installed `manim`, you can use the `./genvids.py` script to compile all videos in the `animations/` directory. The script by default renders all the videos in the highest quality.
+After you've installed `manim`, you can use the `./genvids.py` script to compile
+all videos in the `animations/` directory. The script by default renders all the
+videos in the highest quality.
+
+In the root directory there is a file called `manim_config.py`, which includes
+some helper classes for generating animations. The convention right now is to
+subclass the element you want to change and prepend it with a "B" (for "Book"),
+for example "Scene" -> "BScene", "TextMobject" -> "BTextMobject", etc. There are
+ also some default colors for consistency across animations.
 
 In order for files to be tracked by the build script, the following needs to be true:
 * One scene per file named `class Animation(Scene)`.
 * Any files have to end in `_anim.py` (ex: `lr_anim.py`, `ml_anim.py`).
+
+A good start for an animation file is:
+```python
+from manim_config import *
+
+class Animation(BScene):
+    def construct(self):
+        pass
+```
 
 ### Arguments
 You can target specfic files by calling `./getvids.py path/to/file1_anim.py path/to/file2_anim.py [...]`.
