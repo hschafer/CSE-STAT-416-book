@@ -147,6 +147,117 @@ export default function Introduction() {
             </li>
           </ul>
         </section>
+
+        <section>
+          <h2>How Learning Works</h2>
+          <p>
+            Learning is a complex process that whole fields of research focus on
+            learning (ha) how it works. The research of effective learning was
+            summarized very well in{" "}
+            <a href="https://www.retrievalpractice.org/make-it-stick">
+              "Make it Stick" by Peter C. Brown, Henry L. Roediger III, and Mark
+              A. McDaniel
+            </a>
+            .{" "}
+            <MarginNote id="make-it-stick">
+              This book is fantastic! I wish I read it while I was in college!
+            </MarginNote>{" "}
+            The book outlines two very popular, but ineffective, learning
+            strategies:
+          </p>
+
+          <ul>
+            <li>
+              <em>Re-reading</em> the same text multiple times until you "get
+              it".
+            </li>
+            <li>
+              <em>Massed practice</em>, or practicing the same skill/concept
+              over and over until you get it right. This is a tendency many
+              people have when cramming.
+            </li>
+          </ul>
+          <p>
+            Both of these strategies are popular because they make you feel like
+            you are making progress. However, there is little evidence that they
+            are actually effective strategies for longer-term retention or
+            transfer of knowledge.
+          </p>
+
+          <p>
+            It turns out that learning effectively is hard work and will
+            challenge you throughout the process; often if a strategy feels
+            easy, that might be a good sign it's not effective. In "Make it
+            Stick", they argue the most important thing to learning effectively
+            is being an active participant in the process. When you are taking
+            charge of your learning, you will face many setbacks, but you
+            shouldn't perceive those as failures, but instead as areas to grow.
+            Active learning involves three key steps:
+          </p>
+
+          <ul>
+            <li>
+              <b>Practice retrieving new learning from memory.</b> As you are
+              reading, constantly pause and <b>reflect</b> on the new things you
+              have read. Quiz yourself on the new content to make sure you
+              understood it the first time around. Spend time <b>generating</b>{" "}
+              knowledge by trying to answer questions on your own before looking
+              at the answer. <b>Elaborate</b> on the concepts you are learning
+              as if you were describing them to someone else; this forces you to
+              summarize what you learned and synthesize it with your past
+              knowledge.
+            </li>
+            <li>
+              <b>Spaced repetition is incredibly important.</b> Learning a
+              concept isn't a "one-then-done" ordeal. Effectively using what you
+              learned requires retrieving information from memory. One of the
+              best ways to practice this retrieval is to increasingly space out
+              the times in which you test retrieving the information (e.g., 1
+              day, 1 week, 1 month, etc.).
+              <ul>
+                <li>
+                  A great tool for managing this spacing is{" "}
+                  <a href="https://apps.ankiweb.net/">Anki</a>. Anki is a
+                  flashcard app that has a built-in features for
+                  spaced-repetition; it gives you a challenge to master a
+                  certain number of cards a day and spaces out when you see
+                  certain cards based on that mastery.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <b>Interleaving your practice.</b> Instead of practicing all the
+              concepts until mastery for Chapter 1 before moving to Chapter 2,
+              you should mix it up and test them together. Retrieving knowledge
+              in real life rarely has a context like "I'm studying for Chapter 1
+              right now, so I only need to think of Chapter 1 things". In
+              reality, you will need to practice bringing up any subset of
+              knowledge so your practice should reflect that if you want to see
+              improvements in retrieval{" "}
+              <MarginNote id="baseball">
+                See{" "}
+                <a href="https://pubmed.ncbi.nlm.nih.gov/8084699/">
+                  this study
+                </a>{" "}
+                about the effects of mixed-practice on professional baseball
+                players.
+              </MarginNote>
+              .
+            </li>
+          </ul>
+
+          <p>
+            So when learning about machine learning, we recommend that you
+            employ these three study tips. You should be building up meaningful
+            notes, reflecting what you've learned and relating it to past
+            concepts, testing yourself regularly, and spacing-out and mixing-up
+            your practice. We highly recommend (would recommend it if we could)
+            using a tool like Anki to help you test yourself on concepts. It's
+            rare that we care about a word-for-word definition of a term or
+            formula, but instead care about the intuition and understanding that
+            comes from being familiar with that concept.
+          </p>
+        </section>
       </Chapter>
     </>
   );
