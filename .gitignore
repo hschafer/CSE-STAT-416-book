@@ -1,6 +1,8 @@
 # Manim
 manim
 media
+.vidcache
+videos
 
 # Python things
 __pycache__
