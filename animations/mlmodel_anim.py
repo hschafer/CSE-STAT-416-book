@@ -20,12 +20,11 @@ def line(*args, **kwargs):
 class Animation(BScene):
     def construct(self):
         # center
-        fe = self.feature_extraction()
-
-        td = self.train_data()
-        mlm = self.ml_model()
-        mla = self.ml_algo()
-        qm = self.quality_metric()
+        fe = make_box(r"Feature \\ Extraction", bg_color=COL_BLUE, bg_fill_color=COL_BLUE)
+        td = make_box(r"Training \\ Data", bg_color=COL_PURPLE, bg_fill_color=COL_PURPLE)
+        mlm = make_box("ML Model", bg_color=COL_GREEN, bg_fill_color=COL_GREEN)
+        mla = make_box(r"ML \\ Algorithm", text_color=COL_BACKGROUND, bg_color=COL_BLACK, bg_fill_color=COL_BLACK)
+        qm = make_box(r"Quality \\ Metric", bg_color=COL_GOLD, bg_fill_color=COL_GOLD)
 
         # order boxes
         td.next_to(fe, LEFT, buff=1.0)
@@ -69,38 +68,3 @@ class Animation(BScene):
         self.play(FadeIn(mla))
         self.play(ShowCreation(qm2mla))
         self.play(FadeIn(qm))
-
-    def train_data(self):
-        label = BTextMobject("Training \\\\ Data")
-        bg = Rectangle(color=COL_PURPLE, fill_color=COL_PURPLE, fill_opacity=0.7)
-        bg.surround(label, buff=1.0)
-
-        return VGroup(bg, label)
-
-    def feature_extraction(self):
-        label = BTextMobject("Feature \\\\ Extraction")
-        bg = Rectangle(color=COL_BLUE, fill_color=COL_BLUE, fill_opacity=0.7)
-        bg.surround(label, buff=1.0)
-
-        return VGroup(bg, label)
-
-    def ml_model(self):
-        label = BTextMobject("ML Model")
-        bg = Rectangle(color=COL_GREEN, fill_color=COL_GREEN, fill_opacity=0.7)
-        bg.surround(label, buff=1.0)
-
-        return VGroup(bg, label)
-
-    def ml_algo(self):
-        label = BTextMobject("ML \\\\ Algorithm", color=COL_BACKGROUND)
-        bg = Rectangle(color=COL_BLACK, fill_color=COL_BLACK, fill_opacity=0.7)
-        bg.surround(label, buff=1.0)
-
-        return VGroup(bg, label)
-
-    def quality_metric(self):
-        label = BTextMobject("Quality \\\\ Metric")
-        bg = Rectangle(color=COL_GOLD, fill_color=COL_GOLD, fill_opacity=0.7)
-        bg.surround(label, buff=1.0)
-
-        return VGroup(bg, label)

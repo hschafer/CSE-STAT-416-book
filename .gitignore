@@ -2,7 +2,7 @@
 manim
 media
 .vidcache
-partial_movie_files
+videos
 
 # Python things
 __pycache__

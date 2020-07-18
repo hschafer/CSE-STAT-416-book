@@ -5,6 +5,7 @@ import subprocess
 import os.path
 import sys
 import platform
+import shutil
 
 
 ANIMATION_CLASS_NAME = "Animation"
@@ -17,6 +18,7 @@ class TermColors:
         self.GREEN = '\033[92m' if use_color else ""
         self.YELLOW = '\033[93m' if use_color else ""
         self.RED = '\033[91m' if use_color else ""
+        self.PURPLE = '\033[35m' if use_color else ""
         self.ENDC = '\033[0m' if use_color else ""
         self.BOLD = '\033[1m' if use_color else ""
         self.UNDERLINE = '\033[4m' if use_color else ""
@@ -39,12 +41,14 @@ class AnimationFile:
         quality_string = "_hq" if hq else "_lq"
         # manim is smart enough to know that videos go in out_dir/manim_file_name, without extension
         # will be somthing like: anim_dir/{}/{}/*_anim.py, and wait to remove that extra anim_dir
-        name, _ = os.path.splitext(filename)
-        self.manim_file_name_vid = name + quality_string
-        self.manim_file_name_img = name + quality_string
+        self.file_name, _ = os.path.splitext(filename)
+        self.manim_file_name_vid = self.file_name + quality_string
+        self.manim_file_name_img = self.file_name + quality_string
 
         self.imgloc = os.path.join(outdir, self.reldir, "images", self.manim_file_name_img + ".png")
         self.vidloc = os.path.join(outdir, self.reldir, self.manim_file_name_vid + ".mp4")
+
+        self.public_path_vid = os.path.join(self.dirname, self.file_name + ".mp4")
 
     @property
     def genimg(self):
@@ -83,7 +87,7 @@ def preview_file(path):
     FNULL.close()
 
 
-def manim(af, vidcache, hard, tc, manim_args):
+def manim(af, vidcache, hard, tc, manim_args, copy=False):
     if not os.path.exists(vidcache):
         os.makedirs(vidcache)
 
@@ -134,6 +138,13 @@ def manim(af, vidcache, hard, tc, manim_args):
         print(f"{tc.YELLOW}[CACHE]{tc.ENDC}   {af.srcfile} ~> {filepath}")
         if "--preview" in args:
             preview_file(filepath)
+    if copy:
+        dstfile = os.path.join("website", "public", af.public_path_vid)
+        dstdir, _ = os.path.split(dstfile)
+        if not os.path.exists(dstdir):
+            os.makedirs(dstdir)
+        shutil.copy(filepath, dstfile)
+        print(f"{tc.PURPLE}[COPY]{tc.ENDC}        ~> {dstfile}")
 
 
 def find_all(anim_dir, out_dir, hq):
@@ -162,6 +173,7 @@ if __name__ == "__main__":
     parser.add_argument("--vidcache", default=".vidcache", help="Store intermediate media to generate videos")
     parser.add_argument("--hard", action="store_true", help="Recompile all animations even if animation codes hasn't changed")
     parser.add_argument("--nocolor", action="store_true", help="Disable terminal colors on output")
+    parser.add_argument("--copy", action="store_true", help="Copy final videos over to website directory")
 
     parser.add_argument("--quiet", "-q", action="store_true", help="Don't collect output of manim")
     parser.add_argument("--preview", "-p", action="store_true", help="Open preview for all files")
@@ -169,6 +181,14 @@ if __name__ == "__main__":
     parser.add_argument("--save_last_frame", "-s", action="store_true", help="Save the last frame")
 
     args = parser.parse_args()
+
+    if args.low_quality and args.copy:
+        print("--copy can only be used when rendering high quality videos (saw --low_quality)")
+        exit(1)
+    if args.save_last_frame and args.copy:
+        print("--copy can only be used when rendering high quality videos (saw --save_last_frame)")
+        exit(1)
+
     tc = TermColors(not args.nocolor)
 
     manim_args = []
@@ -189,9 +209,9 @@ if __name__ == "__main__":
             else:
                 print(f"{f} must end in '_anim.py', ignoring")
         for af in anims:
-            manim(af, args.vidcache, args.hard, tc, manim_args)
+            manim(af, args.vidcache, args.hard, tc, manim_args, copy=args.copy)
     else:
         anims = find_all(args.dir, args.out, not args.low_quality)
 
         for af in anims:
-            manim(af, args.vidcache, args.hard, tc, manim_args)
+            manim(af, args.vidcache, args.hard, tc, manim_args, copy=args.copy)

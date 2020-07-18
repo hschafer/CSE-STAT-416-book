@@ -37,3 +37,11 @@ class BTextMobject(TextMobject):
         }
         new_kwargs.update(**kwargs)
         super().__init__(*args, **new_kwargs)
+
+
+def make_box(text_string, text_color=COL_BLACK, bg_color=COL_GREEN, bg_fill_color=COL_GREEN, fill_opacity=0.7):
+    label = BTextMobject(text_string, color=text_color)
+    bg = Rectangle(color=bg_color, fill_color=bg_fill_color, fill_opacity=fill_opacity)
+    bg.surround(label, buff=1.0)
+
+    return VGroup(bg, label)
