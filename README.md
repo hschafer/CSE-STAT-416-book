@@ -13,7 +13,6 @@ conda create --name 416-book python=3.7
 conda activate 416-book
 pip install -r requirements.txt
 ```
-
 You will potentially need some other system requirements based for the [manim](https://github.com/3b1b/manim) library.
 
 See `SetupErrors.md` for some issues others have run into while setting this up.
@@ -64,3 +63,6 @@ Use `./genvids.py --help` for all flags:
 * `-l` renders the animation in low quality. This is great for development to save time.
 * `-s` outputs the final frame instead of the whole animation. Good for development when not working on the actual animations.
 * `--hard` ignores the cached files and recompiles all animations in the `animations/` folder
+
+# Website
+See the `README.md` in the `website` folder for more information.

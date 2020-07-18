@@ -1,3 +1,56 @@
 section video {
   width: 55%;
 }
+
+/* TODO Better styling for tables */
+.data-table,
+.data-table th,
+.data-table td {
+  border: 1px solid black;
+  text-align: left;
+  border-collapse: collapse;
+  padding-left: 0.5em;
+}
+
+.data-table th {
+  background-color: lightsteelblue;
+}
+
+/* Layout Styles */
+#content-container {
+  display: flex;
+  align-items: stretch;
+}
+
+#navbar {
+  min-width: 250px;
+  max-width: 250px;
+  margin-left: -210px;
+
+  font-size: 1.3rem;
+  line-height: 1em;
+}
+
+#container > footer {
+  color: gray;
+}
+
+/* Table of Contents */
+#table-of-contents li {
+  margin-bottom: 1em;
+}
+
+/* My modifications to Tufte */
+.marginnote p,
+.marginnote ol,
+.marginnote ul,
+#navbar ol,
+#navbar p {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#navbar a {
+  underline: none;
+  background: none;
+}

@@ -1,8 +1,8 @@
 const tableOfContents = [
   {
     chapterNumber: "0",
-    title: "Tufte",
-    file: "tufte",
+    title: "Introduction",
+    file: "introduction",
   },
   {
     chapterNumber: "1",
@@ -13,6 +13,11 @@ const tableOfContents = [
     chapterNumber: "2",
     title: "Assessing Performance",
     file: "assessing_performance",
+  },
+  {
+    chapterNumber: "99",
+    title: "Tufte (layout example)",
+    file: "tufte",
   },
 ];
 

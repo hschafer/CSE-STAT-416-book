@@ -7,50 +7,37 @@ import styles from "./layout.module.css";
 export default function Layout({ showTOC = "True", children }) {
   return (
     <div id="container">
-      <nav id="navbar" className={showTOC === "True" ? "" : styles.hidden}>
+      <div id="content-container">
+        <nav id="navbar" className={showTOC === "True" ? "" : styles.hidden}>
+          <p>
+            <Link href="/">
+              <a>&#8592; Back Home</a>
+            </Link>
+          </p>
+          <ol>
+            {tableOfContents.map((chapter) => (
+              <li key={chapter.file} value={chapter.chapterNumber}>
+                <Link href={`/chapters/${chapter.file}`}>
+                  <a>{chapter.title}</a>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <main id="content">{children}</main>
+      </div>
+      {/* TODO this isn't the BEST styling, but I don't know how to make flex work. */}
+      <footer>
         <p>
-          <Link href="/">
-            <a>&#8592; Back Home</a>
-          </Link>
+          Have any feedback about the book? Please let us know using{" "}
+          <a href="https://forms.gle/AuikAgFFGmvVjQSy9">this Google Form</a> or
+          by{" "}
+          <a href="https://github.com/hschafer/CSE-STAT-416-book/issues">
+            submitting an issue to our GitHub repository
+          </a>
+          !
         </p>
-        <ol>
-          {tableOfContents.map((chapter) => (
-            <li key={chapter.file} value={chapter.chapterNumber}>
-              <Link href={`/chapters/${chapter.file}`}>
-                <a>{chapter.title}</a>
-              </Link>
-            </li>
-          ))}
-        </ol>
-      </nav>
-      <main id="content">{children}</main>
-      <style jsx>{`
-        #container {
-          display: flex;
-          align-items: stretch;
-        }
-
-        #navbar {
-          min-width: 250px;
-          max-width: 250px;
-          margin-left: -210px;
-
-          font-size: 1.3rem;
-          line-height: 1em;
-        }
-
-        /* To cancel out Tufte CSS style */
-        #navbar ol,
-        #navbar p {
-          font-size: inherit;
-          line-height: inherit;
-        }
-
-        #navbar a {
-          underline: none;
-          background: none;
-        }
-      `}</style>
+      </footer>
     </div>
   );
 }
