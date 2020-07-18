@@ -1,16 +1,7 @@
 import math
 
-from manimlib.imports import *
+from lr_utils import *
 
-from config import *
-
-class Convex(GradientDescentScene):
-    def construct(self):
-        # Function to draw
-        def f(x):
-            return (x - 2) ** 2
-
-        super().custom_setup(f, 0.7, 2)
 
 class NonConvex(GradientDescentScene):
     def construct(self):
