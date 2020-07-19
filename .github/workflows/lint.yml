@@ -1,0 +1,27 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  lint:
+    name: Run Linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2.1.0
+      - name: Install Node Dependencies
+        run: yarn install --frozen-lockfile
+        working-directory: website
+      - name: Black
+        uses: psf/black@master
+      - name: Prettier
+        run: yarn lint:prettier
+        working-directory: website
