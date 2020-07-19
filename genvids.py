@@ -68,6 +68,12 @@ class AnimationFile:
 
         return True
 
+    def __eq__(self, other):
+        return isinstance(other, AnimationFile) and self.srcfile == other.srcfile
+
+    def __hash__(self):
+        return hash(self.srcfile)
+
 
 def preview_file(path):
     current_os = platform.system()
@@ -148,11 +154,11 @@ def manim(af, vidcache, hard, tc, manim_args, copy=False):
 
 
 def find_all(anim_dir, out_dir, hq):
-    anims = []
+    anims = set()
     for dirname, subdir, filelist in os.walk(anim_dir):
         for fname in filelist:
             if fname.endswith("_anim.py"):
-                anims.append(AnimationFile(out_dir, dirname, fname, hq))
+                anims.add(AnimationFile(out_dir, dirname, fname, hq))
     return anims
 
 
@@ -167,8 +173,7 @@ if __name__ == "__main__":
         in accordance with the python file.
     """
     parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument("files", nargs="*", help="Compile specific files, if no files are specified then all animations will be compiled")
-    parser.add_argument("--dir", default="animations", help="Animation code directory")
+    parser.add_argument("files", default=["animations"], nargs="*", help="Compile specific files, if no files are specified then all animations will be compiled")
     parser.add_argument("--out", default="videos", help="Output video directory")
     parser.add_argument("--vidcache", default=".vidcache", help="Store intermediate media to generate videos")
     parser.add_argument("--hard", action="store_true", help="Recompile all animations even if animation codes hasn't changed")
@@ -202,16 +207,13 @@ if __name__ == "__main__":
         manim_args.append("--save_last_frame")
 
     if len(args.files) > 0:
-        anims = []
+        anims = set()
         for fname in args.files:
             if fname.endswith("_anim.py"):
                 anims.append(AnimationFile(args.out, *os.path.split(fname), not args.low_quality))
+            elif os.path.isdir(fname):
+                anims |= find_all(fname, args.out, not args.low_quality)
             else:
-                print(f"{f} must end in '_anim.py', ignoring")
-        for af in anims:
-            manim(af, args.vidcache, args.hard, tc, manim_args, copy=args.copy)
-    else:
-        anims = find_all(args.dir, args.out, not args.low_quality)
-
+                print(f"{fname} must end in '_anim.py' or be a directory, ignoring")
         for af in anims:
             manim(af, args.vidcache, args.hard, tc, manim_args, copy=args.copy)
