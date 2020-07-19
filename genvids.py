@@ -207,7 +207,7 @@ if __name__ == "__main__":
             if fname.endswith("_anim.py"):
                 anims.append(AnimationFile(args.out, *os.path.split(fname), not args.low_quality))
             else:
-                print(f"{f} must end in '_anim.py', ignoring")
+                print(f"{fname} must end in '_anim.py', ignoring")
         for af in anims:
             manim(af, args.vidcache, args.hard, tc, manim_args, copy=args.copy)
     else:
