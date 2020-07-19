@@ -68,6 +68,12 @@ class AnimationFile:
 
         return True
 
+    def __eq__(self, other):
+        return isinstance(other, AnimationFile) and self.srcfile == other.srcfile
+
+    def __hash__(self):
+        return hash(self.srcfile)
+
 
 def preview_file(path):
     current_os = platform.system()
@@ -148,11 +154,11 @@ def manim(af, vidcache, hard, tc, manim_args, copy=False):
 
 
 def find_all(anim_dir, out_dir, hq):
-    anims = []
+    anims = set()
     for dirname, subdir, filelist in os.walk(anim_dir):
         for fname in filelist:
             if fname.endswith("_anim.py"):
-                anims.append(AnimationFile(out_dir, dirname, fname, hq))
+                anims.add(AnimationFile(out_dir, dirname, fname, hq))
     return anims
 
 
@@ -202,12 +208,12 @@ if __name__ == "__main__":
         manim_args.append("--save_last_frame")
 
     if len(args.files) > 0:
-        anims = []
+        anims = set()
         for fname in args.files:
             if fname.endswith("_anim.py"):
                 anims.append(AnimationFile(args.out, *os.path.split(fname), not args.low_quality))
             elif os.path.isdir(fname):
-                anims.extend(find_all(fname, args.out, not args.low_quality))
+                anims |= find_all(fname, args.out, not args.low_quality)
             else:
                 print(f"{fname} must end in '_anim.py' or be a directory, ignoring")
         for af in anims:
