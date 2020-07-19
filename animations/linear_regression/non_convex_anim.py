@@ -3,7 +3,7 @@ import math
 from lr_utils import *
 
 
-class NonConvex(GradientDescentScene):
+class Animation(GradientDescentScene):
     def construct(self):
         # Function to draw
         def f(x):

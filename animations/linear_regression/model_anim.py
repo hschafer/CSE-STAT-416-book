@@ -12,13 +12,13 @@ class Animation(ModelScene):
         self.add(self.graph, self.text_group, self.dots)
 
         # Write Model
-        model_text = TextMobject(r'Model: $y_i$ $=$ {$f($}{$x_i$}{$)$} + $\varepsilon_i$',
+        model_text = BTextMobject(r'Model: $y_i$ $=$ {$f($}{$x_i$}{$)$} + $\varepsilon_i$',
                                  tex_to_color_map={
                                      '{$f($}': GREEN, '{$)$}': GREEN,
                                      '$y_i$': BLUE,
                                      r'$\varepsilon_i$': MAROON
-                                 },
-                                 color=DRAW_COLOR)
+                                 })
+
         model_text.to_corner(UP + RIGHT)
         self.play(Write(model_text))
 
@@ -31,8 +31,8 @@ class Animation(ModelScene):
         # Draw a vertical line from its x to the expected value
         x_mark = Line(start=[point[0], origin[1], 0],
                       end=[point[0], origin[1] + .1, 0],
-                      color=DRAW_COLOR)
-        x_text = TexMobject(r'x_7', color=DRAW_COLOR)
+                      color=COL_BLACK)
+        x_text = BTexMobject(r'x_7')
         x_text.next_to(x_mark, direction=DOWN)
         x_text.scale(TEXT_SCALE)
 
@@ -47,10 +47,10 @@ class Animation(ModelScene):
             lag_ration=0.9, duration=4)
         self.wait()
 
-        ev_text = TextMobject(r'{$f($}{$x_i$}{$)$}',
+        ev_text = BTextMobject(r'{$f($}{$x_i$}{$)$}',
                               tex_to_color_map={
                                      '{$f($}': GREEN, '{$)$}': GREEN,
-                                 }, color=DRAW_COLOR)
+                                 })
         self.play(ApplyMethod(ev_line.next_to, origin - np.array([0.05, 0, 0]), UP, {'buff': 0}))
         ev_text.next_to(ev_line, direction=LEFT * TEXT_LBUFF)
         ev_text.scale(TEXT_SCALE)
@@ -61,7 +61,7 @@ class Animation(ModelScene):
         epsilon = DashedLine(start=expected_value,
                              end=point,
                              color=MAROON)
-        epsilon_text = TexMobject(r'\epsilon_7', color=MAROON)
+        epsilon_text = BTexMobject(r'\epsilon_7', color=MAROON)
         epsilon_text.scale(TEXT_SCALE)
         epsilon_text.next_to(epsilon, direction=LEFT * TEXT_LBUFF)
         self.play(ShowCreation(epsilon, duration=1), Write(epsilon_text))
@@ -71,7 +71,7 @@ class Animation(ModelScene):
         y_line = DashedLine(start=[point[0], origin[1], 0],
                             end=[point[0], point[1], 0],
                             color=BLUE)
-        y_text = TexMobject(r'y_7', color=BLUE)
+        y_text = BTexMobject(r'y_7', color=BLUE)
         y_text.next_to(y_line, direction=LEFT * TEXT_LBUFF)
         y_text.scale(TEXT_SCALE)
         self.play(FadeIn(y_line, duration=2), Write(y_text), lag_ratio=0.5)
