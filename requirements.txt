@@ -1,2 +1,3 @@
-manimlib==0.1.11
 black>=19.10b0
+manimlib==0.1.11
+pre-commit
