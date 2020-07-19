@@ -1,5 +1,3 @@
-from manimlib.imports import *
-
 from lr_utils import *
 
 class Animation(ModelScene):
