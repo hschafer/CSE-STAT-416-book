@@ -173,8 +173,7 @@ if __name__ == "__main__":
         in accordance with the python file.
     """
     parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument("files", nargs="*", help="Compile specific files, if no files are specified then all animations will be compiled")
-    parser.add_argument("--dir", default="animations", help="Animation code directory")
+    parser.add_argument("files", default=["animations"], nargs="*", help="Compile specific files, if no files are specified then all animations will be compiled")
     parser.add_argument("--out", default="videos", help="Output video directory")
     parser.add_argument("--vidcache", default=".vidcache", help="Store intermediate media to generate videos")
     parser.add_argument("--hard", action="store_true", help="Recompile all animations even if animation codes hasn't changed")
@@ -216,10 +215,5 @@ if __name__ == "__main__":
                 anims |= find_all(fname, args.out, not args.low_quality)
             else:
                 print(f"{fname} must end in '_anim.py' or be a directory, ignoring")
-        for af in anims:
-            manim(af, args.vidcache, args.hard, tc, manim_args, copy=args.copy)
-    else:
-        anims = find_all(args.dir, args.out, not args.low_quality)
-
         for af in anims:
             manim(af, args.vidcache, args.hard, tc, manim_args, copy=args.copy)
