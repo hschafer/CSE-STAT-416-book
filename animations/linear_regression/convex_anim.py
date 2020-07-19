@@ -1,5 +1,6 @@
 from lr_utils import *
 
+
 class Animation(GradientDescentScene):
     def construct(self):
         # Function to draw
