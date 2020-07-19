@@ -20,10 +20,19 @@ def line(*args, **kwargs):
 class Animation(BScene):
     def construct(self):
         # center
-        fe = make_box(r"Feature \\ Extraction", bg_color=COL_BLUE, bg_fill_color=COL_BLUE)
-        td = make_box(r"Training \\ Data", bg_color=COL_PURPLE, bg_fill_color=COL_PURPLE)
+        fe = make_box(
+            r"Feature \\ Extraction", bg_color=COL_BLUE, bg_fill_color=COL_BLUE
+        )
+        td = make_box(
+            r"Training \\ Data", bg_color=COL_PURPLE, bg_fill_color=COL_PURPLE
+        )
         mlm = make_box("ML Model", bg_color=COL_GREEN, bg_fill_color=COL_GREEN)
-        mla = make_box(r"ML \\ Algorithm", text_color=COL_BACKGROUND, bg_color=COL_BLACK, bg_fill_color=COL_BLACK)
+        mla = make_box(
+            r"ML \\ Algorithm",
+            text_color=COL_BACKGROUND,
+            bg_color=COL_BLACK,
+            bg_fill_color=COL_BLACK,
+        )
         qm = make_box(r"Quality \\ Metric", bg_color=COL_GOLD, bg_fill_color=COL_GOLD)
 
         # order boxes
