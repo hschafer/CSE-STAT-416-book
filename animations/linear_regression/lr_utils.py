@@ -1,10 +1,6 @@
 import numpy as np
 
-from manimlib.imports import *
-
-# Background color
-BACKGROUND_COLOR = '#fffff8'
-DRAW_COLOR = '#111111'
+from manim_config import *
 
 # Config
 X_MIN = 0
@@ -34,14 +30,7 @@ YS = np.array([3.01574732, 1.15650066, 0.29587366, 3.63301317, 2.44639242,
 DEFAULT_GRAPH_SHIFT = [-1, -1, 0]
 
 
-class BookScene(Scene):
-    def __init__(self, **kwargs):
-        kwargs['camera_config']['background_color'] = BACKGROUND_COLOR
-        super().__init__(**kwargs)
-
-
-class ModelScene(BookScene):
-
+class ModelScene(BScene):
     def custom_setup(self, graph_shift=DEFAULT_GRAPH_SHIFT):
         self.graph_shift = graph_shift
 
@@ -51,7 +40,7 @@ class ModelScene(BookScene):
                          axis_config={
                              'include_tip': False,
                              'include_ticks': False,
-                             'color': DRAW_COLOR
+                             'color': COL_BLACK
                          })
         self.function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
 
@@ -59,10 +48,9 @@ class ModelScene(BookScene):
         self.graph.move_to(self.graph_shift)
 
         # Create text
-        self.data_text = TexMobject(r'(x_1, y_1), ..., (x_n, y_n)', color=DRAW_COLOR)
-        self.function_text = TextMobject(r'True function: {$f($}{$x$}{$)$}',
-                                         tex_to_color_map={'{$f($}': GREEN, '{$)$}': GREEN},
-                                         color=DRAW_COLOR)
+        self.data_text = BTexMobject(r'(x_1, y_1), ..., (x_n, y_n)')
+        self.function_text = BTextMobject(r'True function: {$f($}{$x$}{$)$}',
+                                         tex_to_color_map={'{$f($}': GREEN, '{$)$}': GREEN})
         self.text_group = VGroup(self.data_text, self.function_text).arrange(DOWN)
         self.text_group.to_corner(UP + LEFT)
 
@@ -70,7 +58,7 @@ class ModelScene(BookScene):
         self.dots = Group()
         for x, y in zip(XS, YS):
             point = self.axes.coords_to_point(x, y, 0)
-            dot = Dot(point, color=DRAW_COLOR)
+            dot = Dot(point, color=COL_BLACK)
             self.dots.add(dot)
 
 
@@ -79,9 +67,8 @@ class LinearScene(ModelScene):
         super().custom_setup(**kwargs)
 
         # Create text for predictor
-        self.predictor_text = TextMobject(r'Predictor: {$\hat{f}($}{$x$}{$)$}',
-                                     tex_to_color_map={'{$\\hat{f}($}': BLUE, '{$)$}': BLUE},
-                                     color=DRAW_COLOR)
+        self.predictor_text = BTextMobject(r'Predictor: {$\hat{f}($}{$x$}{$)$}',
+                                     tex_to_color_map={'{$\\hat{f}($}': BLUE, '{$)$}': BLUE})
         self.predictor_text.next_to(self.text_group, DOWN)
 
         # Create line
@@ -102,7 +89,7 @@ class LinearScene(ModelScene):
         return line
 
 
-class GradientDescentScene(BookScene):
+class GradientDescentScene(BScene):
     def custom_setup(self, f, start_x, end_x):
         # Must create the functions/axes before everything else so they all move together
 
@@ -111,7 +98,7 @@ class GradientDescentScene(BookScene):
                     axis_config={
                         'include_tip': False,
                         'include_ticks': False,
-                        'color': DRAW_COLOR
+                        'color': COL_BLACK
                     })
         # Draw graph of original function
         function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
@@ -125,10 +112,10 @@ class GradientDescentScene(BookScene):
 
         # Create axis labels
         axis_scale = 0.7
-        x_label = TexMobject(r'w_1', color=DRAW_COLOR)
+        x_label = BTexMobject(r'w_1')
         x_label.next_to(axes.x_axis.get_last_point(), DOWN)
         x_label.scale(axis_scale)
-        y_label = TexMobject(r'RSS(w_1)', color=DRAW_COLOR)
+        y_label = BTexMobject(r'RSS(w_1)')
         y_label.scale(axis_scale)
         y_label.next_to(axes.y_axis, LEFT)
         self.add(axes, x_label, y_label)

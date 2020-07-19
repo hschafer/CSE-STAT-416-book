@@ -70,7 +70,7 @@ export default function LinearRegression() {
             relationship between the input and the target.
           </p>
 
-          <Video src="/animations/linear_regression/Data.mp4" type="mp4" />
+          <Video src="/animations/linear_regression/data_anim.mp4" type="mp4" />
 
           {/*
           <p>
@@ -105,7 +105,7 @@ export default function LinearRegression() {
           />
 
           <Video
-            src="/animations/linear_regression/TrueFunction.mp4"
+            src="/animations/linear_regression/true_function_anim.mp4"
             type="mp4"
           />
 
@@ -169,7 +169,10 @@ export default function LinearRegression() {
             </MarginNote>
           </p>
 
-          <Video src="/animations/linear_regression/Model.mp4" type="mp4" />
+          <Video
+            src="/animations/linear_regression/model_anim.mp4"
+            type="mp4"
+          />
 
           <p>
             Earlier, we said a common goal for machine learning is to make
@@ -201,7 +204,10 @@ export default function LinearRegression() {
             with finding a function that closely matches the data were given.
           </p>
 
-          <Video src="/animations/linear_regression/Predictor.mp4" type="mp4" />
+          <Video
+            src="/animations/linear_regression/predictor_anim.mp4"
+            type="mp4"
+          />
 
           <p>
             Since we can't actual observe the true function <IM math={`f`} />,
@@ -326,7 +332,7 @@ export default function LinearRegression() {
           </p>
 
           <Video
-            src="/animations/linear_regression/InterpretCoefficients.mp4"
+            src="/animations/linear_regression/interpret_coefficients_anim.mp4"
             type="mp4"
           />
 
@@ -389,7 +395,10 @@ export default function LinearRegression() {
             describe what makes one predictor the "best" over some others.
           </p>
 
-          <Video src="/animations/linear_regression/ManyLines.mp4" type="mp4" />
+          <Video
+            src="/animations/linear_regression/many_lines_anim.mp4"
+            type="mp4"
+          />
 
           <p>
             What does "best" mean in this context? That's the job of the{" "}
@@ -533,7 +542,10 @@ export default function LinearRegression() {
             converges to the bottom.
           </p>
 
-          <Video src="/animations/linear_regression/Convex.mp4" type="mp4" />
+          <Video
+            src="/animations/linear_regression/convex_anim.mp4"
+            type="mp4"
+          />
 
           <p>
             In the context of our original problem where we are trying to
@@ -626,7 +638,10 @@ export default function LinearRegression() {
             since it might get stuck in a "local optima".
           </p>
 
-          <Video src="/animations/linear_regression/NonConvex.mp4" type="mp4" />
+          <Video
+            src="/animations/linear_regression/non_convex_anim.mp4"
+            type="mp4"
+          />
 
           <p>
             <b>Feature Extraction</b>
