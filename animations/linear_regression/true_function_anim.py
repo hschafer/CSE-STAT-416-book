@@ -1,5 +1,6 @@
 from lr_utils import *
 
+
 class Animation(ModelScene):
     def construct(self):
         # Generate the axes
@@ -11,4 +12,3 @@ class Animation(ModelScene):
         self.add(self.function, self.dots)
         self.play(ShowCreation(self.function))
         self.wait(duration=1.5)
-

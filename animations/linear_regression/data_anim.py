@@ -1,5 +1,6 @@
 from lr_utils import *
 
+
 class Animation(ModelScene):
     def construct(self):
         self.custom_setup()

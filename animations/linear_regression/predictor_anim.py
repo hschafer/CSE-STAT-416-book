@@ -1,5 +1,6 @@
 from lr_utils import *
 
+
 class Animation(LinearScene):
     def construct(self):
         self.custom_setup(line_color=BLUE)
@@ -22,13 +23,12 @@ class Animation(LinearScene):
             residuals.add(residual)
 
         # Text for residual
-        residual_text = BTextMobject(r'Errors observed', color=RED)
+        residual_text = BTextMobject(r"Errors observed", color=RED)
         residual_text.next_to(self.text_group, RIGHT, buff=2)
 
         # Animate text and residual
         self.play(Write(residual_text))
         self.wait()
-        self.add(residuals, self.function, self.line, self.dots) # Order matters
+        self.add(residuals, self.function, self.line, self.dots)  # Order matters
         self.play(ShowCreation(residuals), duration=4)
         self.wait(3)
-

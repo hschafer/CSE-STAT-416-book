@@ -17,6 +17,17 @@ You will potentially need some other system requirements based for the [manim](h
 
 See `SetupErrors.md` for some issues others have run into while setting this up.
 
+This project uses `pre-commit` to handle its `git` hooks. It is already install from the earlier command, but you will need to have it set up by running
+
+```
+pre-commit install
+```
+
+## Development
+We use a Python formatter named [black](https://github.com/psf/black) to auto-format Python code. You will not be able to commit Python files if they don't pass `black`'s linter.
+
+We use `manim` to generate the animations for the book. See the next two sections for how to run that.
+
 ## Generating a Video (Directly with Manim)
 Once you've installed `manim` and are in your environment, you can run the `manim` command in any of the directories that have `manim` scripts. For example
 
