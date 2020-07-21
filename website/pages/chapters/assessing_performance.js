@@ -26,15 +26,15 @@ export default function AssessingPerformance() {
         <p>TODO(manim): Many curves</p>
 
         <p>
-          A simple answer to this problem comes from if you can make a modelling
-          assumption about how the world works. If you have evidence to support
+          A simple answer to this problem is possible if you have a good idea on
+          how the underlying phenomena works. If you have evidence to support
           that the underlying function is, say linear,{" "}
           <MarginNote id="linear-example">
             Example: There is lots of empirical evidence that shows there is a
             linear relationship between femur length and your height.
           </MarginNote>
           then you can avoid the trouble of trying to choose <IM math="p" />{" "}
-          since you already what it is.
+          since you already know what it should be.
         </p>
 
         <p>
@@ -66,13 +66,13 @@ export default function AssessingPerformance() {
           This happens because there is a mismatch in how we are assessing our
           predictor and the goal we set out to accomplish originally. Remember,
           in many contexts the goal of training a predictor is to use it out in
-          the wild on new data as it comes in.
+          the wild on new data as it comes in
           <MarginNote id="future-data">
             Like Redfin/Zillow trying to predict the price of a house on a new
             listing.
           </MarginNote>
-          If we choose the model that minimizes RSS of the data it learned from,
-          we are just rewarding models that have sufficient complexity to{" "}
+          . If we choose the model that minimizes RSS of the data it learned
+          from, we are just rewarding models that have sufficient complexity to{" "}
           <em>memorize</em> the dataset, and have no guarantee on how well it
           will generalize.
         </p>
@@ -115,21 +115,28 @@ export default function AssessingPerformance() {
         </p>
 
         <p>
-          This is shown visually in image below. For each square footage, we
-          will have a distribution of likelihoods of various square footages.
-          Then for any one square footage, there is another distribution of
-          possible prices{" "}
+          This is shown visually in the image below. There is a distribution on
+          the left for the how likely it is to see any particularly square
+          footage. Then for any one possible square footage, there is another
+          distribution of possible prices{" "}
           <MarginNote id="joint">
             A fancy mathematical term for this is a <b>joint distribution</b>.
           </MarginNote>
-          . This picture shows normal distributions for both, but this does{" "}
-          <em>not</em> need to be the case.
+          . This distribution for the prices is specific to that one square
+          footage: it is entirely possible that a different square footage has a
+          completely different distribution! For example, you would expect the
+          price distribution for a large house to tend to the side of more
+          expensive than a small house. Important Note: This picture shows
+          normal distributions for both side, but this does <em>not</em> need to
+          be the case.
         </p>
         <figure className="fullwidth">
           <img
             src="/animations/assessing_performance/distributions.png"
             alt="Two distributions of square foot and price"
           />
+          <br />
+          TODO(manim) Make this an animation and change text above
         </figure>
 
         <p>
@@ -189,10 +196,10 @@ export default function AssessingPerformance() {
         </p>
 
         <p>
-          In real-life circumstances, it turns out to not be possible to compute
-          this true error. You might not know the exact distributions of the
-          houses and their prices of all possible houses you could see in the
-          future! So without access to all future data, how can we actually
+          In many real-life circumstances, it turns out to not be possible to
+          compute this true error. You might not know the exact distributions of
+          the houses and their prices of all possible houses you could see in
+          the future! So without access to all future data, how can we actually
           compute the true error?
         </p>
 
@@ -353,9 +360,11 @@ export default function AssessingPerformance() {
           error so they should be close, but not necessarily the same.
         </p>
 
+        <p>TODO(manim): Combined animation of train/true/test </p>
+
         <p>
           The model with the lowest true error is the optimal model, which we
-          notate as <IM math="w^*" />
+          notate as <IM math="p^*" />
           <MarginNote id="star-notation">
             📝 <em>Notation:</em> A <IM math="*" /> denoting a variable usually
             means "optimal".{" "}
@@ -378,8 +387,8 @@ export default function AssessingPerformance() {
           We generally have special terms to identify the performance of a
           model: <b>overfitting</b> and <b>underfitting</b>. We will give a more
           formal definition of overfitting below, but as a general intuition,
-          models less complex than <IM math="w^*" /> tend to underfit while
-          models more complex than <IM math="w^*" /> tend to overfit.
+          models less complex than <IM math="p^*" /> tend to underfit while
+          models more complex than <IM math="p^*" /> tend to overfit.
         </p>
 
         <p>
@@ -387,8 +396,7 @@ export default function AssessingPerformance() {
           noise in the training data rather than learning the generalized
           patterns. The formal definition of overfitting says a predictor{" "}
           <IM math={`\\hat{f}`} /> is overfit if there exists another predictor{" "}
-          <IM math={`f'`} /> under the same model that has the following
-          properties:
+          <IM math={`f'`} /> that has the following properties:
         </p>
 
         <ul>
@@ -400,13 +408,13 @@ export default function AssessingPerformance() {
           </li>
         </ul>
 
-        <p>TODO(manim): overfitting animation</p>
+        <p>TODO(manim): overfitting animation. Change w's to p's</p>
 
         <p>
-          In english, this says a model is overfit if there is another model
-          that has higher training error, but lower true error. Meaning the
-          model you are using is too specific the training data you have: hence
-          the term "over fit".
+          In English, this says a model is overfit if there is another model
+          that has higher training error, but lower true error. This means that
+          the model you are using is too specific the training data you have:
+          hence the term "over fit".
         </p>
 
         <p>
@@ -451,17 +459,20 @@ export default function AssessingPerformance() {
         </p>
 
         <p>
-          Before introducing these terms, we have to highlight a specific
+          Before defining these terms, we have to highlight a specific
           assumption we have been making. We have been assuming the training
           dataset is a random sample from some underlying population
           distribution. Since it is a random sample, you could imagine it is
           just as likely that we would receive another dataset drawn from the
-          same distribution that will look slightly different. For example, if I
-          gave you a dataset of 100 coin flips it's just as likely to see a
-          dataset of 52 heads and 48 tails as it is to see a dataset with 52
-          tails and 48 heads; both are drawn from the same underlying
-          distribution, but slight differences are expected to happen from
-          chance.
+          same distribution that will look slightly different
+          <MarginNote id="coin-example">
+            For example, if I gave you a dataset of 100 coin flips it's just as
+            likely to see a dataset of 52 heads and 48 tails as it is to see a
+            dataset with 48 heads and 52 trails; both are drawn from the same
+            underlying distribution, but slight differences are expected to
+            happen from chance.
+          </MarginNote>
+          .
         </p>
 
         <p>
@@ -471,7 +482,7 @@ export default function AssessingPerformance() {
           dataset, its corresponding{" "}
           <IM math={`y_i = f(x_i) + \\varepsilon_i`} /> for some unknown{" "}
           <IM math="f" />. So since there is randomness not only in which inputs
-          we receive, but in their associated output, we will expect to lear
+          we receive, but in their associated output, we will expect to learn
           different predictors if we trained on different datasets drawn from
           the same distribution. We can think about what is the "average
           predictor" if we drew a bunch of different training sets, trained a
@@ -486,14 +497,31 @@ export default function AssessingPerformance() {
         </p>
 
         <p>TODO(manim): Average predictor</p>
+
+        <h3>Bias</h3>
         <p>
           The <b>bias</b> of a model comes from it being too simple (or a
-          mismatch with reality) that it fails to fit the signal in the data. In
-          some sense, this signifies a fundamental limitation of the model we
-          are using to fail to fit the underlying phenomena. The bias tries to
-          measure how much the average predictor we will expect{" "}
+          mismatch with reality) that it fails to fit the signal in the data
+          <MarginNote id="bias-term">
+            This does not necessarily line up with our every-day use of the word
+            bias (e.g., discriminatory actions/views against certain groups).
+            While it is crucial to avoid that type of bias in our models, this
+            is not what the statistical notion of the term "bias" necessarily
+            means. We will talk about our every-day notion of bias in the
+            Fairness in ML chapter.
+          </MarginNote>
+          . In some sense, this signifies a fundamental limitation of the model
+          we are using to fail to fit the underlying phenomena. The bias tries
+          to measure how much the average predictor we will expect{" "}
           <IM math={`\\overline{f_{\\hat{w}}}(x)`} /> differs from the true
-          function <IM math="f" />. Mathematically we write this as:
+          function <IM math="f" />.
+        </p>
+        <p>
+          Mathematically we write this as the following. This definition is
+          tries to capture how much this average predictor differs over the true
+          function. The expectation is taken over the possible inputs you could
+          receive (i.e. weighted to care more about inputs that you are more
+          likely to see).
         </p>
 
         <BM
@@ -506,6 +534,8 @@ export default function AssessingPerformance() {
           Low complexity (simple) models tend to have high bias which is why the
           tend to have higher true error if they are too simple.
         </p>
+
+        <h3>Variance</h3>
 
         <p>
           A model that is too complex for the task at hand has the potential to
@@ -521,7 +551,19 @@ export default function AssessingPerformance() {
           the points. The differences we see in the predictors learned on
           slightly different datasets is another sign of error. These
           differences account for fitting to specific artifacts in the one
-          training set we learned on. Mathematically we write the variance as:
+          training set we learned on.{" "}
+        </p>
+
+        <p>
+          Mathematically we write the variance as the following. It tries to
+          capture how much we expect any particular fit on a dataset to differ
+          from the average. If this value is high, it means that we will expect
+          to learn wildly different functions from dataset to dataset (even if
+          they are relatively similar). If this value is low, it means that on
+          each dataset, we learned about the same function (close to the average{" "}
+          <IM math={`\\overline{f_{\\hat{w}}}(x)`} />
+          ). The expectation here is over all possible datasets you could
+          receive as training data.
         </p>
 
         <BM
@@ -530,7 +572,11 @@ export default function AssessingPerformance() {
 
         <p>TODO(manim): variance animation</p>
 
-        <p>High complexity models tend to have high variance.</p>
+        <p>
+          High complexity models tend to have high variance. Or in other words,
+          we call models that have high variance "complex" to describe that
+          behavior.
+        </p>
 
         <p>
           It turns out that bias and variance live on this complexity spectrum:
@@ -592,25 +638,40 @@ export default function AssessingPerformance() {
           function of the size of the training set.
         </p>
 
-        <p>TODO(manim) dataset animation</p>
+        <p>TODO(manim) animating fitting 2 points vs 100</p>
 
         <p>
           The training error starts out small when it is easy for the model to
           overfit to a small training set. When the training set is small and
-          the model can overfit, we expect to have a higher true error. As you
-          increase the training set size, it becomes harder and harder for a
-          fixed-complexity model to overfit once the amount of data exceeds its
-          flexibility. This why we see the training error <em>increase</em> as
-          you tend to have more training data. Conversely, since the model
-          struggles to overfit with a large dataset, you see the true error
-          decrease because the variance is actually going down: with a very
-          large dataset, you learn approximately the same function each time.
+          the model can overfit, we expect to have a higher true error (because
+          it is overfitting). As you increase the training set size, it becomes
+          harder and harder for a fixed-complexity model to overfit once the
+          amount of data exceeds its flexibility
+          <MarginNote id="flexibility">
+            Remember our example of 20-degree polynomial's complexity is
+            relative to how much data you have.
+          </MarginNote>
+          . This why we see the training error <em>increase</em> as you tend to
+          have more training data. Conversely, since the model struggles to
+          overfit with a large dataset, you see the true error decrease because
+          the variance is actually going down: with a very large dataset, you
+          learn approximately the same function each time.
         </p>
 
         <p>
           In the limit, when you have infinite training data, you would expect
-          this curves to meet. Notice, they don't converge to 0! There is a
-          floor they converge to based on the bias and noise of the model.
+          these curves to meet. This is because having every possible
+          input/output means your training error is just computing the true
+          error! Notice, they don't converge to 0. There is a floor they
+          converge to based on the bias and noise of the model. Irreducible
+          noise will never go away. If you are using a model with high bias
+          <MarginNote id="biased mode">
+            Using a linear model when the true function is, say, a cubic
+            function
+          </MarginNote>{" "}
+          then, no matter how much training data you have, you will not be able
+          to learn a sufficiently complex function so you will always have some
+          non-zero error.
         </p>
       </section>
 
@@ -636,9 +697,10 @@ export default function AssessingPerformance() {
         <p>
           So maybe we could just choose the model that has the lowest test
           error. This seems more intuitive since the test error is our
-          approximation of the true error. This approach is right in some sense,
-          since we are unlikely to choose a model that is in between being
-          underfit/overfit. However, this approach{" "}
+          approximation of the true error and our goal is to find a model that
+          will do best in the future (i.e. lowest true error). This approach is
+          right in some sense, since we are unlikely to choose a model that is
+          overfit. However, this approach{" "}
           <b>completely ruins the point of the test set</b>.
         </p>
 
@@ -660,11 +722,11 @@ export default function AssessingPerformance() {
         </p>
 
         <p>
-          This is a fairly subtle point that we should emphasize. Many people
-          intuitively understand why we have to separate the test set out from
-          the training set to keep it as a good estimate of future performance.
-          They tend to get a little confused by the introduction of this second
-          restriction that{" "}
+          This is a fairly subtle point that we should restate for emphasis.
+          Many people intuitively understand why we have to separate the test
+          set out from the training set: in order to keep it as good estimate of
+          future performance. They tend to get a little confused by the
+          introduction of this second restriction that{" "}
           <b>you can't use the test set to select the model complexity</b>.
           Remember the dataset that we receive (and the test set we select from
           it) are just one possible dataset from a large number of possible
@@ -672,8 +734,10 @@ export default function AssessingPerformance() {
           just using the test set as a stand-in for "the future", but this only
           works if we never look at it or train the model on it. But by using
           the test set to select model complexity, you are implicitly choosing
-          which model is best based on the data in that specific test set we
-          used, even though you never explicitly gave it to the model to train!
+          which model is best based on the data in that <em>specific</em> test
+          set we used. Even though you never explicitly gave it to the model to
+          train, you might be choosing a model that happens to do well on that
+          specific test set.
         </p>
 
         <p>
@@ -771,9 +835,9 @@ export default function AssessingPerformance() {
         <p>
           We use each chunk of the training data in a process to validate the
           model. We repeatedly train a model using all but one chunk of the
-          available chunks, and then valid the learned predictor on the left out
-          chunk. This process is repeated, leaving each chunk out once while
-          training on the others.
+          available chunks, and then validate the learned predictor on the
+          left-out chunk. This process is repeated, leaving each chunk out once
+          while training on the others.
         </p>
 
         <p>
@@ -791,21 +855,16 @@ export default function AssessingPerformance() {
           We can then average the validation error over those 4 chunks to
           estimate which model will perform best. This is just to assess a
           single model complexity, so this process needs to be repeated for each
-          model complexity.
+          model complexity. In general, we don't necessarily use 4 chunks but
+          decide a setting of <IM math="k" /> chunks to use. More on how we go
+          about picking <IM math="k" /> later.
         </p>
-
-        <p>
-          In general, we don't use 4 chunks but decide a setting of{" "}
-          <IM math="k" /> chunks to use. More on how we go about picking{" "}
-          <IM math="k" /> later.
-        </p>
-
         <p>
           We specify this process a little more formally with pseudo-code:
           <MarginNote id="chunks-notation">
             We use the notation{" "}
             <code>
-              <b>chunks - chunk_i</b> to signify all chunks that aren't{" "}
+              <b>chunks \ chunk_i</b> to signify all chunks that aren't{" "}
               <code>
                 <b>chunk_i</b>
               </code>
@@ -820,7 +879,7 @@ export default function AssessingPerformance() {
             {"    "}for i in [1, k]:
             <br />
             {"        "}
-            <b>predictor</b> = ml_algorithm(<b>chunks - chunk_i</b>, <b>p</b>)
+            <b>predictor_p</b> = ml_algorithm(<b>chunks \ chunk_i</b>, <b>p</b>)
             <br />
             {"        "}
             <b>val_error</b> = error(<b>predictor_p</b>, <b>chunk_i</b>)
@@ -838,6 +897,12 @@ export default function AssessingPerformance() {
             {"  "}and evaluate it on the test set
           </code>
         </pre>
+        <p>
+          <MarginNote id="train-on all">
+            It's okay to train on the whole training set now that we have
+            selected a model. Don't train on test though!
+          </MarginNote>
+        </p>
 
         <p>
           Just like with using a validation set, cross validation has its own
@@ -855,17 +920,17 @@ export default function AssessingPerformance() {
           </li>
           <li>
             <p>
-              The cons of using a validation come from performance. For each
-              model complexity, we need to train <IM math="k" /> predictors.
-              This can be quite slow if you make <IM math="k" /> large or are
-              evaluating many possible model complexities.
+              The cons of using cross validation come from performance. For each
+              model complexity, we need to train <IM math="k" /> separate
+              predictors. This can be quite slow if you make <IM math="k" />{" "}
+              large or are evaluating many possible model complexities.
             </p>
 
             <p>
               Unfortunately, it turns out that the larger <IM math="k" /> is
               (i.e., evaluating on more chunks), the better the final predictor
-              ends up being. The theoretically best use off cross validation is
-              to use <IM math="k = n" />, where each chunk is a single point.
+              ends up being. The theoretically best use of cross validation is
+              to use <IM math="k = n" /> (where each chunk is a single point).
               This is called <b>Leave One Out Cross Validation</b> since each
               time, we are leaving out one example.
             </p>
@@ -877,7 +942,7 @@ export default function AssessingPerformance() {
                 If you have 20,000 training points, you would need to train
                 20,000 predictors per model complexity!
               </MarginNote>
-              which means it is impractical for many contexts. A common choice
+              which means it is impractical in many contexts. A common choice
               then is something like <IM math="k=5" /> or <IM math="k=10" /> to
               balance good estimation with the feasibility of it actually
               running.
@@ -890,22 +955,24 @@ export default function AssessingPerformance() {
         <h2>Recap</h2>
         <p>
           In this chapter, we introduced the ideas behind assessing the
-          performance of our models.
+          performance of our models. Specifically, in the context of comparing
+          models of different complexities.
         </p>
         <p>
           We looked at understanding how the complexity of our model (in our
-          case the degree polynomial <IM math="p" />) impacts the error. We saw
-          how a model can underfit or overfit and how that interacts with how
-          much data we have. We saw the problems of underfitting and overfitting
-          have fundamental causes from bias and variance that cause this
-          phenomena we see with true error.
+          case the degree <IM math="p" /> of the polynomial) impacts the error.
+          We saw how a model can underfit or overfit and how that interacts with
+          how much data we have. We finally saw how this true error can
+          decomposed into these sources of underfitting and overfitting in the
+          form of a model's bias and variance (and irreducible noise).
         </p>
         <p>
           We then discussed techniques for choosing the right model complexity.
           Namely, we discussed using a validation set and cross validation as
-          possible approaches to choosing the right model complexity. Regardless
-          of technique, it is extremely important to understand why we need
-          other approaches like this instead of relying on the test set.
+          possible approaches to choosing the right model complexity. We
+          compared the two approaches for their pros and cons. Regardless of
+          which technique you use, it is extremely important to understand why
+          we need other approaches like this instead of relying on the test set.
         </p>
         <p>
           While we focused on the context of polynomial regression and choosing
