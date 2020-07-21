@@ -613,6 +613,321 @@ export default function AssessingPerformance() {
           floor they converge to based on the bias and noise of the model.
         </p>
       </section>
+
+      <section>
+        <h2>Choosing Model Complexity</h2>
+
+        <p>
+          So we introduced this idea of training error and true error (and how
+          we approximate it with test error), and where that error can manifest
+          as overfitting or underfitting from the contributions of the model's
+          bias and variance. Now that we understand that model complexity can
+          impact the performance of the model, how do we actually go about
+          picking the right complexity if we don't have access to this true
+          error?
+        </p>
+
+        <p>
+          What about choosing the model with the lowest training error?
+          Hopefully from our discussion in the last sections, you can see why
+          this won't find the model that will perform the best in the future.
+        </p>
+
+        <p>
+          So maybe we could just choose the model that has the lowest test
+          error. This seems more intuitive since the test error is our
+          approximation of the true error. This approach is right in some sense,
+          since we are unlikely to choose a model that is in between being
+          underfit/overfit. However, this approach{" "}
+          <b>completely ruins the point of the test set</b>.
+        </p>
+
+        <p>
+          Remember, we introduced the idea of a test set to approximate how our
+          model would do in the future. If you found that your predictor got 90%
+          of the examples in the test set wrong, you would be pretty confident
+          that the future performance will be close to 90% error too,{" "}
+          <em>assuming the test error is a good approximation of true error</em>
+          .
+        </p>
+
+        <p>
+          However, if we use the test set to choose the model complexity, the
+          test error is no longer a good estimate of the true error. If we used
+          the test set to select the model complexity, the test set is no longer
+          a good stand-in for "the unknown", since we implicitly chose the model
+          that does best <em>on that one particular test set</em>.
+        </p>
+
+        <p>
+          This is a fairly subtle point that we should emphasize. Many people
+          intuitively understand why we have to separate the test set out from
+          the training set to keep it as a good estimate of future performance.
+          They tend to get a little confused by the introduction of this second
+          restriction that{" "}
+          <b>you can't use the test set to select the model complexity</b>.
+          Remember the dataset that we receive (and the test set we select from
+          it) are just one possible dataset from a large number of possible
+          datasets that could be drawn from the population distribution. We are
+          just using the test set as a stand-in for "the future", but this only
+          works if we never look at it or train the model on it. But by using
+          the test set to select model complexity, you are implicitly choosing
+          which model is best based on the data in that specific test set we
+          used, even though you never explicitly gave it to the model to train!
+        </p>
+
+        <p>
+          Fear not though! There are many principled ways for helping you choose
+          this model complexity. The two popular techniques we discuss are{" "}
+          <b>using a validation set</b> and <b>cross validation</b>.
+        </p>
+
+        <h3>Validation Set</h3>
+        <p>
+          It turns out that your intuition for using a dataset separate from the
+          training set is a very good intuition! The only shortcoming we had
+          earlier was to use the test set as that separate dataset. So instead,
+          let's break off yet another part of our data into a{" "}
+          <b>validation set</b>. This validation set is also withheld from
+          training, and we use it to select which model we think will perform
+          best in the future. By using this validation set to select the best
+          model complexity, we can still then use the test set afterwards to get
+          an unbiased estimate of the true error.
+        </p>
+
+        <figure className="fullwidth">
+          <img
+            src="/animations/assessing_performance/train_test_val.png"
+            alt="Showing split of train/test/validation sets"
+          />
+        </figure>
+
+        <p>
+          The process for selecting the best model using a validation set almost
+          always follows the following pseudocode.
+        </p>
+
+        {/* Good thing we don't write code often. This sucks */}
+        <pre>
+          <code>
+            <b>train, test, validation</b> = split_data(<b>dataset</b>)<br />
+            for each model complexity <b>p</b>:<br />
+            {"    "}
+            <b>predictor_p</b> = ml_algorithm(<b>train</b>, <b>p</b>)<br />
+            {"    "}
+            <b>val_error</b> = error(<b>predictor_p</b>, <b>validation</b>)
+            <br />
+            {"    "}
+            keep track of <b>predictor_p</b> with lowest <b>val_error</b>
+            <br />
+            <br />
+            return best <b>predictor_p</b> and the error(<b>predictor_p</b>,{" "}
+            <b>test</b>)
+          </code>
+        </pre>
+
+        <p>
+          This process of using a validation set is just one many techniques to
+          select the best model complexity from a set of possible ones (we will
+          explore one more in the next section). Like any technique, it has pros
+          and cons of using it.
+        </p>
+
+        <ul>
+          <li>
+            The pros of using a validation set are its simplicity. It's
+            relatively simple to explain. Additionally, it's fairly efficient.
+            For each model complexity, we only have to train one predictor (our
+            next technique requires multiple trainings per complexity class).
+          </li>
+          <li>
+            The cons of using a validation set come from the fact that we are
+            forced to set aside another chunk from our data. There was already
+            this tension of needing to balance between the amount of training
+            and test data. Now, we have that same tension but with the
+            additional validation set!
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Cross Validation</h2>
+
+        <p>
+          To avoid having to cut up our dataset even further, another common
+          technique is to do <b>cross validation</b>. Cross validation is a
+          clever idea to split up the training set (after we have split off the
+          test set) into many small datasets that we use for training and
+          validation.
+        </p>
+
+        <figure className="fullwidth">
+          <img
+            src="/animations/assessing_performance/cross_validation.png"
+            alt="Showing split of cross validation"
+          />
+        </figure>
+
+        <p>
+          We use each chunk of the training data in a process to validate the
+          model. We repeatedly train a model using all but one chunk of the
+          available chunks, and then valid the learned predictor on the left out
+          chunk. This process is repeated, leaving each chunk out once while
+          training on the others.
+        </p>
+
+        <p>
+          So for the image above, in order to evaluate a single model
+          complexity, we will end up training four seperate predictors:
+        </p>
+        <ul>
+          <li>Train on Chunks 1,2,3 and Validate on Chunk 4</li>
+          <li>Train on Chunks 1,2,4 and Validate on Chunk 3</li>
+          <li>Train on Chunks 1,3,4 and Validate on Chunk 2</li>
+          <li>Train on Chunks 2,3,4 and Validate on Chunk 1</li>
+        </ul>
+
+        <p>
+          We can then average the validation error over those 4 chunks to
+          estimate which model will perform best. This is just to assess a
+          single model complexity, so this process needs to be repeated for each
+          model complexity.
+        </p>
+
+        <p>
+          In general, we don't use 4 chunks but decide a setting of{" "}
+          <IM math="k" /> chunks to use. More on how we go about picking{" "}
+          <IM math="k" /> later.
+        </p>
+
+        <p>
+          We specify this process a little more formally with pseudo-code:
+          <MarginNote id="chunks-notation">
+            We use the notation{" "}
+            <code>
+              <b>chunks - chunk_i</b> to signify all chunks that aren't{" "}
+              <code>
+                <b>chunk_i</b>
+              </code>
+            </code>
+          </MarginNote>
+        </p>
+        <pre>
+          <code>
+            <b>chunk_1, ..., chunk_k, test</b> = split_data_cv(<b>dataset</b>)
+            <br />
+            for each model complexity <b>p</b>:<br />
+            {"    "}for i in [1, k]:
+            <br />
+            {"        "}
+            <b>predictor</b> = ml_algorithm(<b>chunks - chunk_i</b>, <b>p</b>)
+            <br />
+            {"        "}
+            <b>val_error</b> = error(<b>predictor_p</b>, <b>chunk_i</b>)
+            <br />
+            <br />
+            {"    "}
+            <b>avg_val_error</b> = average <b>val_error</b> over chunks
+            <br />
+            {"    "}
+            keep track of <b>p</b> with smallest <b>avg_val_error</b>
+            <br />
+            <br />
+            return a new predictor trained on the whole dataset (all chunks){" "}
+            <br />
+            {"  "}and evaluate it on the test set
+          </code>
+        </pre>
+
+        <p>
+          Just like with using a validation set, cross validation has its own
+          pros and cons. It turns out the pros and cons are essentially swapped
+          from the validation set case.
+        </p>
+
+        <ul>
+          <li>
+            The pros of using cross validation come from the fact that you don't
+            have to throw out any more data for a validation set. Cross
+            validation is then a good technique to use if you have a fairly
+            small dataset where it would be too much to separate off a whole
+            validation set.
+          </li>
+          <li>
+            <p>
+              The cons of using a validation come from performance. For each
+              model complexity, we need to train <IM math="k" /> predictors.
+              This can be quite slow if you make <IM math="k" /> large or are
+              evaluating many possible model complexities.
+            </p>
+
+            <p>
+              Unfortunately, it turns out that the larger <IM math="k" /> is
+              (i.e., evaluating on more chunks), the better the final predictor
+              ends up being. The theoretically best use off cross validation is
+              to use <IM math="k = n" />, where each chunk is a single point.
+              This is called <b>Leave One Out Cross Validation</b> since each
+              time, we are leaving out one example.
+            </p>
+
+            <p>
+              For large datasets, you can imagine Leave One Out Cross Validation
+              can be quite slow{" "}
+              <MarginNote id="slow">
+                If you have 20,000 training points, you would need to train
+                20,000 predictors per model complexity!
+              </MarginNote>
+              which means it is impractical for many contexts. A common choice
+              then is something like <IM math="k=5" /> or <IM math="k=10" /> to
+              balance good estimation with the feasibility of it actually
+              running.
+            </p>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Recap</h2>
+        <p>
+          In this chapter, we introduced the ideas behind assessing the
+          performance of our models.
+        </p>
+        <p>
+          We looked at understanding how the complexity of our model (in our
+          case the degree polynomial <IM math="p" />) impacts the error. We saw
+          how a model can underfit or overfit and how that interacts with how
+          much data we have. We saw the problems of underfitting and overfitting
+          have fundamental causes from bias and variance that cause this
+          phenomena we see with true error.
+        </p>
+        <p>
+          We then discussed techniques for choosing the right model complexity.
+          Namely, we discussed using a validation set and cross validation as
+          possible approaches to choosing the right model complexity. Regardless
+          of technique, it is extremely important to understand why we need
+          other approaches like this instead of relying on the test set.
+        </p>
+        <p>
+          While we focused on the context of polynomial regression and choosing
+          a degree polynomial <IM math="p" /> in this chapter, you will see in
+          this course almost every machine learning problem we will encounter
+          requires these ideas from model selection
+          <MarginNote id="hyperparamter">
+            Another term for "model selection" or "model complexity selection"
+            is <b>hyperparameter tuning</b>. We will introduce this terminology
+            later.
+          </MarginNote>
+          . In fact, many current threads of research in the space of machine
+          learning (deep learning in particular) are all focused on how to tune
+          the model's complexity in more efficient ways and how to prevent
+          overfitting
+          <MarginNote id="preview">
+            We will briefly talk about some more advanced approaches near the
+            end of the course.
+          </MarginNote>
+          .
+        </p>
+      </section>
     </Chapter>
   );
 }
