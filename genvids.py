@@ -251,7 +251,7 @@ if __name__ == "__main__":
         anims = set()
         for fname in args.files:
             if fname.endswith("_anim.py"):
-                anims.append(
+                anims.add(
                     AnimationFile(args.out, *os.path.split(fname), not args.low_quality)
                 )
             elif os.path.isdir(fname):

@@ -1,21 +1,119 @@
 from manim_config import *
+from config import *
 
 
-# Config
-X_MIN, X_MAX = 0, 12
-Y_MIN, Y_MAX = 0, 6
+class FunctionOffGraph(FunctionGraph):
+    def __init__(self, function=None, **kwargs):
+        self.y_min, self.y_max = 0, 1
+        if "y_min" in kwargs:
+            self.y_min = kwargs["y_max"]
+        if "y_max" in kwargs:
+            self.y_max = kwargs["y_max"]
+
+        super().__init__(function=function, **kwargs)
+
+    def get_y_bound(self, lp):
+        if lp[1] > ((self.y_max - self.y_min) / 2):
+            return self.y_max
+        else:
+            return self.y_min
+
+    def generate_points(self):
+        t_min, t_max = self.t_min, self.t_max
+        dt = self.dt
+
+        discontinuities = filter(lambda t: t_min <= t <= t_max, self.discontinuities)
+        discontinuities = np.array(list(discontinuities))
+        boundary_times = [
+            self.t_min,
+            self.t_max,
+            *(discontinuities - dt),
+            *(discontinuities + dt),
+        ]
+        boundary_times.sort()
+        for t1, t2 in zip(boundary_times[0::2], boundary_times[1::2]):
+            step_size = self.get_step_size(t1)
+            t_range = list(np.arange(t1, t2, step_size))
+            if t_range[-1] != t2:
+                t_range.append(t2)
+            points = np.array([self.function(t) for t in t_range])
+            cur_draw = []
+            for p in points:
+                if p[1] > self.y_min and p[1] < self.y_max:
+                    # add an interpolation point if we're just starting a new line
+                    if len(cur_draw) == 0 and not (
+                        np.isclose(p[0], self.x_min) or np.isclose(p[1], self.x_max)
+                    ):
+                        cur_draw.append(
+                            np.array([p[0] - step_size, self.get_y_bound(p), p[2]])
+                        )
+                    cur_draw.append(p)
+                elif len(cur_draw) > 0:
+                    # if the last point was close to the top, then use the
+                    # top as the last point, and vice/versa with the min
+                    lp = cur_draw[-1]
+                    cur_draw.append(np.array([p[0], self.get_y_bound(lp), p[2]]))
+                    self.start_new_path(cur_draw[0])
+                    self.add_points_as_corners(cur_draw[1:])
+                    cur_draw = []
+            if len(cur_draw) > 0:
+                self.start_new_path(cur_draw[0])
+                self.add_points_as_corners(cur_draw[1:])
+        self.make_smooth()
+        return self
+
+
+def simple_poly_regression_true_data():
+    config = {
+        "X_MIN": 0,
+        "X_MAX": 12,
+        "Y_MIN": 0,
+        "Y_MAX": 6,
+    }
+
+    dim = 5
+    XTRUE = np.array([1.0, 3.0, 6.0, 8.1, 10.5, 11.9])
+    YTRUE = np.array([1.8, 4.5, 1.75, 3.0, 2.5, 3.0])
+
+    return dim, XTRUE, YTRUE[np.newaxis].T, config
+
+
+def simple_poly_regression_get_data(scale=1.0, seed=100375):
+    dim, XTRUE, YTRUE, config = simple_poly_regression_true_data()
+
+    b = beta(H(XTRUE, dim), YTRUE)
+
+    N = 25
+    np.random.seed(seed)
+    XS = np.random.uniform(config["X_MIN"], config["X_MAX"], N)
+    YS = np.zeros(N)
+    valididx = [True] * N
+    for i, x in enumerate(XS):
+        YS[i] = fhat(x, XTRUE, YTRUE, dim) + np.random.normal(0, 0.6)
+        if YS[i] < config["Y_MIN"] or YS[i] > config["Y_MAX"]:
+            valididx[i] = False
+
+    XS = XS[valididx]
+    YS = YS[valididx]
+
+    config["X_MIN"] *= scale
+    config["X_MAX"] *= scale
+    config["Y_MIN"] *= scale
+    config["Y_MAX"] *= scale
+
+    return scale * XS, scale * YS[np.newaxis].T, config
 
 
 def h(x, deg):
-    pows = np.zeros(deg+1)
-    for i in range(deg+1):
+    pows = np.zeros(deg + 1)
+    for i in range(deg + 1):
         pows[i] = pow(x, i)
     return pows
 
 
 def H(Xtrain, deg):
     N = Xtrain.shape[0]
-    X = np.empty((N, deg+1))
+    X = np.empty((N, deg + 1))
     for i in range(N):
         X[i] = h(Xtrain[i], deg)
     return X
@@ -32,53 +130,61 @@ def fhat(x, Xtrain, Ytrain, deg):
     return np.matmul(xhat, b)[0]  # the matmul returns a 1x1 array
 
 
+def fhat_vector(X, Xtrain, Ytrain, deg):
+    xhat = H(X, deg)
+    b = beta(H(Xtrain, deg), Ytrain)
+    out = np.matmul(xhat, b)
+    return np.matmul(xhat, b)  # the matmul returns a 1x1 array
+
+
 def RSS(y, beta, x):
     return np.linalg.norm(y - np.matmul(fhat(x, beta)))
 
 
-def get_data():
-    XTRUE = np.array([1.2, 3.0, 6.0, 8.1, 10.5])
-    YTRUE = np.array([1.8, 5.1, 1.5, 3.0, 0.9])
-
-    b = beta(H(XTRUE, 4), YTRUE[np.newaxis].T)
-
-    seed = 100024
-    N = 100
-    np.random.seed(seed)
-    XS = np.random.uniform(X_MIN, X_MAX, N)
-    YS = np.zeros(N)
-    for i, x in enumerate(XS):
-        YS[i] = fhat(x, XTRUE, YTRUE[np.newaxis].T, 4) + np.random.normal(0, 1.0)
-
-    return XS, YS[np.newaxis].T
-
-def axes_and_data(XS, YS, pos=(0.0, 0.0, 0.0)):
-    axes = Axes(x_min=X_MIN, x_max=X_MAX,
-                y_min=Y_MIN, y_max=Y_MAX,
-                center_point=pos,
-                axis_config={
-                    'include_tip': False,
-                    'include_ticks': False,
-                    'color': GRAY
-                })
+def get_dots_for_axes(XS, YS, axes, config, radius=DEFAULT_DOT_RADIUS):
+    xmin, xmax = config["X_MIN"], config["X_MAX"]
+    ymin, ymax = config["Y_MIN"], config["Y_MAX"]
 
     # Draw points
     dots = VGroup()
     for x, y in zip(XS, YS):
-        point = axes.coords_to_point(x, y, 0)
-        dot = Dot(point, color=COL_BLACK)
-        dots.add(dot)
+        if x > xmin and x < xmax and y > ymin and y < ymax:
+            point = axes.coords_to_point(x, y, 0)
+            dot = Dot(point, color=COL_BLACK, radius=radius)
+            dots.add(dot)
 
+    return dots
+
+
+def axes_and_data(XS, YS, config, pos=(0.0, 0.0, 0.0), radius=DEFAULT_DOT_RADIUS):
+    xmin, xmax = config["X_MIN"], config["X_MAX"]
+    ymin, ymax = config["Y_MIN"], config["Y_MAX"]
+    axes = Axes(
+        x_min=xmin,
+        x_max=xmax,
+        y_min=ymin,
+        y_max=ymax,
+        center_point=pos,
+        axis_config={"include_tip": False, "include_ticks": False, "color": GRAY},
+    )
+
+    dots = get_dots_for_axes(XS, YS, axes, config)
     return axes, dots
 
 
-def degfungraph(Xtrain, Ytrain, deg, color):
+def degfungraph(Xtrain, Ytrain, deg, color, config):
     assert Ytrain.shape[1] == 1
     assert Ytrain.shape[0] == len(Xtrain)
+
     def f(x):
         yhat = fhat(x, Xtrain, Ytrain, deg)
-        if yhat > Y_MAX or yhat < Y_MIN:
-            return np.nan
-        else:
-            return yhat
-    return FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=color)
+        return yhat
+
+    return FunctionOffGraph(
+        x_min=config["X_MIN"],
+        x_max=config["X_MAX"],
+        y_min=config["Y_MIN"],
+        y_max=config["Y_MAX"],
+        function=f,
+        color=color,
+    )
