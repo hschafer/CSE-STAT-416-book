@@ -43,12 +43,12 @@ export default function Layout({ showTOC = "True", children }) {
         </p>
         <p>
           <a
-            href="https://simpleanalytics.com/cse-stat-416-book-git-master.hschafer.vercel.app?utm_source=cse-stat-416-book-git-master.hschafer.vercel.app&utm_content=badge"
+            href="https://simpleanalytics.com/cse-stat-416-book.vercel.app?utm_source=cse-stat-416-book.vercel.app&utm_content=badge"
             referrerPolicy="origin"
             target="_blank"
           >
             <img
-              src="https://simpleanalyticsbadge.com/cse-stat-416-book-git-master.hschafer.vercel.app"
+              src="https://simpleanalyticsbadge.com/cse-stat-416-book.vercel.app"
               loading="lazy"
               referrerPolicy="no-referrer"
               crossOrigin="anonymous"
