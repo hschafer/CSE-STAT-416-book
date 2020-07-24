@@ -37,7 +37,34 @@ export default function Layout({ showTOC = "True", children }) {
           </a>
           !
         </p>
+        <p>
+          We use a privacy-oriented analytics tool called Simple Analytics to
+          track anonymous site-usage data. Click the badge below to learn more.
+        </p>
+        <p>
+          <a
+            href="https://simpleanalytics.com/cse-stat-416-book.vercel.app?utm_source=cse-stat-416-book.vercel.app&utm_content=badge"
+            referrerPolicy="origin"
+            target="_blank"
+          >
+            <img
+              src="https://simpleanalyticsbadge.com/cse-stat-416-book.vercel.app"
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              crossOrigin="anonymous"
+            />
+          </a>
+        </p>
       </footer>
+
+      <script
+        async
+        defer
+        src="https://scripts.simpleanalyticscdn.com/latest.js"
+      ></script>
+      <noscript>
+        <img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" />
+      </noscript>
     </div>
   );
 }
