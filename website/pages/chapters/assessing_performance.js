@@ -3,6 +3,7 @@ import { IM, BM } from "../../components/latex";
 import MarginNote from "../../components/marginnote";
 import Spoiler from "../..//components/spoiler";
 import Video from "../../components/video";
+import MatthewComment from "../../components/comments";
 
 export default function AssessingPerformance() {
   return (
@@ -10,49 +11,64 @@ export default function AssessingPerformance() {
       <section>
         <p>
           In the last chapter, we introduced the general machine learning
-          pipeline. We understood its components in the context of linear
-          regression and showed by changing the features you work with, you can
-          learn more complex functions like in polynomial regression.
+          pipeline. We introduced its components in the context of linear
+          regression and showed that, by changing the feature map{" "}
+          <IM math={`h(x)`} />, we can learn more complex functions like in
+          polynomial regression.
         </p>
 
         <p>
           When talking about doing polynomial expansions of the input, we
-          introduced a subtle challenge we need to identify a solution to: If we
-          are able to train a regression model with a polynomial of any degree{" "}
-          <IM math={`p`} />, how do we know which one to use if we don't have
-          access to the true function?
+          introduced a subtle challenge: For the feature map
         </p>
 
-        <p>TODO(manim): Many curves</p>
+        <BM
+          math={`h(x) = w_px^p + w_{p-1}x^{p-1} + \\dots + w_2x^2+ w_1x + w_0,`}
+        />
 
         <p>
-          A simple answer to this problem is possible if you have a good idea on
-          how the underlying phenomena works. If you have evidence to support
-          that the underlying function is, say linear,{" "}
+          which value <IM math={`p`} /> should we use? The animation below
+          illustrates learned linear regression models for different{" "}
+          <IM math={`p`} />.
+        </p>
+
+        <Video
+          src="/animations/assessing_performance/simple_poly_regression_anim.mp4"
+          type="mp4"
+        />
+
+        <p>
+          If you have prior information, or a domain expert you're working with
+          gives you information about the phenomena being modeled, you should
+          start with that. If you have evidence to support that the underlying
+          function is, say linear,{" "}
           <MarginNote id="linear-example">
             Example: There is lots of empirical evidence that shows there is a
             linear relationship between femur length and your height.
           </MarginNote>
-          then you can avoid the trouble of trying to choose <IM math="p" />{" "}
-          since you already know what it should be.
-        </p>
-
-        <p>
+          then you should start with <IM math="p=1" />.
+          <MatthewComment>
+            Maybe say you should remain skeptical of your models and be open to
+            this assumption being wrong
+          </MatthewComment>{" "}
           If you don't have as much expertise in the context your working in,
-          you might need to identify what the degree should be. A fundamental
-          question to choosing the right <IM math="p" /> is discussing how to{" "}
-          <b>assess the performance</b> of a predictor so that you can compare
-          these various models.
+          you will need to identify what the degree should be. Choosing the
+          right <IM math="p" /> requires <b>assessing the performance</b> of a
+          predictor so that you can compare these various models.
         </p>
 
         <p>
-          Your first instinct of what to use for this assessment might be our
-          quality metric (e.g., RSS) on the data the predictor was trained from.
-          If you think about the animation above, which one will have the lowest
-          RSS on that dataset?{" "}
+          Given what we've disccused so far, our first instinct might be to us
+          the quality metric (e.g., RSS) on the data the predictor was trained
+          from. Given the predictors (lines) in the animation above, which one
+          will have the lowest RSS on the training dataset (the black dots)?{" "}
           <Spoiler>
             The model with the highest degree <IM math="p" />!
           </Spoiler>{" "}
+          <MatthewComment>
+            I'd personally move this all into a spoiler, the explanation is so
+            easy to see even if you're only looking at the spoiler.
+          </MatthewComment>
           Why is that? Well, with a higher degree polynomial, it is allowed to
           "wiggle" up and down more. If you keep letting the degree grow, it
           will eventually be able to be complex enough so that the curve passes
@@ -78,35 +94,58 @@ export default function AssessingPerformance() {
         </p>
 
         <p>
-          Think of an analogy of you studying for an exam. Suppose you studied a
-          practice exam for a few hours and were able to get 100%. Would you
-          expect to get 100% on the real exam based on that practice exam alone?
-          Not necessarily! It's entirely possible that you could have just
-          crammed and memorized the specific answers on the practice exam,
-          rather than learning general concepts that enable you to answer
-          related questions that you haven't seen before.
+          An analogy: Suppose you study a specific practice exam for a few hours
+          and are able to an accuracy of 100%. Would you expect to get 100% on
+          the real exam based on that practice exam alone? Not necessarily! It's
+          entirely possible that you could have just crammed and memorized the
+          specific answers on the practice exam, rather than learning general
+          concepts that enable you to answer related questions that you haven't
+          seen before.
         </p>
 
         <p>
-          The key idea here is that assessing your predictor on data it
+          The key idea here is that only assessing your predictor on data it
           encountered while training will likely overestimate its true
-          performance in the future since it was able to fit its knowledge to
-          those example data points.
-        </p>
-
-        <p>
+          performance on future unseen data, since the predictor is only able to
+          fit its knowledge to those example data points.
+          <MatthewComment>
+            "Fit it's knowledge" is a weird wording.
+          </MatthewComment>{" "}
           So if we care about future performance, how might we go about
-          assessing that? We will consider a value of interest called the{" "}
-          <b>true error</b> of our predictor. The true error tries to quantify
-          how severe the errors we might expect to see in the future.
+          assessing the predictor? Instead of only cosidering the error metric
+          like the RSS, we will also consider the <b>true error</b> of our
+          predictor. The true error tries to quantify how severe the errors we
+          might expect to see in the future are.
+          <MatthewComment>
+            Sometimes you use bold and sometimes you use emph, and it's unclear
+            what the distinction is. Also what does "The true error tries to
+            quantify how severe the errors we might expect to see in the future"
+            mean? The true error isn't something we can measure, instead it's
+            intrinsic to the problem. We consider this metric, but we don't
+            actually meaningfully use it.{" "}
+            <b>
+              I think you should have a subsection that says "Hey we're moving
+              into theory land," so that it's clear these quantities we are
+              talking about won't usually be known
+            </b>
+          </MatthewComment>
         </p>
 
+        <h3>(Matthew: )Entering theory land</h3>
         <p>
           We have a notion of "expect" here since there are lots of sources of
-          randomness. Consider our housing example. Not all house square
-          footages are equally likely to show up in the wild. On top of that,
-          for any particular square footage, there is a distribution of prices
-          we might see
+          randomness.
+          <MatthewComment>
+            "We have a notion of "expect" ...". I think I know what you're
+            trying to say with this sentence, but it's not really clear. I think
+            this paragraph and the next paragraph need some serious work, What
+            is it you're trying to say about the true error with these
+            paragraphs?
+          </MatthewComment>
+          Consider our housing example. Not all house square footages are
+          equally likely to show up in the wild. On top of that, for any
+          particular square footage, there is a distribution of prices we might
+          see
           <MarginNote id="epsilon">
             This is one of the reasons our model always includes a{" "}
             <IM math={"\\varepsilon_i"} /> in the relationship between
@@ -156,6 +195,11 @@ export default function AssessingPerformance() {
         </p>
 
         <p>
+          <MatthewComment>
+            This is a huge leap from the description of the joint distribution
+            above to this notation. I think more care is going to be needed to
+            confidently introducte the expected loss.
+          </MatthewComment>
           With these concepts and notations, we can now define the true error as
           the expected loss we would see over all possible{" "}
           <IM math={`(x, y)`} /> pairs from the domain (<IM math="X" />) and
@@ -193,22 +237,37 @@ export default function AssessingPerformance() {
           dealing with the <IM math={`(x, y)`} /> pairs. So then selecting the
           model that generalizes best, would then mean choosing the one with the
           lowest true error.
+          <MatthewComment>
+            I don't understand how these last two sentences are related to the
+            excpectation. It seems you've given the definition of the
+            expectation, and then said this looks like an expectation??
+          </MatthewComment>
         </p>
 
+        <h3> (Matthew:) Exiting theory land, back to practical ML</h3>
         <p>
           In many real-life circumstances, it turns out to not be possible to
-          compute this true error. You might not know the exact distributions of
-          the houses and their prices of all possible houses you could see in
-          the future! So without access to all future data, how can we actually
-          compute the true error?
-        </p>
-
-        <p>
-          A very common technique in machine learning suggests that if you
-          aren't able to exactly compute something, you can try to estimate it.
-          That's what we will do here. The basic idea is to hide part of our
-          dataset from our ML algorithm and use that hidden data as a proxy for
-          "all future data" after the predictor is trained.
+          compute this true error. You <strike>might not</strike> won't know the
+          exact distributions of the houses and their prices of all possible
+          houses you could see in the future! So without access to all future
+          data, how do we actually compute estimate the true error? A very
+          common
+          <MatthewComment>
+            Would you call this a "common technique" I feel like it's not a
+            technique, but I don't know what to call it?
+          </MatthewComment>
+          technique in machine learning suggests that if you aren't able to
+          exactly compute something, you can try to estimate it. That's what we
+          will do here. This amounts to <em>hiding</em> part of our dataset from
+          our ML algorithm and usng that hidden data as a proxy for "all future
+          data" when evaluating the predictor.
+          <MatthewComment>
+            Perhaps you should have an internal (to us) spreadsheet of names, i
+            feel like i've been using model/predictor/etc. to mean the same
+            things interchangably, and it'd be nice to centralize and standarize
+            that. You could also use this as a specification for when to bold
+            and when to emphasize
+          </MatthewComment>
         </p>
 
         <p>
@@ -230,8 +289,8 @@ export default function AssessingPerformance() {
           So even though value we really care about is the <em>true error</em>,
           we will use the error on the test set as a stand-in for that value. We
           call the error made by the model on the test set the <b>test error</b>
-          , which we can compute. In the case of regression using RSS as the
-          loss function
+          <strike>, which we can compute</strike>. In the case of regression,
+          using RSS as the loss function
           <MarginNote id="new-notation">
             📝 <em>Notation:</em> We use a new notation for{" "}
             <IM math={`\\hat{f}`} /> to signify that it is the predictor defined
@@ -244,7 +303,7 @@ export default function AssessingPerformance() {
         </p>
 
         <BM
-          math={`RSS_{test}(\\hat{w}) = \\sum_{x_i \\in Test} \\left(y_i - f_{\\hat{w}}(x_i)\\right)^2`}
+          math={`RSS_{test}(\\hat{w}) = \\sum_{x_i \\in Test} \\left(y_i - f_{\\hat{w}}(x_i)\\right)^2.`}
         />
 
         <p>
@@ -255,31 +314,45 @@ export default function AssessingPerformance() {
         <p>
           Well in some sense, you want as big of a test set as possible since
           the more examples in your test set, the better estimate of the true
-          error you will get. You can think of the extreme case where your test
-          set contains all possible input/outputs, then you will exactly be able
+          error you will get. Imagine the extreme case where the test set
+          contains all possible input/outputs, then you will exactly be able
+          <MatthewComment>
+            This is not necessarily true? I think you want your test set to
+            represent the underlying joint distribution{" "}
+            <IM math={`(x,y) \\sim P(x, y).`} />
+          </MatthewComment>{" "}
           to compute the true error.
         </p>
 
         <p>
-          However, by making your test set larger, you will need to be making
-          your training set smaller. This can cause problems since we want as
-          much training data possible to give us the best possible estimate of
-          the true function. Consider the animation below that compares a small
-          training dataset to a large one.
+          However, because you only have finite data, by making your test set
+          larger, you will need to comprimise be making your training set
+          smaller. This can cause problems where the ML Algorithm fails to
+          capture the underlying structure due to lack of data. Consider the
+          animation below that compares a small training dataset to a large one.
         </p>
 
         <p>
-          In practice, people generally use a ratio of 80% train and 20% test or
-          90% train and 10% test, but this really depends on your context and
-          how much data you have! Two very important points about this test set:
+          TODO(manim): show how training/test distribution effects learner
+          performance.
+        </p>
+
+        <p>
+          ML practitioners generally use a ratio of 80% train/20% test or 90%
+          train/10% test, but this really depends on the context and how much
+          data you have! It's up to you to understand the problem and how to
+          allocate this data. Two very important points to keep in mind when
+          selecting the test set:
         </p>
 
         <ul>
           <li>
-            When splitting a train/test set, you should do so randomly. If you
-            selected the last 20% of the data as a test set, you could
-            potentially introduce biases in the test set if your data was
-            originally sorted, say by square footage.
+            When splitting a train/test set, you should (must?) do so randomly.
+            If you selected the last 20% of the data as a test set, you could
+            potentially introduce biases in the test set. Imagine the data was
+            given to you presorted by square footage, not randomly sampling from
+            this set would cause you're testing validation to focus on large
+            houses.
           </li>
           <li>
             Once you have put data in your test set, you must <b>never</b> train
