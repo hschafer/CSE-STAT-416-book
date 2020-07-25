@@ -1,8 +1,8 @@
 import Chapter from "../../components/chapter";
 import { IM, BM } from "../../components/latex";
 import MarginNote from "../../components/marginnote";
-import Spoiler from "../..//components/spoiler";
 import Video from "../../components/video";
+import TYU from "../../components/test_your_understanding";
 
 export default function AssessingPerformance() {
   return (
@@ -49,18 +49,30 @@ export default function AssessingPerformance() {
           Your first instinct of what to use for this assessment might be our
           quality metric (e.g., RSS) on the data the predictor was trained from.
           If you think about the animation above, which one will have the lowest
-          RSS on that dataset?{" "}
-          <Spoiler>
-            The model with the highest degree <IM math="p" />!
-          </Spoiler>{" "}
-          Why is that? Well, with a higher degree polynomial, it is allowed to
-          "wiggle" up and down more. If you keep letting the degree grow, it
-          will eventually be able to be complex enough so that the curve passes
-          perfectly through every point. In other words, a sufficiently high
-          degree polynomial might be able to get an RSS of 0. So following that
-          approach would lead to use selecting the model with the highest degree{" "}
-          <IM math="p" /> every time!
+          RSS on that dataset?
+          <MarginNote id="clickable">
+            Occasionally, we will have these expandable boxes that prompt you to
+            think about the answer before reading through. There is an
+            explanation of the answer inside the box, but try to think through
+            it before you click!
+          </MarginNote>
         </p>
+
+        <TYU header="Which predictor in the animation above has the lowest RSS on that dataset?">
+          <p>
+            The model with the highest degree <IM math="p" />!
+          </p>
+
+          <p>
+            Why is that? Well, with a higher degree polynomial, it is allowed to
+            "wiggle" up and down more. If you keep letting the degree grow, it
+            will eventually be able to be complex enough so that the curve
+            passes perfectly through every point. In other words, a sufficiently
+            high degree polynomial might be able to get an RSS of 0. So
+            following that approach would lead to use selecting the model with
+            the highest degree <IM math="p" /> every time!
+          </p>
+        </TYU>
 
         <p>
           This happens because there is a mismatch in how we are assessing our

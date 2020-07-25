@@ -1,0 +1,33 @@
+.card {
+  width: 55%; /* From Tufte... */
+  cursor: pointer;
+}
+
+.card .header,
+.card .body {
+  padding: 1em 1em;
+}
+
+.card .header {
+  background-color: #7c9ba6;
+  color: white;
+  font-weight: bold;
+}
+
+.card .header .title {
+  display: inline-block;
+  width: 95%;
+}
+
+.card .header .arrow {
+  float: right;
+}
+
+.card .body {
+  background-color: #d9f5ff;
+  display: none;
+}
+
+.card .body.expanded {
+  display: block;
+}
