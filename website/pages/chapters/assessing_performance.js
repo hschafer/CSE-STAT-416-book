@@ -4,6 +4,8 @@ import MarginNote from "../../components/marginnote";
 import Video from "../../components/video";
 import TYU from "../../components/test_your_understanding";
 
+import Alert from "react-bootstrap/Alert";
+
 export default function AssessingPerformance() {
   return (
     <Chapter fileName="assessing_performance">
