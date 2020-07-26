@@ -202,7 +202,9 @@ body {
   text-align: right;
 }
 
-#content section > * {
+#content section > p,
+#content section > footer,
+#content section > table {
   width: 55%;
 }
 

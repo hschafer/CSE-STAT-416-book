@@ -1,7 +1,14 @@
 /* Global styles related to Tufte */
 body {
-  margin-left: 8px;
-  margin-right: auto;
+  /* margin-left: 8px;
+  margin-right: auto;*/
+  margin-left: 35px;
+  margin-right: 8px;
+}
+
+#content-container {
+  display: flex;
+  align-items: stretch;
 }
 
 #container > footer {
@@ -15,10 +22,15 @@ body {
 #content .marginnote ul {
   font-size: inherit;
   line-height: inherit;
+  width: 90;
 }
 
-#content figure video {
+#content section video {
   max-width: 100%;
+}
+
+#content section > video {
+  width: 55%;
 }
 
 /* TODO Better styling for tables */
