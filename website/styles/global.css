@@ -1,4 +1,10 @@
-/* Global styles related to Tufte */
+/* Global layout */
+body,
+#content * {
+  /* Fight the bootstrap powers */
+  box-sizing: unset;
+}
+
 body {
   /* margin-left: 8px;
   margin-right: auto;*/
@@ -14,6 +20,17 @@ body {
 #container > footer {
   color: gray;
   margin-top: 4em;
+}
+
+nav {
+  max-width: 75%;
+}
+
+blockquote {
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
 }
 
 /* My modifications to Tufte */

@@ -16,7 +16,7 @@ export default function Layout({ showTOC = "True", children }) {
   return (
     <>
       <Navbar expand="lg">
-        {/* Same as example nav, but need to use Links instead of hrefs*/}
+        {/* Same as example nav, but need to use Links instead of hrefs */}
         <Link href="/">
           <a className="navbar-brand">CSE/STAT 416 Book</a>
         </Link>
