@@ -46,7 +46,8 @@ blockquote {
   max-width: 100%;
 }
 
-#content section > video {
+#content section > video,
+#content section .main-column {
   width: 55%;
 }
 
