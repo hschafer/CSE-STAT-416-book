@@ -1,9 +1,10 @@
 import Chapter from "../../components/chapter";
 import { IM, BM } from "../../components/latex";
-import MarginNote from "../../components/marginnote";
+import { MarginNote, MarginNoteCounter } from "../../components/marginnote";
 import Video from "../../components/video";
 
 export default function Introduction() {
+  var marginNoteCounter = new MarginNoteCounter();
   return (
     <>
       <Chapter fileName="introduction">
@@ -97,7 +98,7 @@ export default function Introduction() {
               <p>
                 <b>Anyone can learn machine learning!</b> While this is true for
                 any topic,
-                <MarginNote id="growth-mindsets">
+                <MarginNote id="growth-mindsets" counter={marginNoteCounter}>
                   See Carol Dweck's growth mindsets.
                 </MarginNote>
                 it's important to highlight for the case of machine learning. ML
@@ -112,7 +113,7 @@ export default function Introduction() {
               <p>
                 This does not mean we won't use math at all! While we try to
                 minimize pre-requisite knowledge, we still require some.
-                <MarginNote id="prereqs">
+                <MarginNote id="prereqs" counter={marginNoteCounter}>
                   We do rely on a base-level understanding of probability and a
                   willingness to learn new notation and concepts
                 </MarginNote>{" "}
@@ -164,7 +165,7 @@ export default function Introduction() {
               A. McDaniel
             </a>
             .{" "}
-            <MarginNote id="make-it-stick">
+            <MarginNote id="make-it-stick" counter={marginNoteCounter}>
               This book is fantastic! I wish I read it while I was in college!
             </MarginNote>{" "}
             The book outlines two very popular, but ineffective, learning
@@ -239,7 +240,7 @@ export default function Introduction() {
               reality, you will need to practice bringing up <em>any</em> subset
               of knowledge. Therefore, your practice should reflect that goal if
               you want to see improvements of retrieval in realistic contexts.
-              <MarginNote id="baseball">
+              <MarginNote id="baseball" counter={marginNoteCounter}>
                 See{" "}
                 <a href="https://pubmed.ncbi.nlm.nih.gov/8084699/">
                   this study
@@ -289,7 +290,7 @@ export default function Introduction() {
             This is just trying to state in a very formal manner that machine
             learning is a program that improves at some task by learning from
             data rather than a human hard-coding the rules of the task.{" "}
-            <MarginNote id="ml-steps">
+            <MarginNote id="ml-steps" counter={marginNoteCounter}>
               <img
                 src="/animations/introduction/ml-steps.png"
                 alt="High level steps of ML"
@@ -309,7 +310,7 @@ export default function Introduction() {
           <p>
             Instead, the machine learning approach is to feed a bunch of images
             that have already been labelled as cat images or dog images{" "}
-            <MarginNote id="training-data">
+            <MarginNote id="training-data" counter={marginNoteCounter}>
               We call this the training data.
             </MarginNote>{" "}
             as input to some learning algorithm, and letting that algorithm
@@ -337,13 +338,13 @@ export default function Introduction() {
             applications that are of import in machine learning. We spend the
             majority of our focus on these five examples for consistency and
             simplicity.
-            <MarginNote id="case-study">
+            <MarginNote id="case-study" counter={marginNoteCounter}>
               This helps you form connections between these concepts.
             </MarginNote>
             Each case study will span more than one chapter as indicated in the
             table of contents; each chapter corresponds roughly to one lecture
             of the UW CSE/STAT 416 course.{" "}
-            <MarginNote id="reminder">
+            <MarginNote id="reminder" counter={marginNoteCounter}>
               As a reminder from the section on "How Learning Works", it's
               important for you to be constantly pausing and reflection so that
               you can test your understanding and connect ideas to other
