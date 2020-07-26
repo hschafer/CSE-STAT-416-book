@@ -41,11 +41,16 @@ export default function Layout({ showTOC = "True", children }) {
             </NavDropdown>
           </Nav>
           <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+            <FormControl
+              type="text"
+              placeholder="Search (not active)"
+              className="mr-sm-2"
+            />
             <Button variant="outline-success">Search</Button>
           </Form>
         </Navbar.Collapse>
       </Navbar>
+
       <div id="container">
         <div id="content-container">
           <main id="content">{children}</main>
