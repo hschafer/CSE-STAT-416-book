@@ -556,7 +556,7 @@ export default function LinearRegression() {
             but now we use this gradient idea to find the direction to go down.
           </p>
 
-          <figure className="fullwidth">
+          <figure>
             <Video
               src="/animations/linear_regression/gradient_descent.webm"
               type="webm"

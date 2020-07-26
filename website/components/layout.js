@@ -54,9 +54,17 @@ export default function Layout({ showTOC = "True", children }) {
         <footer>
           <p>
             Have any feedback about the book? Please let us know using{" "}
-            <a href="https://forms.gle/AuikAgFFGmvVjQSy9">this Google Form</a>{" "}
+            <a
+              className="tufte-link"
+              href="https://forms.gle/AuikAgFFGmvVjQSy9"
+            >
+              this Google Form
+            </a>{" "}
             or by{" "}
-            <a href="https://github.com/hschafer/CSE-STAT-416-book/issues">
+            <a
+              className="tufte-link"
+              href="https://github.com/hschafer/CSE-STAT-416-book/issues"
+            >
               submitting an issue to our GitHub repository
             </a>
             !

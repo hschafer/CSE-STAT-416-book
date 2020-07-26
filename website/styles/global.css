@@ -1,6 +1,24 @@
 /* Global styles related to Tufte */
-section video {
-  width: 55%;
+body {
+  margin-left: 8px;
+  margin-right: auto;
+}
+
+#container > footer {
+  color: gray;
+  margin-top: 4em;
+}
+
+/* My modifications to Tufte */
+#content .marginnote p,
+#content .marginnote ol,
+#content .marginnote ul {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#content figure video {
+  max-width: 100%;
 }
 
 /* TODO Better styling for tables */
@@ -17,31 +35,7 @@ section video {
   background-color: lightsteelblue;
 }
 
-/* Layout Styles */
-.navbar {
-  padding-left: 0px;
-}
-
-#container > footer {
-  color: gray;
-}
-
 /* Table of Contents */
 #table-of-contents li {
   margin-bottom: 1em;
-}
-
-/* My modifications to Tufte */
-.marginnote p,
-.marginnote ol,
-.marginnote ul,
-#navbar ol,
-#navbar p {
-  font-size: inherit;
-  line-height: inherit;
-}
-
-#navbar a {
-  underline: none;
-  background: none;
 }

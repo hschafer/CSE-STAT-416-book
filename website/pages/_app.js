@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-//import "../styles/tufte.css";
-import "../styles/tufte_new.css";
+import "../styles/tufte.css";
 import "../styles/global.css";
 import "katex/dist/katex.min.css";
 
