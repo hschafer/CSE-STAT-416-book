@@ -97,12 +97,12 @@ export default function Introduction() {
             <li>
               <p>
                 <b>Anyone can learn machine learning!</b> While this is true for
-                any topic,
+                any topic
                 <MarginNote id="growth-mindsets" counter={marginNoteCounter}>
                   See Carol Dweck's growth mindsets.
                 </MarginNote>
-                it's important to highlight for the case of machine learning. ML
-                is notoriously seen as a difficult topic to master due to a
+                , it's important to highlight for the case of machine learning.
+                ML is notoriously seen as a difficult topic to master due to a
                 traditional focus on advanced mathematical details and proofs.
                 While those ideas are important for an expert in machine
                 learning to know, they aren't necessary for forming an intuition
@@ -112,12 +112,12 @@ export default function Introduction() {
               </p>
               <p>
                 This does not mean we won't use math at all! While we try to
-                minimize pre-requisite knowledge, we still require some.
+                minimize pre-requisite knowledge, we still require some
                 <MarginNote id="prereqs" counter={marginNoteCounter}>
                   We do rely on a base-level understanding of probability and a
                   willingness to learn new notation and concepts
-                </MarginNote>{" "}
-                Mathematical notation can be very effective for communication
+                </MarginNote>
+                . Mathematical notation can be very effective for communication
                 and we use it frequently to communicate more
                 precisely/effectively.
               </p>
@@ -164,11 +164,10 @@ export default function Introduction() {
               "Make it Stick" by Peter C. Brown, Henry L. Roediger III, and Mark
               A. McDaniel
             </a>
-            .{" "}
             <MarginNote id="make-it-stick" counter={marginNoteCounter}>
               This book is fantastic! I wish I read it while I was in college!
-            </MarginNote>{" "}
-            The book outlines two very popular, but ineffective, learning
+            </MarginNote>
+            . The book outlines two very popular, but ineffective, learning
             strategies:
           </p>
 
@@ -239,7 +238,7 @@ export default function Introduction() {
               right now, so I only need to think of Chapter 1 things". In
               reality, you will need to practice bringing up <em>any</em> subset
               of knowledge. Therefore, your practice should reflect that goal if
-              you want to see improvements of retrieval in realistic contexts.
+              you want to see improvements of retrieval in realistic contexts
               <MarginNote id="baseball" counter={marginNoteCounter}>
                 See{" "}
                 <a href="https://pubmed.ncbi.nlm.nih.gov/8084699/">
@@ -248,6 +247,7 @@ export default function Introduction() {
                 about the effects of mixed-practice on professional baseball
                 players.
               </MarginNote>
+              .
             </li>
           </ul>
 
@@ -289,7 +289,7 @@ export default function Introduction() {
           <p>
             This is just trying to state in a very formal manner that machine
             learning is a program that improves at some task by learning from
-            data rather than a human hard-coding the rules of the task.{" "}
+            data rather than a human hard-coding the rules of the task
             <MarginNote id="ml-steps" counter={marginNoteCounter}>
               <img
                 src="/animations/introduction/ml-steps.png"
@@ -297,6 +297,7 @@ export default function Introduction() {
               />
               Pictorial representation of these steps.
             </MarginNote>
+            .
           </p>
           <p>
             For example, consider the task of building a system that classifies
@@ -309,16 +310,16 @@ export default function Introduction() {
 
           <p>
             Instead, the machine learning approach is to feed a bunch of images
-            that have already been labelled as cat images or dog images{" "}
+            that have already been labelled as cat images or dog images as input
+            to some learning algorithm
             <MarginNote id="training-data" counter={marginNoteCounter}>
               We call this the training data.
-            </MarginNote>{" "}
-            as input to some learning algorithm, and letting that algorithm
-            learn the patterns from the data itself. The ultimate goal of such a
-            system is to train the computer to not just be able to answer this
-            dog-vs.-cat question for images it has seen, but also to{" "}
-            <em>generalize</em> to any dog or cat picture it might encounter in
-            the future.
+            </MarginNote>
+            , and letting that algorithm learn the patterns from the data
+            itself. The ultimate goal of such a system is to train the computer
+            to not just be able to answer this dog-vs.-cat question for images
+            it has seen, but also to <em>generalize</em> to any dog or cat
+            picture it might encounter in the future.
           </p>
 
           <p>
@@ -337,19 +338,20 @@ export default function Introduction() {
             contexts that these case studies focus on are not the only
             applications that are of import in machine learning. We spend the
             majority of our focus on these five examples for consistency and
-            simplicity.
+            simplicity
             <MarginNote id="case-study" counter={marginNoteCounter}>
               This helps you form connections between these concepts.
             </MarginNote>
-            Each case study will span more than one chapter as indicated in the
-            table of contents; each chapter corresponds roughly to one lecture
-            of the UW CSE/STAT 416 course.{" "}
+            . Each case study will span more than one chapter as indicated in
+            the table of contents; each chapter corresponds roughly to one
+            lecture of the UW CSE/STAT 416 course
             <MarginNote id="reminder" counter={marginNoteCounter}>
               As a reminder from the section on "How Learning Works", it's
               important for you to be constantly pausing and reflection so that
               you can test your understanding and connect ideas to other
               sections.
             </MarginNote>
+            .
           </p>
 
           <p>The five case studies we will examine in this book are:</p>

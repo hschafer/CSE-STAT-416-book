@@ -127,8 +127,7 @@ export default function LinearRegression() {
             "approximately equal" works for this scenario. Another term for "the
             assumptions we make" is the <b>model</b> we are using. In this
             example, we will use a very common model about how the input and
-            target relate. We first show the formula, and then explain the
-            parts.{" "}
+            target relate. We first show the formula, and then explain the parts
             <MarginNote counter={marginNoteCounter} id="subscript-notation">
               📝 <em>Notation:</em> When we subscript a variable like{" "}
               <IM math={`x_i`} />, it means we are talking about the{" "}
@@ -140,6 +139,7 @@ export default function LinearRegression() {
               about <em>any</em> input from our domain. In our example, when I
               say <IM math={`x`} />, I mean some arbitrary house.
             </MarginNote>
+            .
           </p>
           <BM
             math={`
@@ -158,7 +158,7 @@ export default function LinearRegression() {
             <IM math={`\\mathbb{E}\\left[\\varepsilon_i\\right] = 0`} />, which
             means on average we expect the noise to average out to 0 (i.e., it's
             not biased to be positive or negative). The animation below shows a
-            visual representation of this model.
+            visual representation of this model
             <MarginNote counter={marginNoteCounter} id="expectation">
               📝 <em>Notation:</em> <IM math={`\\mathbb{E}\\left[X\\right]`} />{" "}
               is the expected value of a random variable (the "average"
@@ -168,6 +168,7 @@ export default function LinearRegression() {
               </a>
               .
             </MarginNote>
+            .
           </p>
 
           <Video
@@ -188,21 +189,22 @@ export default function LinearRegression() {
 
           <p>
             To phrase this challenge mathematically, a common goal in machine
-            learning is to learn a function <IM math={`\\hat{f}`} />{" "}
+            learning is to learn a function
             <MarginNote counter={marginNoteCounter} id="hat">
               📝 <em>Notation:</em> A <IM math={`\\hat{\\ }`} /> in math
               notation almost always means "estimate". In other words,{" "}
               <IM math={`\\hat{f}`} /> is our best estimate of this unknown
               function <IM math={`f`} />. What do you think{" "}
               <IM math={`\\hat{y}`} /> is supposed to represent?
-            </MarginNote>
-            from the data that approximates <IM math={`f`} /> as best as we can.
-            We can then use this <IM math={`\\hat{f}`} /> to make predictions
-            about new data by evaluating <IM math={`\\hat{y} = \\hat{f}(x)`} />.
-            It's likely our estimate won't be exactly correct, but our hope is
-            to get one that is as close to this unknown truth as possible. More
-            on how to learn this approximation later, but it has something to do
-            with finding a function that closely matches the data were given.
+            </MarginNote>{" "}
+            <IM math={`\\hat{f}`} /> from the data that approximates{" "}
+            <IM math={`f`} /> as best as we can. We can then use this{" "}
+            <IM math={`\\hat{f}`} /> to make predictions about new data by
+            evaluating <IM math={`\\hat{y} = \\hat{f}(x)`} />. It's likely our
+            estimate won't be exactly correct, but our hope is to get one that
+            is as close to this unknown truth as possible. More on how to learn
+            this approximation later, but it has something to do with finding a
+            function that closely matches the data were given.
           </p>
 
           <Video
@@ -236,7 +238,7 @@ export default function LinearRegression() {
           <p>
             We will talk about each component in detail for our first machine
             learning model, linear regression, but we first provide a broad
-            overview of what they signify.
+            overview of what they signify
             <MarginNote counter={marginNoteCounter} id="notation">
               📝 <em>Notation:</em> Common notation around this pipeline.
               <ul>
@@ -255,6 +257,7 @@ export default function LinearRegression() {
                 </li>
               </ul>
             </MarginNote>
+            .
           </p>
 
           <ul>
@@ -313,11 +316,11 @@ export default function LinearRegression() {
             <b>Linear Regression Model</b>
           </p>
           <p>
-            A <b>model</b> is an assumption about how the world works.
+            A <b>model</b> is an assumption about how the world works
             <MarginNote counter={marginNoteCounter} id="lin-reg-model">
               TODO Pipeline highlight ML Model
             </MarginNote>
-            In the <b>linear regression model</b>, we assume the input/target
+            . In the <b>linear regression model</b>, we assume the input/target
             are related by a linear function (a line)
           </p>
 
@@ -375,7 +378,7 @@ export default function LinearRegression() {
             uncertainty in the input data we received. It wouldn't necessarily
             help us to add randomness to our predictions since the learned
             parameters are our "best guess" at what the true parameter values
-            are.
+            are
             <MarginNote counter={marginNoteCounter} id="mle">
               A more technical reason comes from the mathematical formulation of
               the linear regression problem. Under our model, which includes
@@ -386,6 +389,7 @@ export default function LinearRegression() {
               above/below this most likely value. The technical name for this is{" "}
               <em>maximum likelihood estimate</em>.
             </MarginNote>
+            .
           </p>
 
           <p>
@@ -414,7 +418,7 @@ export default function LinearRegression() {
 
           <p>
             The way we define how well a particular predictor fits the data is
-            the <b>quality metric</b>.
+            the <b>quality metric</b>
             <MarginNote counter={marginNoteCounter} id="quality-metric">
               Different choices of quality metrics lead to different results of
               the "best" model. For example, the majority of the quality metrics
@@ -426,20 +430,21 @@ export default function LinearRegression() {
               book.
               {/* Collapsable? */}
             </MarginNote>
-            A common way to define the quality metric is to define the "cost" of
-            using this model by trying to quantify the errors it makes. Defining
-            the quality metric this way situates the ML algorithm as a process
-            of trying to find the predictor that minimizes this cost.
+            . A common way to define the quality metric is to define the "cost"
+            of using this model by trying to quantify the errors it makes.
+            Defining the quality metric this way situates the ML algorithm as a
+            process of trying to find the predictor that minimizes this cost.
           </p>
 
           <p>
             For the linear regression setting, a common definition of the
-            quality metric is the <b>residual sum of squares (or RSS)</b>.
+            quality metric is the <b>residual sum of squares (or RSS)</b>
             <MarginNote counter={marginNoteCounter} id="sum-notation">
               📝 <em>Notation:</em> A <IM math={`\\sum`} /> means "sum". It's a
               concise way of writing the sum of multile things (like a for loop
               from programming).
             </MarginNote>
+            .
           </p>
 
           <BM
@@ -458,13 +463,14 @@ export default function LinearRegression() {
             animation below. Notice this RSS function is parameterized by{" "}
             <IM math={`w_0, w_1`} /> which lets you ask "what is this RSS error
             if I use were to use this line?" A "better" model using this quality
-            metric is one that is closer to the training dataset points.{" "}
+            metric is one that is closer to the training dataset points
             <MarginNote counter={marginNoteCounter} id="mse">
               You might also see people use <b>mean-squared error (or MSE)</b>{" "}
               which is just the RSS divided by the number of training examples{" "}
               <IM math={`n`} />. In math, that would mean{" "}
               <IM math={`MSE(w_0, w_1) = \\frac{1}{n}RSS(w_0, w_1)`} />
             </MarginNote>
+            .
           </p>
 
           <p>
@@ -502,15 +508,15 @@ export default function LinearRegression() {
           <p>
             Even though we can't compute the RSS for every combination, you
             could imagine trying to plot it out to visualize the landscape of
-            the errors.
+            the errors
             <MarginNote counter={marginNoteCounter} id="rss-graph">
               <img
                 src="/animations/linear_regression/rss.png"
                 alt="3D rendition of RSS function."
               ></img>
             </MarginNote>
-            Since there are two inputs <IM math={`w_0s, w_1s`} />, the graph of
-            the function will be in 3D to show the RSS value for every input.
+            . Since there are two inputs <IM math={`w_0s, w_1s`} />, the graph
+            of the function will be in 3D to show the RSS value for every input.
           </p>
 
           <p>
@@ -586,7 +592,7 @@ export default function LinearRegression() {
           </p>
 
           <p>
-            Mathematically, we write this process as{" "}
+            Mathematically, we write this process as
             <MarginNote counter={marginNoteCounter} id="w^t">
               📝 <em>Notation:</em> We use <IM math={`w`} /> to mean both{" "}
               <IM math={`w_0`} /> and <IM math={`w_1`} /> and{" "}
@@ -651,6 +657,7 @@ export default function LinearRegression() {
           <p>TODO highlight ML pipeline</p>
 
           <p>
+            If you think back to our original dataset when introducing the topic
             <MarginNote counter={marginNoteCounter} id="data-2">
               <img
                 src="/animations/linear_regression/higher_order_polynomial.png"
@@ -658,13 +665,12 @@ export default function LinearRegression() {
                 style={{ width: "50%" }}
               />
             </MarginNote>
-            If you think back to our original dataset when introducing the
-            topic, you might wonder how we could do regression like this if we
-            don't believe the model of the world is linear. In this picture, we
-            show the true function as being some kind of polynomial. Any time
-            you are thinking about what assumptions we are making, that is the
-            model you are assuming. So if you think the world behaves like a
-            polynomial, you could say we would use that as our model.
+            , you might wonder how we could do regression like this if we don't
+            believe the model of the world is linear. In this picture, we show
+            the true function as being some kind of polynomial. Any time you are
+            thinking about what assumptions we are making, that is the model you
+            are assuming. So if you think the world behaves like a polynomial,
+            you could say we would use that as our model.
           </p>
 
           <BM
@@ -711,13 +717,19 @@ export default function LinearRegression() {
 
           <p>
             We can then generalize our regression problem to work with any set
-            of features!
+            of features
             <MarginNote counter={marginNoteCounter} id="feature-extraction">
               📝 <em>Notation:</em> We use <IM math={`h_j(x_i)`} /> to represent
               the jth feature we extract from the data input <IM math={`x_i`} />
               . We choose a number <IM math="D" /> for how many features we want
               to use.
+              <br />
+              <br />
+              It's common to also use the notation <IM math={`h(x)`} /> (no
+              subscript) to denote all <IM math="D" /> features as one array of
+              numbers (also called a <b>feature vector</b>).
             </MarginNote>
+            !
           </p>
 
           <BM
@@ -806,6 +818,8 @@ export default function LinearRegression() {
           </table>
 
           <p>
+            Adding more features to a model allows for more complex
+            relationships to be learned
             <MarginNote counter={marginNoteCounter} id="two-features">
               <img
                 src="/animations/linear_regression/two_features.png"
@@ -813,10 +827,8 @@ export default function LinearRegression() {
               />
               Shows what regression like this looks like with two features.
             </MarginNote>
-            Adding more features to a model allows for more complex
-            relationships to be learned. For example, a regression model that
-            uses two of the inputs as features for this house price problem
-            might look like the following.
+            . For example, a regression model that uses two of the inputs as
+            features for this house price problem might look like the following.
           </p>
 
           <BM
@@ -826,15 +838,7 @@ export default function LinearRegression() {
           <p>
             It's important that we highlight the difference between a{" "}
             <b>data input</b> and a <b>feature</b> and some notation used for
-            them.
-          </p>
-          <ul>
-            <li>Data input: Are columns of the raw data table provided</li>
-            <li>
-              Features are values (possible transformed) that the model will
-              use. This is performed by the feature extraction{" "}
-              <IM math={`h(x)`} />.
-            </li>
+            them
             <MarginNote counter={marginNoteCounter} id="data-notation">
               📝 <em>Notation:</em>
               <ul>
@@ -863,6 +867,15 @@ export default function LinearRegression() {
                 </li>
               </ul>
             </MarginNote>
+            .
+          </p>
+          <ul>
+            <li>Data input: Are columns of the raw data table provided</li>
+            <li>
+              Features are values (possible transformed) that the model will
+              use. This is performed by the feature extraction{" "}
+              <IM math={`h(x)`} />.
+            </li>
           </ul>
 
           <p>
@@ -873,13 +886,13 @@ export default function LinearRegression() {
             <IM math={`h_1(x) = x[1]`} /> (or the sq. ft.) and make{" "}
             <IM math={`h_12(x) = \\log(x[7]) * x[2]`} />. Generally adding more
             features means your model will be more complex which is not
-            necessarily a good thing!{" "}
+            necessarily a good thing
             <MarginNote counter={marginNoteCounter} id="complexity">
               More on this in Assessing Performance.
             </MarginNote>
-            Choosing how many features and what (if any) transformations to use
-            a bit of an art and a science, so understanding in the next chapter
-            how we evaluate our model is extremely important.
+            ! Choosing how many features and what (if any) transformations to
+            use a bit of an art and a science, so understanding in the next
+            chapter how we evaluate our model is extremely important.
           </p>
 
           <p>

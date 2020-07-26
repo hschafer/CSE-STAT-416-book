@@ -13,16 +13,17 @@ class MarginNoteCounter {
 function MarginNote({ children, id, counter }) {
   var prefix = "";
   if (counter !== undefined) {
-    prefix = "" + counter.getAndUpdate() + ". ";
+    prefix = "" + counter.getAndUpdate();
   }
   return (
     <>
       <label htmlFor={id} className="margin-toggle">
         &#8853;
       </label>
+      <sup>{prefix}</sup>
       <input type="checkbox" id={id} className="margin-toggle" />
       <span className="marginnote">
-        {prefix}
+        {prefix ? prefix + ". " : prefix}
         {children}
       </span>
     </>
