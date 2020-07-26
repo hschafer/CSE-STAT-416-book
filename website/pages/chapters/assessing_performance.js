@@ -4,8 +4,6 @@ import { MarginNote, MarginNoteCounter } from "../../components/marginnote";
 import Video from "../../components/video";
 import TYU from "../../components/test_your_understanding";
 
-import Alert from "react-bootstrap/Alert";
-
 export default function AssessingPerformance() {
   var marginNoteCounter = new MarginNoteCounter();
   return (
@@ -13,31 +11,37 @@ export default function AssessingPerformance() {
       <section>
         <p>
           In the last chapter, we introduced the general machine learning
-          pipeline. We understood its components in the context of linear
-          regression and showed by changing the features you work with, you can
-          learn more complex functions like in polynomial regression.
+          pipeline in the context of linear regression. We learned about the
+          regression model, using gradient descent to learn a predictor that
+          minimizes our quality metric. We also introduced the important concept
+          of the features used by the model, where you can transform your input
+          data to learn more complex relationships (e.g. polynomial regression).
         </p>
 
         <p>
-          When talking about doing polynomial expansions of the input, we
-          introduced a subtle challenge we need to identify a solution to: If we
-          are able to train a regression model with a polynomial of any degree{" "}
-          <IM math={`p`} />, how do we know which one to use if we don't have
-          access to the true function?
+          When we introduced this flexibility of learning more complex
+          relationship in the specific context of polynomial regression, we
+          introduced a subtle challenge that we needed to identify a solution
+          to: If we are able to train a regression model with a polynomial of
+          any degree <IM math={`p`} />, how do we know which one to use?
+          Remember, we only have access to the given data, not the true
+          function.
         </p>
 
         <p>TODO(manim): Many curves</p>
 
         <p>
-          A simple answer to this problem is possible if you have a good idea on
-          how the underlying phenomena works. If you have evidence to support
-          that the underlying function is, say linear,{" "}
+          If you have prior information, or a domain expert you're working with
+          gives you information about the model you should use, you should start
+          with that. For example, if you have evidence to support that the
+          underlying function is, say linear
           <MarginNote counter={marginNoteCounter} id="linear-example">
             Example: There is lots of empirical evidence that shows there is a
             linear relationship between femur length and your height.
           </MarginNote>
-          then you can avoid the trouble of trying to choose <IM math="p" />{" "}
-          since you already know what it should be.
+          , then you should start by trying <IM mat={`p=1`} />. Remember models
+          are always assumptions about how the world works, so in some contexts,
+          you might want to be skeptical and try other options.
         </p>
 
         <p>
@@ -49,10 +53,11 @@ export default function AssessingPerformance() {
         </p>
 
         <p>
-          Your first instinct of what to use for this assessment might be our
-          quality metric (e.g., RSS) on the data the predictor was trained from.
-          If you think about the animation above, which one will have the lowest
-          RSS on that dataset?
+          Given what we've discussed so far, our first instinct might be to us
+          the quality metric (e.g., RSS) on the data the predictor was trained
+          from. Given the predictors (colored curves) in the animation above,
+          which one will have the lowest RSS on the training dataset (the black
+          dots)?
           <MarginNote counter={marginNoteCounter} id="clickable">
             Occasionally, we will have these expandable boxes that prompt you to
             think about the answer before reading through. There is an
@@ -93,27 +98,32 @@ export default function AssessingPerformance() {
         </p>
 
         <p>
-          Think of an analogy of you studying for an exam. Suppose you studied a
-          practice exam for a few hours and were able to get 100%. Would you
-          expect to get 100% on the real exam based on that practice exam alone?
-          Not necessarily! It's entirely possible that you could have just
-          crammed and memorized the specific answers on the practice exam,
-          rather than learning general concepts that enable you to answer
-          related questions that you haven't seen before.
+          An analogy: Suppose you studied a specific practice exam for a few
+          hours and afterwards, you were able to answer 100% of the questions
+          correctly after taking it multiple times. Would you expect to get 100%
+          on the real exam based on that practice exam alone? Not necessarily!
+          It's entirely possible that you could have just memorized the specific
+          answers on the practice exam, rather than learning general concepts
+          that enable you to answer related questions that you haven't seen
+          before.
         </p>
 
         <p>
           The key idea here is that assessing your predictor on data it
           encountered while training will likely overestimate its true
-          performance in the future since it was able to fit its knowledge to
-          those example data points.
+          performance on future, unseen data. The predictor is able to shape its
+          knowledge around these specific examples, so it's more likely to get
+          those ones correct. This is exactly the same as it being easier for
+          you to answer a question on the test that also showed up on the
+          practice test.
         </p>
 
         <p>
           So if we care about future performance, how might we go about
-          assessing that? We will consider a value of interest called the{" "}
+          assessing the predictor? Instead of only considering the error metric
+          like the RSS on the training set, we will also consider the{" "}
           <b>true error</b> of our predictor. The true error tries to quantify
-          how severe the errors we might expect to see in the future.
+          how severe the errors are that we might expect to see in the future.
         </p>
 
         <p>
