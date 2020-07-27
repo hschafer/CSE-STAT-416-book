@@ -21,14 +21,12 @@ export default function Chapter({ children, fileName }) {
   const chapter = findChapterInfo(fileName);
   return (
     <Layout>
-      <main>
-        <article>
-          <h1>
-            Chapter {chapter.chapterNumber}: {chapter.title}
-          </h1>
-          {children}
-        </article>
-      </main>
+      <article>
+        <h1>
+          Chapter {chapter.chapterNumber}: {chapter.title}
+        </h1>
+        {children}
+      </article>
     </Layout>
   );
 }

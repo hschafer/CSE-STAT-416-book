@@ -1,11 +1,13 @@
 import Chapter from "../../components/chapter";
-import MarginNote from "../../components/marginnote";
+import { MarginNote, MarginNoteCounter } from "../../components/marginnote";
 
 export default function Tufte() {
   const codeBlocks = {
     helloWorld: `def hello_world():
     print('Hello world!')`,
   };
+
+  var marginNoteCounter = new MarginNoteCounter();
 
   return (
     <>
@@ -20,7 +22,7 @@ export default function Tufte() {
           <h2>Section</h2>
           <p>
             Some text
-            <MarginNote id="mn-demo">
+            <MarginNote counter={marginNoteCounter} id="mn-demo">
               This is a margin note. Notice there isn't a number preceding the
               note.
             </MarginNote>
@@ -37,7 +39,7 @@ export default function Tufte() {
 
           <p>
             Some text.
-            <MarginNote id="mn-demo2">
+            <MarginNote counter={marginNoteCounter} id="mn-demo2">
               This is another margin note. Notice there isn't a number preceding
               the note.
             </MarginNote>
@@ -51,7 +53,9 @@ export default function Tufte() {
             inline figure, a margin figure, and a full-width figure.
           </p>
           <figure>
-            <MarginNote id="mn-demo3">An inline figure</MarginNote>
+            <MarginNote counter={marginNoteCounter} id="mn-demo3">
+              An inline figure
+            </MarginNote>
             <img
               src="https://edwardtufte.github.io/tufte-css/img/exports-imports.png"
               alt="Some text"
@@ -60,7 +64,7 @@ export default function Tufte() {
 
           <p>
             This paragraph
-            <MarginNote id="mn-demo4">
+            <MarginNote counter={marginNoteCounter} id="mn-demo4">
               <img
                 src="https://edwardtufte.github.io/tufte-css/img/rhino.png"
                 alt="Another image"

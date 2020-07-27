@@ -1,4 +1,53 @@
-section video {
+/* Global layout */
+body,
+#content * {
+  /* Fight the bootstrap powers */
+  box-sizing: unset;
+}
+
+body {
+  /* margin-left: 8px;
+  margin-right: auto;*/
+  margin-left: 35px;
+  margin-right: 8px;
+}
+
+#content-container {
+  display: flex;
+  align-items: stretch;
+}
+
+#container > footer {
+  color: gray;
+  margin-top: 4em;
+}
+
+nav {
+  max-width: 75%;
+}
+
+blockquote {
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
+}
+
+/* My modifications to Tufte */
+#content .marginnote p,
+#content .marginnote ol,
+#content .marginnote ul {
+  font-size: inherit;
+  line-height: inherit;
+  width: 90;
+}
+
+#content section video {
+  max-width: 100%;
+}
+
+#content section > video,
+#content section .main-column {
   width: 55%;
 }
 
@@ -16,41 +65,7 @@ section video {
   background-color: lightsteelblue;
 }
 
-/* Layout Styles */
-#content-container {
-  display: flex;
-  align-items: stretch;
-}
-
-#navbar {
-  min-width: 250px;
-  max-width: 250px;
-  margin-left: -210px;
-
-  font-size: 1.3rem;
-  line-height: 1em;
-}
-
-#container > footer {
-  color: gray;
-}
-
 /* Table of Contents */
 #table-of-contents li {
   margin-bottom: 1em;
-}
-
-/* My modifications to Tufte */
-.marginnote p,
-.marginnote ol,
-.marginnote ul,
-#navbar ol,
-#navbar p {
-  font-size: inherit;
-  line-height: inherit;
-}
-
-#navbar a {
-  underline: none;
-  background: none;
 }
