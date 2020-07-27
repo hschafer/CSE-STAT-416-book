@@ -10,10 +10,14 @@ class MarginNoteCounter {
   }
 }
 
-function MarginNote({ children, id, counter }) {
-  var prefix = "";
-  if (counter !== undefined) {
-    prefix = "" + counter.getAndUpdate();
+function MarginNote({ children, counter }) {
+  if (counter === undefined) {
+    var prefix = "";
+    var id = "margin-" + Math.random().toString(36).substring(7);
+  } else {
+    var count = counter.getAndUpdate();
+    var prefix = "" + count;
+    var id = "margin-" + prefix;
   }
   return (
     <>
