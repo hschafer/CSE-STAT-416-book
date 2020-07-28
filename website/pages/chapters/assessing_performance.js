@@ -36,7 +36,7 @@ export default function AssessingPerformance() {
           with that. For example, if you have evidence to support that the
           underlying function is, say linear
           <MarginNote counter={marginNoteCounter}>
-            Example: There is lots of empirical evidence that shows there is a
+            Example: There is strong empirical evidence that shows there is a
             linear relationship between femur length and your height.
           </MarginNote>
           , then you should start by trying <IM mat={`p=1`} />. Remember models
@@ -121,29 +121,47 @@ export default function AssessingPerformance() {
         <p>
           So if we care about future performance, how might we go about
           assessing the predictor? Instead of only considering the error metric
-          like the RSS on the training set, we will also consider the{" "}
+          like the RSS on the training dataset, we will also consider the{" "}
           <b>true error</b> of our predictor. The true error tries to quantify
           how severe the errors are that we might expect to see in the future.
         </p>
 
+        <h3>A brief segue into theory-land</h3>
         <p>
-          We have a notion of "expect" here since there are lots of sources of
-          randomness. Consider our housing example. Not all house square
-          footages are equally likely to show up in the wild. On top of that,
-          for any particular square footage, there is a distribution of prices
-          we might see
+          In order to understand what we intend to capture in a notion of "true
+          error", we have to highlight some additional statistical assumptions
+          we are making. For this discussion, we will stick with the housing
+          example, but these ideas apply more broadly to other contexts.
+        </p>
+        <p>
+          Not all house square footages are equally likely to show up in the
+          wild. There are probably no homes that have fewer than 10 square feet
+          (although some New York City apartments might feel like an exception
+          to that assumption). We might expect that there is a distribution over
+          the possible square footages indicating that some square footages are
+          more likely than others.
+        </p>
+        <p>
+          On top of that, for any particular square footage, we might expect to
+          see a range of possible prices
           <MarginNote counter={marginNoteCounter}>
-            This is one of the reasons our model always includes a{" "}
-            <IM math={"\\varepsilon_i"} /> in the relationship between
-            feature/output.
+            This is why our model always includes a{" "}
+            <IM math={"+ \\varepsilon_i"} /> in the relationship between
+            features/output.
           </MarginNote>
+          . We assume there is a distribution over the prices for one particular
+          square footage. It's entirely expected that each square footage has
+          its own distribution of prices; if this were not the case, we would
+          predict the same price for every house, regardless of their square
+          footage.
         </p>
 
         <p>
-          This is shown visually in the image below. There is a distribution on
-          the left for the how likely it is to see any particularly square
-          footage. Then for any one possible square footage, there is another
-          distribution of possible prices{" "}
+          To get a visual intuition for what we mean by these distributions, we
+          have a picture below. There is a distribution on the left for the how
+          likely it is to see any particularly square footage. Then for any one
+          possible square footage, there is another distribution of possible
+          prices{" "}
           <MarginNote counter={marginNoteCounter}>
             A fancy mathematical term for this is a <b>joint distribution</b>.
           </MarginNote>
