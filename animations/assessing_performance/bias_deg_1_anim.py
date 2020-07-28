@@ -4,7 +4,7 @@ from bias_var_scene import BBiasVarianceScene
 class Animation(BBiasVarianceScene):
     def __init__(self, **kwargs):
         nfirst = 3
-        nextra = 20
+        nextra = 3
         super().__init__(1, nfirst, nextra, **kwargs)
 
     def construct(self):
@@ -13,3 +13,5 @@ class Animation(BBiasVarianceScene):
         self.slow_draw_functions()
         self.fast_draw_functions()
         self.draw_mean_function()
+        self.remove(*self.fns_mobj)
+        self.highlight_area_between_fn(self.meanf, self.true_fn)

@@ -53,6 +53,7 @@ class AnimationFile:
         )
 
         self.public_path_vid = os.path.join(self.dirname, self.file_name + ".mp4")
+        self.public_path_img = os.path.join(self.dirname, self.file_name + ".png")
 
     @property
     def genimg(self):
@@ -126,10 +127,12 @@ def manim(af, vidcache, hard, tc, manim_args, copy=False):
         gen = af.genimg
         filepath = af.imgloc
         manim_file_name = af.manim_file_name_img
+        public_path = af.public_path_img
     else:
         gen = af.genvid
         filepath = af.vidloc
         manim_file_name = af.manim_file_name_vid
+        public_path = af.public_path_vid
 
     args.extend(["--file_name", manim_file_name])
 
@@ -155,7 +158,7 @@ def manim(af, vidcache, hard, tc, manim_args, copy=False):
         if "--preview" in args:
             preview_file(filepath)
     if copy:
-        dstfile = os.path.join("website", "public", af.public_path_vid)
+        dstfile = os.path.join("website", "public", public_path)
         dstdir, _ = os.path.split(dstfile)
         if not os.path.exists(dstdir):
             os.makedirs(dstdir)
@@ -227,11 +230,6 @@ if __name__ == "__main__":
     if args.low_quality and args.copy:
         print(
             "--copy can only be used when rendering high quality videos (saw --low_quality)"
-        )
-        exit(1)
-    if args.save_last_frame and args.copy:
-        print(
-            "--copy can only be used when rendering high quality videos (saw --save_last_frame)"
         )
         exit(1)
 

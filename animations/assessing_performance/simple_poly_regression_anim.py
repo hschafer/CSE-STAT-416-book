@@ -8,11 +8,11 @@ class Animation(BScene):
             (1, COL_RED),
             (3, COL_GOLD),
             (5, COL_PURPLE),
-            (10, COL_BLUE),
-            (11, COL_GREEN),
+            (7, COL_BLUE),
+            (8, COL_GREEN),
         ]
 
-        xs, ys, config = simple_poly_regression_get_data(seed=10001)
+        xs, ys, config = simple_poly_regression_get_data(seed=100399, N=10)
         axes, dots = axes_and_data(xs, ys, config)
 
         # model_text = BTexMobject(

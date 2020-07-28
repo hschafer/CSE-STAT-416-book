@@ -2,6 +2,14 @@ from manim_config import *
 from config import *
 
 
+GRAPH_CONFIG = {
+    "X_MIN": 0,
+    "X_MAX": 12,
+    "Y_MIN": 0,
+    "Y_MAX": 6,
+}
+
+
 class FunctionOffGraph(FunctionGraph):
     def __init__(self, function=None, **kwargs):
         self.y_min, self.y_max = 0, 1
@@ -64,26 +72,18 @@ class FunctionOffGraph(FunctionGraph):
 
 
 def simple_poly_regression_true_data():
-    config = {
-        "X_MIN": 0,
-        "X_MAX": 12,
-        "Y_MIN": 0,
-        "Y_MAX": 6,
-    }
-
     dim = 5
     XTRUE = np.array([1.0, 3.0, 6.0, 8.1, 10.5, 11.9])
     YTRUE = np.array([1.8, 4.5, 1.75, 3.0, 2.5, 3.0])
 
-    return dim, XTRUE, YTRUE[np.newaxis].T, config
+    return dim, XTRUE, YTRUE[np.newaxis].T, GRAPH_CONFIG
 
 
-def simple_poly_regression_get_data(scale=1.0, seed=100375):
+def simple_poly_regression_get_data(scale=1.0, seed=100394, N=25):
     dim, XTRUE, YTRUE, config = simple_poly_regression_true_data()
 
     b = beta(H(XTRUE, dim), YTRUE)
 
-    N = 25
     np.random.seed(seed)
     XS = np.random.uniform(config["X_MIN"], config["X_MAX"], N)
     YS = np.zeros(N)

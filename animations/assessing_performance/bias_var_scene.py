@@ -61,29 +61,23 @@ class BBiasVarianceScene(BScene):
         self.y_min = config["Y_MIN"]
         self.y_max = config["Y_MAX"]
 
-        self.intro_text = BTextMobject(
-            "Given underlying process $f(x)$", tex_to_color_map={"$f(x)$": COL_BLUE,}
-        )
-
-        self.true_fg = degfungraph(
+        self.true_fn = degfungraph(
             self.xtrue, self.ytrue, self.true_dim, COL_BLUE, config
         )
         self.true_flabel = BTexMobject("f(x)", color=COL_BLUE)
 
         # move to the right of the axes
         self.true_flabel.move_to(
-            self.axes.c2p(self.x_max, self.true_fg.function(self.x_max), 0)
+            self.axes.c2p(self.x_max, self.true_fn.function(self.x_max), 0)
             + RIGHT * 0.75
         )
 
-        axes_and_fn_label = VGroup(self.axes, self.true_fg, self.true_flabel)
-        self.intro_text.next_to(axes_and_fn_label, UP)
-        group = VGroup(axes_and_fn_label, self.intro_text)
-        self.centershift = -group.get_center()
-        group.move_to((0, 0, 0))
+        axes_and_fn_label = VGroup(self.axes, self.true_fn, self.true_flabel)
+        self.centershift = -axes_and_fn_label.get_center()
+        axes_and_fn_label.move_to((0, 0, 0))
 
-        self.play(ShowCreation(self.axes), Write(self.intro_text))
-        self.play(ShowCreation(self.true_fg))
+        self.play(ShowCreation(self.axes))
+        self.play(ShowCreation(self.true_fn))
         self.play(Write(self.true_flabel))
 
     def fns_and_dots(self, seed):
@@ -94,41 +88,48 @@ class BBiasVarianceScene(BScene):
 
         return fg, dots
 
-    def explain_first_function(self):
-        self.train_based_on_samples_text = replacement_text(
-            self.intro_text, "..and noisy samples,"
-        )
-        self.predictive_model_text = replacement_text(
-            self.train_based_on_samples_text,
-            "we learn a predictive model for that dataset.",
-        )
-        self.and_repeat_for_datasets_text = replacement_text(
-            self.predictive_model_text,
-            r"This is repeated to approximate $\bar{f}_w(x)$ $\approx \mathbb{E}[f_w(x)]$",
-            tex_to_color_map={r"$\bar{f}_w(x)$": COL_RED,},
-        )
+    def highlight_area_between_fn(self, f1, f2, dx=0.001, color=COL_RED, opacity=0.01):
+        xs = np.arange(self.x_min + 0.015, self.x_max, dx) + (dx / 2.0)
+        rects = VGroup()
+        for x in xs:
+            xl, xr = x - dx / 2.0, x + dx / 2.0
+            y1, y2 = f1.function(x), f2.function(x)
+            upper = min(max(y1, y2), self.y_max) - 0.02
+            lower = max(min(y1, y2), self.y_min) + 0.02
+            up_left = np.array([xl, upper, 0])
+            up_right = np.array([xr, upper, 0])
+            down_left = np.array([xl, lower, 0])
+            down_right = np.array([xr, lower, 0])
+            rects.add(
+                Polygon(
+                    up_left,
+                    up_right,
+                    down_right,
+                    down_left,
+                    color=color,
+                    stroke_opacity=opacity,
+                )
+            )
+        rects.shift(self.centershift)
+        self.play(ShowCreation(rects))
+        self.wait(0.5)
 
+    def explain_first_function(self):
         fg, dots = self.fns_and_dots(seed=1001001)
         self.fns_mobj.append(fg)
 
-        self.play(
-            ReplacementTransform(self.intro_text, self.train_based_on_samples_text)
+        flabel = BTexMobject("f_{\hat{w}}(x)", color=COL_PURPLE)
+
+        # move to the right of the axes
+        flabel.move_to(
+            self.axes.c2p(self.x_max, fg.function(self.x_max), 0) + RIGHT * 0.75
         )
+
         self.play(ShowCreation(dots))
-        self.wait(0.5)
-        self.play(
-            ReplacementTransform(
-                self.train_based_on_samples_text, self.predictive_model_text
-            )
-        )
         self.play(ShowCreation(fg))
+        self.play(Write(flabel))
         self.wait(0.5)
-        self.play(
-            ReplacementTransform(
-                self.predictive_model_text, self.and_repeat_for_datasets_text
-            )
-        )
-        self.play(fg.set_color, (GRAY), FadeOut(dots))
+        self.play(fg.set_color, (GRAY), FadeOut(dots), FadeOut(flabel))
 
     def slow_draw_functions(self):
         for i in range(1, self.nfirst):
@@ -162,7 +163,7 @@ class BBiasVarianceScene(BScene):
             color=COL_RED,
         )
         self.meanf.shift(self.centershift)
-        meanf_label = BTexMobject(r"\bar{f}_w(x)", color=COL_RED)
+        meanf_label = BTexMobject(r"\overline{f_{\hat{w}}}(x)", color=COL_RED)
         y_pos = min(max(self.meanf.function(self.x_max), self.y_min), self.y_max)
         meanf_label.move_to(self.axes.c2p(self.x_max, y_pos, 0) + RIGHT * 0.75)
 
@@ -193,4 +194,15 @@ class BBiasVarianceScene(BScene):
         )
         self.upper_varf.shift(self.centershift)
         self.lower_varf.shift(self.centershift)
-        self.play(ShowCreation(self.upper_varf), ShowCreation(self.lower_varf))
+
+        var_label = BTexMobject(
+            r"\overline{\left(\overline{f_{\hat{w}}} - f_{\hat{w}}\right)^2}",
+            color=COL_GOLD,
+        )
+        var_label.move_to(self.axes.c2p(self.x_max, self.y_min - 0.475, 0))
+
+        self.play(
+            ShowCreation(self.upper_varf),
+            ShowCreation(self.lower_varf),
+            Write(var_label),
+        )
