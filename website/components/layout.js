@@ -1,16 +1,13 @@
 import Link from "next/link";
 
 import tableOfContents from "../table_of_contents.js";
+import Search from "./search";
 
 import styles from "./layout.module.css";
 
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
-
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
 
 export default function Layout({ showTOC = "True", children }) {
   return (
@@ -40,14 +37,7 @@ export default function Layout({ showTOC = "True", children }) {
               ))}
             </NavDropdown>
           </Nav>
-          <Form inline>
-            <FormControl
-              type="text"
-              placeholder="Search (not active)"
-              className="mr-sm-2"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+          <Search />
         </Navbar.Collapse>
       </Navbar>
 
