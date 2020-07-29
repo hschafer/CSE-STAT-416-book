@@ -15,7 +15,28 @@ export default function AssessingPerformance() {
           regression model, using gradient descent to learn a predictor that
           minimizes our quality metric. We also introduced the important concept
           of the features used by the model, where you can transform your input
-          data to learn more complex relationships (e.g. polynomial regression).
+          data to learn more complex relationships (e.g. polynomial regression)
+          <MarginNote counter={marginNoteCounter}>
+            A quick review of these models:
+            <ul>
+              <li>
+                Linear Regression Model:{" "}
+                <IM math={`y_i = w_0 + w_1x_i + \\epsilon_i`} />
+              </li>
+              <li>
+                Polynomial Regression Model:{" "}
+                <IM
+                  math={`y_i = w_0 + w_1x_i + w_2x_i^2 + ... + w_px_i^p + \\epsilon_i`}
+                />
+              </li>
+              <li>
+                General Regression Model (polynomial regression is special
+                case):{" "}
+                <IM math={`y_i = \\sum_{j=0}^D w_ih_j(x_i) + \\epsilon_i`} />
+              </li>
+            </ul>
+          </MarginNote>
+          .
         </p>
 
         <p>
@@ -136,42 +157,46 @@ export default function AssessingPerformance() {
         <p>
           Not all house square footages are equally likely to show up in the
           wild. There are probably no homes that have fewer than 10 square feet
-          (although some New York City apartments might feel like an exception
-          to that assumption). We might expect that there is a distribution over
-          the possible square footages indicating that some square footages are
-          more likely than others.
+          (although some New York City apartments might feel like an exception).
+          We might expect that there is a distribution over the possible square
+          footages, indicating that some square footages are more likely than
+          others.
         </p>
         <p>
           On top of that, for any particular square footage, we might expect to
-          see a range of possible prices
+          see a range of possible prices for the house of that size
           <MarginNote counter={marginNoteCounter}>
             This is why our model always includes a{" "}
             <IM math={"+ \\varepsilon_i"} /> in the relationship between
             features/output.
           </MarginNote>
-          . We assume there is a distribution over the prices for one particular
-          square footage. It's entirely expected that each square footage has
-          its own distribution of prices; if this were not the case, we would
-          predict the same price for every house, regardless of their square
-          footage.
+          . It's entirely expected that each square footage has its own
+          distribution of prices; if this were not the case, we would predict
+          the same price for every house, regardless of their size. For example,
+          we would expect the prices for larger homes to trend to be more
+          expensive. This forms what statisticians call a "join distribution",
+          where there is a distribution over the combinations of square footage
+          and price.
         </p>
 
         <p>
           To get a visual intuition for what we mean by these distributions, we
           have a picture below. There is a distribution on the left for the how
-          likely it is to see any particularly square footage. Then for any one
-          possible square footage, there is another distribution of possible
-          prices{" "}
+          likely it is to see any particularly square footage{" "}
           <MarginNote counter={marginNoteCounter}>
-            A fancy mathematical term for this is a <b>joint distribution</b>.
+            📝<em>Notation:</em> The <IM math="|" /> in the label of the
+            right-hand graph is a conditional. This bar, when talking about
+            probability, indicates we are conditioning on some event occurring.
+            In our example, this is conditioning on one possible square footage.
           </MarginNote>
-          . This distribution for the prices is specific to that one square
-          footage: it is entirely possible that a different square footage has a
-          completely different distribution! For example, you would expect the
-          price distribution for a large house to tend to the side of more
-          expensive than a small house. Important Note: This picture shows
-          normal distributions for both side, but this does <em>not</em> need to
-          be the case.
+          . Then for any one possible square footage, there is another
+          distribution of possible prices. This distribution for the prices is
+          specific to that one square footage: it is entirely expected that
+          different square footages will have different distributions as we said
+          before! Important Note: This picture shows normal distributions for
+          both sides, but this does <em>not</em> necessarily need to be the
+          case. Different assumptions of the distribution yield different
+          models.
         </p>
         <figure className="fullwidth">
           <img
@@ -183,11 +208,12 @@ export default function AssessingPerformance() {
         </figure>
 
         <p>
-          One other notational thing that's generally added when discussing true
-          error is allowing the idea of a <b>loss function</b>{" "}
-          <IM math={`L(y, \\hat{f}(x))`} /> to quantify the error. The loss
-          function is one that takes the true outcome and the prediction made by
-          the predictor, and outputs a value to quantify the error made{" "}
+          One other concept that's generally added when discussing true error is
+          allowing the idea of a <b>loss function</b>{" "}
+          <IM math={`L(y, \\hat{f}(x))`} />. A loss function is a generalization
+          of our concept of RSS we discussed before. The loss function is a
+          function that takes the true outcome and the prediction made by our
+          predictor, and outputs a value to quantify the error made{" "}
           <MarginNote counter={marginNoteCounter}>
             Our RSS used earlier can be used as a loss function for a single
             input/output{" "}
@@ -195,25 +221,35 @@ export default function AssessingPerformance() {
               math={`L(y, \\hat{f}(x)) = \\left( y - \\hat{f}(x)\\right)^2`}
             />
           </MarginNote>
-          .
+          . This generalization is mostly a formality so that our discussion of
+          true error can extend to other contexts other than measuring the sum
+          of squared errors.
         </p>
 
         <p>
-          With these concepts and notations, we can now define the true error as
-          the expected loss we would see over all possible{" "}
-          <IM math={`(x, y)`} /> pairs from the domain (<IM math="X" />) and
-          range (<IM math="Y" />
-          ).
+          With these ideas, we can now define the true error as the expected
+          loss we would see over all possible <IM math={`(x, y)`} /> pairs from
+          the possible inputs (<IM math="X" />) and possible outputs (
+          <IM math="Y" />
+          ). This tries to capture how wrong our model will be "on average" over
+          all possible inputs/outputs we can see in the future. The true error
+          is defined as:
         </p>
 
         <BM
-          math={`\\mathbb{E}_{XY}\\left[L\\left(y, \\hat{f}(x)\\right)\\right]`}
+          math={`error_{true}(\\hat{f}) = \\mathbb{E}_{XY}\\left[L\\left(y, \\hat{f}(x)\\right)\\right]`}
         />
 
         <p>
-          If the inputs/outputs take on discrete values and you are able to
-          compute the probability of that pair, you can write the true error as
-          the weighted average over all <IM math={`(x, y)`} /> pairs.
+          This notation should be read exactly as our last paragraph states.
+          It's an expected value of the loss incurred over all{" "}
+          <IM math={`(x, y)`} /> pairs.
+        </p>
+        <p>
+          If the inputs and outputs take on discrete values, we can write the{" "}
+          <IM math={`p(x,y)`} /> to mean the probability of seeing the pair{" "}
+          <IM math={`(x, y)`} />. We can write the idea of the average loss
+          incurred weighted by the probability with the formula
           <MarginNote counter={marginNoteCounter}>
             📝 <em>Notation:</em> We use <IM math={`x \\in X`} /> to say some
             element <IM math={`x`} /> in a set of possible elements{" "}
@@ -229,29 +265,37 @@ export default function AssessingPerformance() {
         />
 
         <p>
-          Where <IM math={`p(x, y)`} /> is the probability of seeing the
-          specific input/output <IM math={`(x, y)`} />. Notice, this looks a lot
-          like a standard definition of expectation which is precisely what the
-          true error tries to measure! There is just the added complexity of
-          dealing with the <IM math={`(x, y)`} /> pairs. So then selecting the
-          model that generalizes best, would then mean choosing the one with the
+          This definition should be reminiscent of a formula for an expectation
+          (since that is what it is computing), with a few modifications. Now,
+          there is the added complexity of dealing with the{" "}
+          <IM math={`(x, y)`} /> pairs which requires the nested sum. If this
+          sum is large, that means "on average", the model incurs high loss
+          (i.e. has lots of error)
+        </p>
+        <p>
+          The details of the specific notation is not the main point here. It's
+          important to get the intuition behind what this value is trying to
+          compute. So with that in mind, our task of selecting the model that
+          generalizes best, is exactly the task of finding the model with the
           lowest true error.
         </p>
 
         <p>
-          In many real-life circumstances, it turns out to not be possible to
-          compute this true error. You might not know the exact distributions of
-          the houses and their prices of all possible houses you could see in
-          the future! So without access to all future data, how can we actually
-          compute the true error?
+          Unfortunately in most real-life circumstances, it's not possible to
+          compute this true error! You might not know the exact distributions of
+          the houses or the distribution of prices conditioned on a particular
+          house size. Since we don't know the distribution, there is no way we
+          can exactly compute this expectation. So without access to all future
+          data, how can we actually compute the true error?
         </p>
 
+        <h3>Back to practice</h3>
         <p>
           A very common technique in machine learning suggests that if you
-          aren't able to exactly compute something, you can try to estimate it.
-          That's what we will do here. The basic idea is to hide part of our
-          dataset from our ML algorithm and use that hidden data as a proxy for
-          "all future data" after the predictor is trained.
+          aren't able to exactly compute something, you can try to estimate it
+          using data you have. That's what we will do here. The basic idea is to
+          hide part of our dataset from our ML algorithm and use that hidden
+          data as a proxy for "all future data" after the predictor is trained.
         </p>
 
         <p>
@@ -270,11 +314,11 @@ export default function AssessingPerformance() {
         </ul>
 
         <p>
-          So even though value we really care about is the <em>true error</em>,
-          we will use the error on the test set as a stand-in for that value. We
-          call the error made by the model on the test set the <b>test error</b>
-          , which we can compute. In the case of regression using RSS as the
-          loss function
+          So even though the value we really care about is the{" "}
+          <em>true error</em>, we will use this error computed from the test set
+          as a stand-in for that value. We call the error made by the model on
+          the test set the <b>test error</b>, which we <em>can</em> compute. In
+          the case of regression using RSS as the loss function
           <MarginNote counter={marginNoteCounter}>
             📝 <em>Notation:</em> We use a new notation for{" "}
             <IM math={`\\hat{f}`} /> to signify that it is the predictor defined
@@ -282,12 +326,26 @@ export default function AssessingPerformance() {
             saying that <IM math={`\\hat{f}(x) = f_{\\hat{w}}(x)`} />. Just two
             notations for the same thing, but the second is more explicit in
             what is estimated!
+            <br />
+            <br />
+            We use <IM math={`RSS_{test}(\\hat{w})`} /> to mean the same thing
+            as <IM math={`RSS_{test}(\\hat{f})`} /> or{" "}
+            <IM math={`RSS_{test}(f_{\\hat{w}})`} />.
           </MarginNote>
-          :
+          , the test error is defined as:
         </p>
 
         <BM
           math={`RSS_{test}(\\hat{w}) = \\sum_{x_i \\in Test} \\left(y_i - f_{\\hat{w}}(x_i)\\right)^2`}
+        />
+
+        <p>
+          More generally, a common definition of the test error is the average
+          loss for whichever loss function <IM math={`L`} /> you are using.
+        </p>
+
+        <BM
+          math={`error_{test}(\\hat{f}) = \\frac{1}{n_{test}}\\sum_{x_i \\in Test} L(y, \\hat{f}(x))`}
         />
 
         <p>
@@ -304,12 +362,14 @@ export default function AssessingPerformance() {
         </p>
 
         <p>
-          However, by making your test set larger, you will need to be making
-          your training set smaller. This can cause problems since we want as
-          much training data possible to give us the best possible estimate of
-          the true function. Consider the animation below that compares a small
-          training dataset to a large one.
+          However, because you only have finite data, by making your test set
+          larger you will need to make your training set smaller. This can cause
+          problems since we want as much training data possible to give us the
+          best possible estimate of the true function. Consider the animation
+          below that compares a small training dataset to a large one.
         </p>
+
+        <p>TODO(manim): Train data size</p>
 
         <p>
           In practice, people generally use a ratio of 80% train and 20% test or
@@ -320,9 +380,13 @@ export default function AssessingPerformance() {
         <ul>
           <li>
             When splitting a train/test set, you should do so randomly. If you
-            selected the last 20% of the data as a test set, you could
-            potentially introduce biases in the test set if your data was
-            originally sorted, say by square footage.
+            selected the last 20% of the data as a test set you could
+            potentially introduce biases in the test set. Imagine your data was
+            sorted by square footage from smallest to largest. If you selected
+            the last 20% of the rows as a test set, your test set would be
+            entirely larger houses than the ones you trained on. This is not
+            ideal since we wanted the test set to be a stand in for "all future
+            data", which is not entirely large houses.
           </li>
           <li>
             Once you have put data in your test set, you must <b>never</b> train
@@ -885,7 +949,7 @@ export default function AssessingPerformance() {
 
         <p>
           So for the image above, in order to evaluate a single model
-          complexity, we will end up training four seperate predictors:
+          complexity, we will end up training four separate predictors:
         </p>
         <ul>
           <li>Train on Chunks 1,2,3 and Validate on Chunk 4</li>
