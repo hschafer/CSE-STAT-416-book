@@ -3,27 +3,24 @@ body,
 #content * {
   /* Fight the bootstrap powers */
   box-sizing: unset;
+  /* Undo those styles from Tufte */
+  width: unset;
+  margin-left: unset;
+  margin-right: unset;
+  padding-left: unset;
+  max-width: unset;
 }
 
-body {
-  /* margin-left: 8px;
-  margin-right: auto;*/
-  margin-left: 35px;
-  margin-right: 8px;
-}
-
-#content-container {
-  display: flex;
-  align-items: stretch;
+#container {
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 12.5%;
 }
 
 #container > footer {
   color: gray;
   margin-top: 4em;
-}
-
-nav {
-  max-width: 75%;
 }
 
 blockquote {

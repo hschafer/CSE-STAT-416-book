@@ -15,7 +15,7 @@ import Button from "react-bootstrap/Button";
 export default function Layout({ showTOC = "True", children }) {
   return (
     <>
-      <Navbar expand="lg">
+      <Navbar className={styles.nav} variant="dark" expand="xl" sticky="top">
         {/* Same as example nav, but need to use Links instead of hrefs */}
         <Link href="/">
           <a className="navbar-brand">CSE/STAT 416 Book</a>
@@ -43,10 +43,9 @@ export default function Layout({ showTOC = "True", children }) {
           <Form inline>
             <FormControl
               type="text"
-              placeholder="Search (not active)"
+              placeholder="🔍 Search (not active)"
               className="mr-sm-2"
             />
-            <Button variant="outline-success">Search</Button>
           </Form>
         </Navbar.Collapse>
       </Navbar>
