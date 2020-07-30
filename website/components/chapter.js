@@ -3,9 +3,10 @@ import styles from "./chapter.module.css";
 import tableOfContents from "../table_of_contents";
 
 function findChapterInfo(fileName) {
-  const chapter = tableOfContents.filter(
-    (chapter) => chapter.file === fileName
-  );
+  const chapter = tableOfContents
+    .map((entry) => (entry.caseStudy ? entry.chapters : [entry]))
+    .flat(1)
+    .filter((chapter) => chapter.file === fileName);
 
   if (chapter.length == 0) {
     throw new Error("File name not found");

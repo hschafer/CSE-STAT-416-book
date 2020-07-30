@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 
 import tableOfContents from "../table_of_contents.js";
@@ -8,9 +9,62 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
+import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
+
+function makeChapter(chapter) {
+  return (
+    <NavDropdown.Item key={chapter.file}>
+      <Link href={`/chapters/${chapter.file}`}>
+        <span>
+          {chapter.chapterNumber}. {chapter.title}
+        </span>
+      </Link>
+    </NavDropdown.Item>
+  );
+}
+
+function makeCaseStudy(caseStudy) {
+  const [open, setOpen] = useState(false);
+
+  function onClick(evt) {
+    setOpen(!open);
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
+
+  return (
+    <div key={caseStudy.caseStudy}>
+      <NavDropdown.Item>
+        <button
+          onClick={onClick}
+          aria-controls={`case-study-${caseStudy.caseStudy}`}
+          aria-expanded={open}
+          className={styles.unbutton}
+        >
+          {" "}
+          🌟 {caseStudy.title}
+        </button>
+      </NavDropdown.Item>
+
+      <Collapse in={open} className={styles.caseStudyChapter}>
+        <div id={`case-study-${caseStudy.caseStudy}`}>
+          {caseStudy.chapters.map(makeDropdownElement)}
+        </div>
+      </Collapse>
+    </div>
+  );
+}
+
+function makeDropdownElement(entry) {
+  if (entry.caseStudy) {
+    return makeCaseStudy(entry);
+  } else {
+    return makeChapter(entry);
+  }
+}
 
 export default function Layout({ showTOC = "True", children }) {
   return (
@@ -29,15 +83,7 @@ export default function Layout({ showTOC = "True", children }) {
               </a>
             </Link>
             <NavDropdown title="Chapters" id="basic-nav-dropdown">
-              {tableOfContents.map((chapter) => (
-                <NavDropdown.Item key={chapter.file}>
-                  <Link href={`/chapters/${chapter.file}`}>
-                    <span>
-                      {chapter.chapterNumber}. {chapter.title}
-                    </span>
-                  </Link>
-                </NavDropdown.Item>
-              ))}
+              {tableOfContents.map(makeDropdownElement)}
             </NavDropdown>
           </Nav>
           <Form inline>

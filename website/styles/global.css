@@ -66,3 +66,12 @@ blockquote {
 #table-of-contents li {
   margin-bottom: 1em;
 }
+
+#table-of-contents li.case-study {
+  list-style: "🌟 ";
+  list-style-type: "🌟 ";
+}
+
+#table-of-contents .case-study ol {
+  padding-left: 2em;
+}
