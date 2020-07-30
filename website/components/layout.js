@@ -85,6 +85,16 @@ export default function Layout({ showTOC = "True", children }) {
             <NavDropdown title="Chapters" id="basic-nav-dropdown">
               {tableOfContents.map(makeDropdownElement)}
             </NavDropdown>
+            <Link href="/">
+              <a className="nav-link" role="button">
+                &#8592; Previous Chapter
+              </a>
+            </Link>
+            <Link href="/">
+              <a className="nav-link" role="button">
+                Next Chapter &#8594;
+              </a>
+            </Link>
           </Nav>
           <Form inline>
             <FormControl
@@ -99,8 +109,24 @@ export default function Layout({ showTOC = "True", children }) {
       <div id="container">
         <div id="content-container">
           <main id="content">{children}</main>
+          <div className="mainColumn">
+            <Link href="/">
+              <a className="tufte-link no-tufte-underline" role="button">
+                &#8592; Previous Chapter
+              </a>
+            </Link>
+            <Link href="/">
+              <a
+                className="tufte-link no-tufte-underline"
+                role="button"
+                style={{ float: "right" }}
+              >
+                Next Chapter &#8594;
+              </a>
+            </Link>
+          </div>
         </div>
-        {/* TODO this isn't the BEST styling, but I don't know how to make flex work. */}
+
         <footer>
           <p>
             Have any feedback about the book? Please let us know using{" "}

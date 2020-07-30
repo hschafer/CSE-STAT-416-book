@@ -204,7 +204,8 @@ body {
 
 #content section > p,
 #content section > footer,
-#content section > table {
+#content section > table,
+.mainColumn {
   width: 55%;
 }
 
@@ -255,8 +256,8 @@ body {
 }
 
 .no-tufte-underline:link {
-  background: unset;
-  text-shadow: unset;
+  background: unset !important;
+  text-shadow: unset !important;
 }
 
 #content a:link,
