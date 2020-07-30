@@ -66,7 +66,12 @@ function makeDropdownElement(entry) {
   }
 }
 
-export default function Layout({ showTOC = "True", children }) {
+export default function Layout({
+  showTOC = "True",
+  prevPage,
+  nextPage,
+  children,
+}) {
   return (
     <>
       <Navbar className={styles.nav} variant="dark" expand="xl" sticky="top">
@@ -85,16 +90,24 @@ export default function Layout({ showTOC = "True", children }) {
             <NavDropdown title="Chapters" id="basic-nav-dropdown">
               {tableOfContents.map(makeDropdownElement)}
             </NavDropdown>
-            <Link href="/">
-              <a className="nav-link" role="button">
-                &#8592; Previous Chapter
-              </a>
-            </Link>
-            <Link href="/">
-              <a className="nav-link" role="button">
-                Next Chapter &#8594;
-              </a>
-            </Link>
+            {prevPage ? (
+              <Link href={prevPage}>
+                <a className="nav-link" role="button">
+                  &#8592; Previous Chapter
+                </a>
+              </Link>
+            ) : (
+              ""
+            )}
+            {nextPage ? (
+              <Link href={nextPage}>
+                <a className="nav-link" role="button">
+                  Next Chapter &#8594;
+                </a>
+              </Link>
+            ) : (
+              ""
+            )}
           </Nav>
           <Form inline>
             <FormControl
@@ -110,20 +123,28 @@ export default function Layout({ showTOC = "True", children }) {
         <div id="content-container">
           <main id="content">{children}</main>
           <div className="mainColumn">
-            <Link href="/">
-              <a className="tufte-link no-tufte-underline" role="button">
-                &#8592; Previous Chapter
-              </a>
-            </Link>
-            <Link href="/">
-              <a
-                className="tufte-link no-tufte-underline"
-                role="button"
-                style={{ float: "right" }}
-              >
-                Next Chapter &#8594;
-              </a>
-            </Link>
+            {prevPage ? (
+              <Link href={prevPage}>
+                <a className="tufte-link no-tufte-underline" role="button">
+                  &#8592; Previous Chapter
+                </a>
+              </Link>
+            ) : (
+              ""
+            )}
+            {nextPage ? (
+              <Link href="/">
+                <a
+                  className="tufte-link no-tufte-underline"
+                  role="button"
+                  style={{ float: "right" }}
+                >
+                  Next Chapter &#8594;
+                </a>
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
         </div>
 

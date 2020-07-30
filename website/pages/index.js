@@ -17,7 +17,10 @@ function chapterToLI(chapter) {
 
 export default function Home() {
   return (
-    <Layout showTOC="False">
+    <Layout
+      showTOC="False"
+      nextPage={`/chapters/${tableOfContents[0]["file"]}`}
+    >
       <Head>
         <title>CSE/STAT 416 Book</title>
         <link rel="icon" href="/favicon.ico" />
