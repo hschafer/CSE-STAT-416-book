@@ -133,7 +133,7 @@ export default function Layout({
               ""
             )}
             {nextPage ? (
-              <Link href="/">
+              <Link href={nextPage}>
                 <a
                   className="tufte-link no-tufte-underline"
                   role="button"

@@ -3,27 +3,49 @@ import styles from "./chapter.module.css";
 import tableOfContents from "../table_of_contents";
 
 function findChapterInfo(fileName) {
-  const chapter = tableOfContents
+  var flattenedChapters = tableOfContents
     .map((entry) => (entry.caseStudy ? entry.chapters : [entry]))
-    .flat(1)
-    .filter((chapter) => chapter.file === fileName);
+    .flat(1);
+  var chapterIndex = flattenedChapters.findIndex(
+    (chapter) => chapter.file === fileName
+  );
 
-  if (chapter.length == 0) {
+  if (chapterIndex === undefined) {
     throw new Error("File name not found");
-  } else if (chapter.length > 1) {
-    throw new Error("File name not unique");
   }
+  console.log(flattenedChapters);
+  console.log(chapterIndex);
 
-  return chapter[0];
+  return {
+    chapter: flattenedChapters[chapterIndex],
+    prevChapter:
+      chapterIndex > 0 ? flattenedChapters[chapterIndex - 1] : undefined,
+    nextChapter:
+      chapterIndex < flattenedChapters.length - 1
+        ? flattenedChapters[chapterIndex + 1]
+        : undefined,
+  };
+}
+
+function toURL(chapter) {
+  if (chapter) {
+    return `/chapters/${chapter.file}`;
+  } else {
+    return undefined;
+  }
 }
 
 export default function Chapter({ children, fileName }) {
-  const chapter = findChapterInfo(fileName);
+  const chapterInfo = findChapterInfo(fileName);
   return (
-    <Layout>
+    <Layout
+      prevPage={toURL(chapterInfo.prevChapter)}
+      nextPage={toURL(chapterInfo.nextChapter)}
+    >
       <article>
         <h1>
-          Chapter {chapter.chapterNumber}: {chapter.title}
+          Chapter {chapterInfo.chapter.chapterNumber}:{" "}
+          {chapterInfo.chapter.title}
         </h1>
         {children}
       </article>
