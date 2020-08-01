@@ -1,8 +1,6 @@
 import Head from "next/head";
-import Link from "next/link";
-
 import Layout from "../components/layout";
-
+import Link from "next/link";
 import tableOfContents from "../table_of_contents.js";
 
 export default function Home() {
