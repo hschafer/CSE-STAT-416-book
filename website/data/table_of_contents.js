@@ -26,38 +26,54 @@ const tableOfContents = [
   },
 ];
 
+class ChapterInfo {
+  constructor(chapterInfoData, urlPrefix) {
+    this.chapterInfoData = chapterInfoData;
+    this.urlPrefix = urlPrefix;
+  }
+
+  getTitle() {
+    return this.chapterInfoData.title;
+  }
+
+  getFile() {
+    return this.chapterInfoData.file;
+  }
+
+  getChapterNum() {
+    return this.chapterInfoData.chapterNumber;
+  }
+
+  getURL() {
+    return this.urlPrefix + this.chapterInfoData.file;
+  }
+}
+
 // Class to store global information about the book
 // and convenience functions to operate on them.
 // Public (read only) Fields:
 //   tableOfContents
 class BookContents {
   constructor(tableOfContents, urlPrefix = "/chapters/") {
-    this.tableOfContents = tableOfContents;
+    this.tableOfContents = tableOfContents.map(
+      (chapterInfo) => new ChapterInfo(chapterInfo, urlPrefix)
+    );
     this.urlPrefix = urlPrefix;
   }
 
   getChapterInfo(file) {
+    console;
     const chapter = this.tableOfContents.filter(
-      (chapter) => chapter.file === file
+      (chapter) => chapter.getFile() === file
     );
 
     if (chapter.length == 0) {
-      throw "File name not found";
+      throw `File name not found ${file}`;
     } else if (chapter.length > 1) {
       throw "File name not unique";
     }
 
     return chapter[0];
-  }
-
-  getURLForFile(file) {
-    const chapterInfo = this.getChapterInfo(file);
-    return this.urlPrefix + chapterInfo.file;
-  }
-
-  getChapNumForFile(file) {
-    const chapterInfo = this.getChapterInfo(file);
-    return chapterInfo.chapterNumber;
   }
 }
 

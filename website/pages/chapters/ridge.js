@@ -2,12 +2,15 @@ import { BM, IM } from "../../components/latex";
 import { MarginNote, MarginNoteCounter } from "../../components/marginnote";
 
 import Chapter from "../../components/chapter";
+import Link from "next/link";
 import Video from "../../components/video";
+import bookContents from "../../data/table_of_contents";
 
 export default function Ridge() {
   var marginNoteCounter = new MarginNoteCounter();
+  var linRegChapter = bookContents.getChapterInfo("linear_regression");
   return (
-    <Chapter fileName="Ridge">
+    <Chapter fileName="ridge">
       <section>
         <p>
           So in the last chapter, we discussed how to assess the performance of
@@ -26,6 +29,12 @@ export default function Ridge() {
         </p>
 
         <h2>Interpreting Coefficients</h2>
+        <p>
+          Recall that back in{" "}
+          <Link href={linRegChapter.getURL()}>
+            <a>Chapter {linRegChapter.getChapterNum()}</a>
+          </Link>{" "}
+        </p>
       </section>
     </Chapter>
   );

@@ -26,10 +26,10 @@ export default function Layout({ showTOC = "True", children }) {
             </Link>
             <NavDropdown title="Chapters" id="basic-nav-dropdown">
               {bookContents.tableOfContents.map((chapter) => (
-                <NavDropdown.Item key={chapter.file}>
-                  <Link href={`/chapters/${chapter.file}`}>
+                <NavDropdown.Item key={chapter.getFile()}>
+                  <Link href={`/chapters/${chapter.getFile()}`}>
                     <span>
-                      {chapter.chapterNumber}. {chapter.title}
+                      {chapter.getChapterNum()}. {chapter.getTitle()}
                     </span>
                   </Link>
                 </NavDropdown.Item>
