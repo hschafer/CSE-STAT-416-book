@@ -15,6 +15,11 @@ const tableOfContents = [
     file: "assessing_performance",
   },
   {
+    chapterNumber: "3",
+    title: "Regularization: Ridge",
+    file: "ridge",
+  },
+  {
     chapterNumber: "99",
     title: "Tufte (layout example)",
     file: "tufte",
