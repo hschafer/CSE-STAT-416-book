@@ -1,8 +1,9 @@
-import Chapter from "../../components/chapter";
-import { IM, BM } from "../../components/latex";
+import { BM, IM } from "../../components/latex";
 import { MarginNote, MarginNoteCounter } from "../../components/marginnote";
-import Video from "../../components/video";
+
+import Chapter from "../../components/chapter";
 import TYU from "../../components/test_your_understanding";
+import Video from "../../components/video";
 
 export default function AssessingPerformance() {
   var marginNoteCounter = new MarginNoteCounter();
@@ -221,9 +222,8 @@ export default function AssessingPerformance() {
               math={`L(y, \\hat{f}(x)) = \\left( y - \\hat{f}(x)\\right)^2`}
             />
           </MarginNote>
-          . This generalization is mostly a formality so that our discussion of
-          true error can extend to other contexts other than measuring the sum
-          of squared errors.
+          . This generalization allows us to consider a broader class of loss
+          function other than just RSS.
         </p>
 
         <p>
@@ -293,9 +293,9 @@ export default function AssessingPerformance() {
         <p>
           A very common technique in machine learning suggests that if you
           aren't able to exactly compute something, you can try to estimate it
-          using data you have. That's what we will do here. The basic idea is to
-          hide part of our dataset from our ML algorithm and use that hidden
-          data as a proxy for "all future data" after the predictor is trained.
+          using data you have. That's what we will do here. The idea is to hide
+          part of our dataset from our ML algorithm and use that hidden data as
+          a proxy for "all future data" after the predictor is trained.
         </p>
 
         <p>
@@ -341,11 +341,17 @@ export default function AssessingPerformance() {
 
         <p>
           More generally, a common definition of the test error is the average
-          loss for whichever loss function <IM math={`L`} /> you are using.
+          loss for whichever loss function <IM math={`L`} /> you are using
+          <MarginNote counter={marginNoteCounter}>
+            📝<em>Notation:</em> We use the notation <IM math={`|S|`} /> to mean
+            the number of elements in the set <IM math={`S`} />. So{" "}
+            <IM math={`|Test|`} /> is the number of test examples we are using.
+          </MarginNote>
+          .
         </p>
 
         <BM
-          math={`error_{test}(\\hat{f}) = \\frac{1}{n_{test}}\\sum_{x_i \\in Test} L(y, \\hat{f}(x))`}
+          math={`error_{test}(\\hat{f}) = \\frac{1}{|Test|}\\sum_{x_i \\in Test} L(y, \\hat{f}(x))`}
         />
 
         <p>
