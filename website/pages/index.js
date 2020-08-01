@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Layout from "../components/layout";
 import Link from "next/link";
-import tableOfContents from "../table_of_contents.js";
+import bookContents from "../data/table_of_contents.js";
 
 export default function Home() {
   return (
@@ -42,7 +42,7 @@ export default function Home() {
           <h2>Table of Contents</h2>
 
           <ol id="table-of-contents">
-            {tableOfContents.map((chapter) => (
+            {bookContents.tableOfContents.map((chapter) => (
               <li key={chapter.file} value={chapter.chapterNumber}>
                 <Link href={`/chapters/${chapter.file}`}>
                   <a>{chapter.title}</a>
