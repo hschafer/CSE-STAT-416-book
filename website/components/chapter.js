@@ -1,7 +1,6 @@
 import Layout from "./layout";
-import tableOfContents from "../table_of_contents";
-
 import styles from "./chapter.module.css";
+import tableOfContents from "../table_of_contents";
 
 function findChapterInfo(fileName) {
   const chapter = tableOfContents.filter(
@@ -9,9 +8,9 @@ function findChapterInfo(fileName) {
   );
 
   if (chapter.length == 0) {
-    throw "File name not found";
+    throw new Error("File name not found");
   } else if (chapter.length > 1) {
-    throw "File name not unique";
+    throw new Error("File name not unique");
   }
 
   return chapter[0];
