@@ -60,7 +60,7 @@ export default function AssessingPerformance() {
             Example: There is strong empirical evidence that shows there is a
             linear relationship between femur length and your height.
           </MarginNote>
-          , then you should start by trying <IM mat={`p=1`} />. Remember models
+          , then you should start by trying <IM math={`p=1`} />. Remember models
           are always assumptions about how the world works, so in some contexts,
           you might want to be skeptical and try other options.
         </p>
