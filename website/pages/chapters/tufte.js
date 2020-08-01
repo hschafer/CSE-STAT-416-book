@@ -22,7 +22,7 @@ export default function Tufte() {
           <h2>Section</h2>
           <p>
             Some text
-            <MarginNote counter={marginNoteCounter}>
+            <MarginNote counter={marginNoteCounter} id="mn-demo">
               This is a margin note. Notice there isn't a number preceding the
               note.
             </MarginNote>
@@ -39,7 +39,7 @@ export default function Tufte() {
 
           <p>
             Some text.
-            <MarginNote counter={marginNoteCounter}>
+            <MarginNote counter={marginNoteCounter} id="mn-demo2">
               This is another margin note. Notice there isn't a number preceding
               the note.
             </MarginNote>
@@ -53,7 +53,7 @@ export default function Tufte() {
             inline figure, a margin figure, and a full-width figure.
           </p>
           <figure>
-            <MarginNote counter={marginNoteCounter}>
+            <MarginNote counter={marginNoteCounter} id="mn-demo3">
               An inline figure
             </MarginNote>
             <img
@@ -64,7 +64,7 @@ export default function Tufte() {
 
           <p>
             This paragraph
-            <MarginNote counter={marginNoteCounter}>
+            <MarginNote counter={marginNoteCounter} id="mn-demo4">
               <img
                 src="https://edwardtufte.github.io/tufte-css/img/rhino.png"
                 alt="Another image"
