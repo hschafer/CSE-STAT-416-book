@@ -40,8 +40,7 @@ function makeCaseStudy(caseStudy) {
           aria-expanded={open}
           className={styles.unbutton}
         >
-          {" "}
-          🌟 {caseStudy.title}
+          {caseStudy.title}
         </button>
       </NavDropdown.Item>
 

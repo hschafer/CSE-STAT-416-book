@@ -63,13 +63,21 @@ blockquote {
 }
 
 /* Table of Contents */
+#table-of-contents {
+  list-style-position: inside;
+}
+
+#table-of-contents h3 {
+  font-style: normal;
+}
+
 #table-of-contents li {
   margin-bottom: 1em;
 }
 
 #table-of-contents li.case-study {
-  list-style: "🌟 ";
-  list-style-type: "🌟 ";
+  list-style: "";
+  list-style-type: "";
 }
 
 #table-of-contents .case-study ol {
