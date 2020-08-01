@@ -17,22 +17,35 @@ import styles from "./test_your_understanding.module.css";
       </div>
     </div>
   ); */
-export default function TYU({ header, children }) {
-  const [expanded, setExpanded] = useState(false);
 
+function TYUHeader({ children }) {
+  return (
+    <Card.Header className={styles.header}>
+      <span className={styles.question_mark}>&#x3f;</span>
+      <Accordion.Toggle as={Button} variant="link" eventKey="0">
+        {children}
+      </Accordion.Toggle>
+    </Card.Header>
+  );
+}
+
+function TYUExplanation({ children }) {
+  return (
+    <Accordion.Collapse eventKey="0">
+      <Card.Body>{children}</Card.Body>
+    </Accordion.Collapse>
+  );
+}
+
+function TYU({ children }) {
   return (
     <Accordion className="main-column">
-      <Card>
-        <Card.Header className={styles.header}>
-          <span className={styles.question_mark}>&#x3f;</span>
-          <Accordion.Toggle as={Button} variant="link" eventKey="0">
-            {header}
-          </Accordion.Toggle>
-        </Card.Header>
-        <Accordion.Collapse eventKey="0">
-          <Card.Body>{children}</Card.Body>
-        </Accordion.Collapse>
-      </Card>
+      <Card>{children}</Card>
     </Accordion>
   );
 }
+
+TYU.Header = TYUHeader;
+TYU.Explanation = TYUExplanation;
+
+export default TYU;
