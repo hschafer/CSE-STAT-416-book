@@ -5,8 +5,8 @@ import Link from "next/link";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
+import bookContents from "../data/table_of_contents.js";
 import styles from "./layout.module.css";
-import tableOfContents from "../table_of_contents.js";
 
 export default function Layout({ showTOC = "True", children }) {
   return (
@@ -25,7 +25,7 @@ export default function Layout({ showTOC = "True", children }) {
               </a>
             </Link>
             <NavDropdown title="Chapters" id="basic-nav-dropdown">
-              {tableOfContents.map((chapter) => (
+              {bookContents.tableOfContents.map((chapter) => (
                 <NavDropdown.Item key={chapter.file}>
                   <Link href={`/chapters/${chapter.file}`}>
                     <span>
