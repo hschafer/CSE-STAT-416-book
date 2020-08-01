@@ -88,20 +88,26 @@ export default function AssessingPerformance() {
           </MarginNote>
         </p>
 
-        <TYU header="Which predictor in the animation above has the lowest RSS on that dataset?">
-          <p>
-            The model with the highest degree <IM math="p" />!
-          </p>
+        <TYU>
+          <TYU.Header>
+            Which predictor in the animation above has the lowest RSS on that
+            dataset?
+          </TYU.Header>
+          <TYU.Explanation>
+            <p>
+              The model with the highest degree <IM math="p" />!
+            </p>
 
-          <p>
-            Why is that? Well, with a higher degree polynomial, it is allowed to
-            "wiggle" up and down more. If you keep letting the degree grow, it
-            will eventually be able to be complex enough so that the curve
-            passes perfectly through every point. In other words, a sufficiently
-            high degree polynomial might be able to get an RSS of 0. So
-            following that approach would lead to use selecting the model with
-            the highest degree <IM math="p" /> every time!
-          </p>
+            <p>
+              Why is that? Well, with a higher degree polynomial, it is allowed
+              to "wiggle" up and down more. If you keep letting the degree grow,
+              it will eventually be able to be complex enough so that the curve
+              passes perfectly through every point. In other words, a
+              sufficiently high degree polynomial might be able to get an RSS of
+              0. So following that approach would lead to use selecting the
+              model with the highest degree <IM math="p" /> every time!
+            </p>
+          </TYU.Explanation>
         </TYU>
 
         <p>
