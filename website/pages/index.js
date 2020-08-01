@@ -1,8 +1,6 @@
 import Head from "next/head";
-import Link from "next/link";
-
 import Layout from "../components/layout";
-
+import Link from "next/link";
 import tableOfContents from "../table_of_contents.js";
 
 function chapterToLI(chapter) {
@@ -17,10 +15,7 @@ function chapterToLI(chapter) {
 
 export default function Home() {
   return (
-    <Layout
-      showTOC="False"
-      nextPage={`/chapters/${tableOfContents[0]["file"]}`}
-    >
+    <Layout showTOC="False">
       <Head>
         <title>CSE/STAT 416 Book</title>
         <link rel="icon" href="/favicon.ico" />

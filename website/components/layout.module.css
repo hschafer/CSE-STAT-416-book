@@ -3,6 +3,11 @@
   background-color: #9e89b3;
 }
 
+.nav .navlink,
+.nav .navdropdown > a {
+  color: #fffff8 !important;
+}
+
 button.unbutton {
   font-size: inherit;
   font-family: inherit;

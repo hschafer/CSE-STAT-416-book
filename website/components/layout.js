@@ -1,18 +1,14 @@
-import { useState } from "react";
-import Link from "next/link";
-
-import tableOfContents from "../table_of_contents.js";
-
-import styles from "./layout.module.css";
-
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
-
+import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
+import Link from "next/link";
+import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Navbar from "react-bootstrap/Navbar";
+import styles from "./layout.module.css";
+import tableOfContents from "../table_of_contents.js";
+import { useState } from "react";
 
 function makeChapter(chapter) {
   return (
@@ -83,16 +79,20 @@ export default function Layout({
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Link href="/">
-              <a className="nav-link" role="button">
+              <a className={"nav-link " + styles.navlink} role="button">
                 Home
               </a>
             </Link>
-            <NavDropdown title="Chapters" id="basic-nav-dropdown">
+            <NavDropdown
+              title="Chapters"
+              className={styles.navdropdown}
+              id="basic-nav-dropdown"
+            >
               {tableOfContents.map(makeDropdownElement)}
             </NavDropdown>
             {prevPage ? (
               <Link href={prevPage}>
-                <a className="nav-link" role="button">
+                <a className={"nav-link " + styles.navlink} role="button">
                   &#8592; Previous Chapter
                 </a>
               </Link>
@@ -101,7 +101,7 @@ export default function Layout({
             )}
             {nextPage ? (
               <Link href={nextPage}>
-                <a className="nav-link" role="button">
+                <a className={"nav-link " + styles.navlink} role="button">
                   Next Chapter &#8594;
                 </a>
               </Link>
