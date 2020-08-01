@@ -8,7 +8,7 @@ export default function Chapter({ children, fileName }) {
     <Layout>
       <article>
         <h1>
-          Chapter {chapter.chapterNumber}: {chapter.title}
+          Chapter {chapter.getChapterNum()}: {chapter.getTitle()}
         </h1>
         {children}
       </article>
