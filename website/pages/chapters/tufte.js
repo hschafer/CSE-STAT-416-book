@@ -1,5 +1,6 @@
-import Chapter from "../../components/chapter";
 import { MarginNote, MarginNoteCounter } from "../../components/marginnote";
+
+import Chapter from "../../components/chapter";
 
 export default function Tufte() {
   const codeBlocks = {

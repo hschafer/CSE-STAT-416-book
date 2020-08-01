@@ -1,6 +1,7 @@
-import Chapter from "../../components/chapter";
-import { IM, BM } from "../../components/latex";
+import { BM, IM } from "../../components/latex";
 import { MarginNote, MarginNoteCounter } from "../../components/marginnote";
+
+import Chapter from "../../components/chapter";
 import Video from "../../components/video";
 
 export default function Ridge() {

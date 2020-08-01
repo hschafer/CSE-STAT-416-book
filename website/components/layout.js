@@ -1,16 +1,12 @@
-import Link from "next/link";
-
-import tableOfContents from "../table_of_contents.js";
-
-import styles from "./layout.module.css";
-
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
-
+import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
+import Link from "next/link";
+import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Navbar from "react-bootstrap/Navbar";
+import styles from "./layout.module.css";
+import tableOfContents from "../table_of_contents.js";
 
 export default function Layout({ showTOC = "True", children }) {
   return (
