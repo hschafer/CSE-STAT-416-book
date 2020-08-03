@@ -3,6 +3,16 @@ import Layout from "../components/layout";
 import Link from "next/link";
 import bookContents from "../data/table_of_contents.js";
 
+function chapterToLI(chapter) {
+  return (
+    <li key={chapter.file} value={chapter.chapterNumber}>
+      <Link href={`/chapters/${chapter.file}`}>
+        <a>{chapter.title}</a>
+      </Link>
+    </li>
+  );
+}
+
 export default function Home() {
   return (
     <Layout showTOC="False">
@@ -42,13 +52,16 @@ export default function Home() {
           <h2>Table of Contents</h2>
 
           <ol id="table-of-contents">
-            {bookContents.tableOfContents.map((chapter) => (
-              <li key={chapter.file} value={chapter.chapterNumber}>
-                <Link href={`/chapters/${chapter.file}`}>
-                  <a>{chapter.title}</a>
-                </Link>
-              </li>
-            ))}
+            {console.log(bookContents)}
+            {bookContents.tocMap(
+              (caseStudy) => (
+                <li key={caseStudy.caseStudy} className="case-study">
+                  <h3>{caseStudy.title}</h3>
+                  <ol>{caseStudy.chapters.map(chapterToLI)}</ol>
+                </li>
+              ),
+              chapterToLI
+            )}
           </ol>
 
           <h2>Acknowledgements</h2>

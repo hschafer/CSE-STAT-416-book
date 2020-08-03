@@ -4,11 +4,15 @@ import styles from "./chapter.module.css";
 
 export default function Chapter({ children, fileName }) {
   const chapter = bookContents.getChapterInfo(fileName);
+
   return (
-    <Layout>
+    <Layout
+      prevPage={chapter.prevChapter?.url}
+      nextPage={chapter.nextChapter?.url}
+    >
       <article>
         <h1>
-          Chapter {chapter.getChapterNum()}: {chapter.getTitle()}
+          Chapter {chapter.chapterNumber}: {chapter.title}
         </h1>
         {children}
       </article>

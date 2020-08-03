@@ -32,8 +32,8 @@ export default function Ridge() {
         <h2>Interpreting Coefficients</h2>
         <p>
           Recall that back in{" "}
-          <Link href={linRegChapter.getURL()}>
-            <a>Chapter {linRegChapter.getChapterNum()}</a>
+          <Link href={linRegChapter.url}>
+            <a>Chapter {linRegChapter.chapterNumber}</a>
           </Link>{" "}
           , we introduced the idea of how to interpret the coefficients of of a
           linear regression model{" "}

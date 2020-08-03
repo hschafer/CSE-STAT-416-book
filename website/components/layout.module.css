@@ -1,3 +1,25 @@
-.hidden {
-  display: none;
+.nav {
+  border-bottom: 1px solid lightgray;
+  background-color: #9e89b3;
+}
+
+.nav .navlink,
+.nav .navdropdown > a {
+  color: #fffff8 !important;
+}
+
+button.unbutton {
+  font-size: inherit;
+  font-family: inherit;
+  border: 0;
+  padding: 0;
+  background-color: inherit;
+}
+
+button.unbutton:focus {
+  outline: none;
+}
+
+.caseStudyChapter a {
+  padding-left: 3.5em;
 }
