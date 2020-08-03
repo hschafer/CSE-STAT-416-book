@@ -1,4 +1,4 @@
 /* Give KaTex same Tufte Styling */
-section .mathwrapper {
+:global(#content) section .mathwrapper {
   width: 55%;
 }

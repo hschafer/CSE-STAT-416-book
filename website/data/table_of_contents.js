@@ -5,19 +5,45 @@ const tableOfContents = [
     file: "introduction",
   },
   {
-    chapterNumber: "1",
-    title: "Linear Regression",
-    file: "linear_regression",
+    caseStudy: "1",
+    title: "Regression: Housing Prices",
+    chapters: [
+      {
+        chapterNumber: "1",
+        title: "Linear Regression",
+        file: "linear_regression",
+      },
+      {
+        chapterNumber: "2",
+        title: "Assessing Performance",
+        file: "assessing_performance",
+      },
+      {
+        chapterNumber: "3",
+        title: "Regularization: Ridge",
+        file: "ridge",
+      },
+    ],
   },
   {
-    chapterNumber: "2",
-    title: "Assessing Performance",
-    file: "assessing_performance",
+    caseStudy: "2",
+    title: "Classification: Review Sentiment",
+    chapters: [{ chapterNumber: "?", title: "Coming Soon", file: "" }],
   },
   {
-    chapterNumber: "3",
-    title: "Regularization: Ridge",
-    file: "ridge",
+    caseStudy: "3",
+    title: "Clustering and Similarity: Similar Articles",
+    chapters: [{ chapterNumber: "?", title: "Coming Soon", file: "" }],
+  },
+  {
+    caseStudy: "4",
+    title: "Recommender Systems: Product Recommendation",
+    chapters: [{ chapterNumber: "?", title: "Coming Soon", file: "" }],
+  },
+  {
+    caseStudy: "5",
+    title: "Deep Learning: Image Recognition",
+    chapters: [{ chapterNumber: "?", title: "Coming Soon", file: "" }],
   },
   {
     chapterNumber: "99",
@@ -28,24 +54,14 @@ const tableOfContents = [
 
 class ChapterInfo {
   constructor(chapterInfoData, urlPrefix) {
-    this.chapterInfoData = chapterInfoData;
-    this.urlPrefix = urlPrefix;
-  }
+    this.chapterNumber = chapterInfoData.chapterNumber;
+    this.title = chapterInfoData.title;
+    this.file = chapterInfoData.file;
+    this.url = urlPrefix + this.file;
 
-  getTitle() {
-    return this.chapterInfoData.title;
-  }
-
-  getFile() {
-    return this.chapterInfoData.file;
-  }
-
-  getChapterNum() {
-    return this.chapterInfoData.chapterNumber;
-  }
-
-  getURL() {
-    return this.urlPrefix + this.chapterInfoData.file;
+    // Will be added later
+    this.prevChapter = undefined;
+    this.nextChapter = undefined;
   }
 }
 
@@ -55,17 +71,35 @@ class ChapterInfo {
 //   tableOfContents
 class BookContents {
   constructor(tableOfContents, urlPrefix = "/chapters/") {
-    this.tableOfContents = tableOfContents.map(
-      (chapterInfo) => new ChapterInfo(chapterInfo, urlPrefix)
-    );
     this.urlPrefix = urlPrefix;
+
+    this.tableOfContents = tableOfContents.map(function (entry) {
+      if (entry.caseStudy) {
+        var copy = Object.assign({}, entry);
+        copy.chapters = copy.chapters.map(
+          (chapterInfo) => new ChapterInfo(chapterInfo, urlPrefix)
+        );
+        return copy;
+      } else {
+        return new ChapterInfo(entry, urlPrefix);
+      }
+    });
+    this.chapterList = this.tableOfContents
+      .map((entry) => (entry.caseStudy ? entry.chapters : [entry]))
+      .flat(1);
+    this.chapterList.forEach(function (chapter, index, chapterList) {
+      if (index > 0) {
+        chapter.prevChapter = chapterList[index - 1];
+      }
+
+      if (index < chapterList.length - 1) {
+        chapter.nextChapter = chapterList[index + 1];
+      }
+    });
   }
 
   getChapterInfo(file) {
-    console;
-    const chapter = this.tableOfContents.filter(
-      (chapter) => chapter.getFile() === file
-    );
+    const chapter = this.chapterList.filter((chapter) => chapter.file === file);
 
     if (chapter.length == 0) {
       throw `File name not found ${file}`;
@@ -74,6 +108,12 @@ class BookContents {
     }
 
     return chapter[0];
+  }
+
+  tocMap(caseStudyFun, chapterFun) {
+    return this.tableOfContents.map((entry) =>
+      entry.caseStudy ? caseStudyFun(entry) : chapterFun(entry)
+    );
   }
 }
 

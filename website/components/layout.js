@@ -1,4 +1,5 @@
 import Button from "react-bootstrap/Button";
+import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Link from "next/link";
@@ -7,11 +8,60 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
 import bookContents from "../data/table_of_contents.js";
 import styles from "./layout.module.css";
+import { useState } from "react";
 
-export default function Layout({ showTOC = "True", children }) {
+function makeChapter(chapter) {
+  return (
+    <NavDropdown.Item key={chapter.file}>
+      <Link href={`/chapters/${chapter.file}`}>
+        <span>
+          {chapter.chapterNumber}. {chapter.title}
+        </span>
+      </Link>
+    </NavDropdown.Item>
+  );
+}
+
+function makeCaseStudy(caseStudy) {
+  const [open, setOpen] = useState(false);
+
+  function onClick(evt) {
+    setOpen(!open);
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
+
+  return (
+    <div key={caseStudy.caseStudy}>
+      <NavDropdown.Item>
+        <button
+          onClick={onClick}
+          aria-controls={`case-study-${caseStudy.caseStudy}`}
+          aria-expanded={open}
+          className={styles.unbutton}
+        >
+          {caseStudy.title}
+        </button>
+      </NavDropdown.Item>
+
+      <Collapse in={open} className={styles.caseStudyChapter}>
+        <div id={`case-study-${caseStudy.caseStudy}`}>
+          {caseStudy.chapters.map(makeChapter)}
+        </div>
+      </Collapse>
+    </div>
+  );
+}
+
+export default function Layout({
+  showTOC = "True",
+  prevPage,
+  nextPage,
+  children,
+}) {
   return (
     <>
-      <Navbar expand="lg">
+      <Navbar className={styles.nav} variant="dark" expand="xl" sticky="top">
         {/* Same as example nav, but need to use Links instead of hrefs */}
         <Link href="/">
           <a className="navbar-brand">CSE/STAT 416 Book</a>
@@ -20,29 +70,42 @@ export default function Layout({ showTOC = "True", children }) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Link href="/">
-              <a className="nav-link" role="button">
+              <a className={"nav-link " + styles.navlink} role="button">
                 Home
               </a>
             </Link>
-            <NavDropdown title="Chapters" id="basic-nav-dropdown">
-              {bookContents.tableOfContents.map((chapter) => (
-                <NavDropdown.Item key={chapter.getFile()}>
-                  <Link href={`/chapters/${chapter.getFile()}`}>
-                    <span>
-                      {chapter.getChapterNum()}. {chapter.getTitle()}
-                    </span>
-                  </Link>
-                </NavDropdown.Item>
-              ))}
+            <NavDropdown
+              title="Chapters"
+              className={styles.navdropdown}
+              id="basic-nav-dropdown"
+            >
+              {bookContents.tocMap(makeCaseStudy, makeChapter)}
             </NavDropdown>
+            {prevPage ? (
+              <Link href={prevPage}>
+                <a className={"nav-link " + styles.navlink} role="button">
+                  &#8592; Previous Chapter
+                </a>
+              </Link>
+            ) : (
+              ""
+            )}
+            {nextPage ? (
+              <Link href={nextPage}>
+                <a className={"nav-link " + styles.navlink} role="button">
+                  Next Chapter &#8594;
+                </a>
+              </Link>
+            ) : (
+              ""
+            )}
           </Nav>
           <Form inline>
             <FormControl
               type="text"
-              placeholder="Search (not active)"
+              placeholder="🔍 Search (not active)"
               className="mr-sm-2"
             />
-            <Button variant="outline-success">Search</Button>
           </Form>
         </Navbar.Collapse>
       </Navbar>
@@ -50,8 +113,32 @@ export default function Layout({ showTOC = "True", children }) {
       <div id="container">
         <div id="content-container">
           <main id="content">{children}</main>
+          <div className="mainColumn">
+            {prevPage ? (
+              <Link href={prevPage}>
+                <a className="tufte-link no-tufte-underline" role="button">
+                  &#8592; Previous Chapter
+                </a>
+              </Link>
+            ) : (
+              ""
+            )}
+            {nextPage ? (
+              <Link href={nextPage}>
+                <a
+                  className="tufte-link no-tufte-underline"
+                  role="button"
+                  style={{ float: "right" }}
+                >
+                  Next Chapter &#8594;
+                </a>
+              </Link>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-        {/* TODO this isn't the BEST styling, but I don't know how to make flex work. */}
+
         <footer>
           <p>
             Have any feedback about the book? Please let us know using{" "}
