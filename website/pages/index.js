@@ -52,7 +52,6 @@ export default function Home() {
           <h2>Table of Contents</h2>
 
           <ol id="table-of-contents">
-            {console.log(bookContents)}
             {bookContents.tocMap(
               (caseStudy) => (
                 <li key={caseStudy.caseStudy} className="case-study">

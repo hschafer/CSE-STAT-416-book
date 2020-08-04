@@ -1,6 +1,7 @@
 .nav {
   border-bottom: 1px solid lightgray;
   background-color: #9e89b3;
+  width: 100%;
 }
 
 .nav .navlink,
