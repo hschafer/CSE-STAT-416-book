@@ -1,4 +1,12 @@
 /* Give KaTex same Tufte Styling */
-:global(#content) section .mathwrapper {
+.displayMathWrapper {
+  font-size: 1.4rem;
+}
+
+section > .displayMathWrapper {
   width: 55%;
+}
+
+.inlineMathWrapper :global(.katex-html) {
+  white-space: normal;
 }

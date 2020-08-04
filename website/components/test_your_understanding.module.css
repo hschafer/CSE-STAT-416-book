@@ -13,3 +13,9 @@
   font-size: 1.2rem;
   padding-top: 3px;
 }
+
+@media (max-width: 760px) {
+  :global(#content) section .card {
+    width: 90%;
+  }
+}
