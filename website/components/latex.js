@@ -10,17 +10,21 @@ function errorCheck(math, children) {
 
 function IM({ math, children }) {
   errorCheck(math, children);
-  if (children) {
-    return <InlineMath>{children}</InlineMath>;
-  } else {
-    return <InlineMath math={math} />;
-  }
+  return (
+    <span className={styles.inlineMathWrapper}>
+      {children ? (
+        <InlineMath className="foo">{children}</InlineMath>
+      ) : (
+        <InlineMath className="bar" math={math} />
+      )}
+    </span>
+  );
 }
 
 function BM({ math, children }) {
   errorCheck(math, children);
   return (
-    <div className={styles.mathwrapper}>
+    <div className={styles.displayMathWrapper}>
       {children ? <BlockMath>{children}</BlockMath> : <BlockMath math={math} />}
     </div>
   );

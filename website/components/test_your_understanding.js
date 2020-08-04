@@ -31,7 +31,7 @@ function TYUExplanation({ children }) {
 
 function TYU({ children }) {
   return (
-    <Accordion className="main-column">
+    <Accordion className={"main-column " + styles.card}>
       <Card>{children}</Card>
     </Accordion>
   );
