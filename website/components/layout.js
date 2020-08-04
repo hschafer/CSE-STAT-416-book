@@ -32,7 +32,7 @@ function makeCaseStudy(caseStudy) {
   }
 
   return (
-    <div key={caseStudy.caseStudy}>
+    <div className={styles.caseStudyDropdown} key={caseStudy.caseStudy}>
       <NavDropdown.Item>
         <button
           onClick={onClick}
