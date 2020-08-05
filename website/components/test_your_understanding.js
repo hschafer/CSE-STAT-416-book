@@ -29,12 +29,27 @@ function TYUExplanation({ children }) {
   );
 }
 
-function TYU({ children }) {
-  return (
-    <Accordion className={"main-column " + styles.tyuAccordion}>
-      <Card className={styles.tyuCard}>{children}</Card>
-    </Accordion>
-  );
+class TYU extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { expanded: false };
+  }
+
+  expand(open) {
+    this.setState({ expanded: open });
+  }
+
+  render() {
+    var openKey = this.state.expanded ? "0" : "";
+    return (
+      <Accordion
+        defaultActiveKey={openKey}
+        className={"main-column " + styles.tyuAccordion}
+      >
+        <Card className={styles.tyuCard}>{this.props.children}</Card>
+      </Accordion>
+    );
+  }
 }
 
 TYU.Header = TYUHeader;
