@@ -1,3 +1,7 @@
+.tyuAccordion > .tyuCard {
+  overflow: visible;
+}
+
 .header {
   display: flex;
   flex-wrap: nowrap;
@@ -15,7 +19,7 @@
 }
 
 @media (max-width: 760px) {
-  :global(#content) section .card {
+  :global(#content) section .tyuAccordion {
     width: 90%;
   }
 }
