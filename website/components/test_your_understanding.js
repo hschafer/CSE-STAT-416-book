@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import TYUContext from "../contexts/test_your_understanding";
 import styles from "./test_your_understanding.module.css";
 
 function TYUHeader({ children }) {
@@ -30,8 +31,15 @@ function TYUExplanation({ children }) {
 }
 
 function TYU({ children }) {
+  const context = useContext(TYUContext);
+  var openKey = context.expandAllTYU ? "0" : "";
+  var activeKey = openKey ? openKey : undefined;
   return (
-    <Accordion className={"main-column " + styles.tyuAccordion}>
+    <Accordion
+      defaultActiveKey={openKey}
+      activeKey={activeKey}
+      className={"main-column " + styles.tyuAccordion}
+    >
       <Card className={styles.tyuCard}>{children}</Card>
     </Accordion>
   );
