@@ -50,6 +50,10 @@ blockquote {
   width: 55%;
 }
 
+.border-image {
+  border: 1px solid gray;
+}
+
 /* TODO Better styling for tables */
 .data-table,
 .data-table th,
