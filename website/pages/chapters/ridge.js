@@ -1,5 +1,6 @@
 import { BM, IM } from "../../components/latex";
 
+import Alert from "react-bootstrap/Alert";
 import Chapter from "../../components/chapter";
 import Link from "next/link";
 import MarginNote from "../../components/marginnote";
@@ -38,10 +39,11 @@ export default function Ridge() {
           , we introduced the idea of how to interpret the coefficients of of a
           linear regression model{" "}
           <IM math={`\\hat{y} = \\hat{w}_0 + \\hat{w}_1x`} />, where{" "}
-          <IM math={`w_0`} /> is the intercept (the price of a 0 square foot
-          house) and <IM math={`w_1`} /> is the slope (the increase in price per
-          square foot). To use concrete numbers for an example, suppose our
-          learned predictor is <IM math={`\\hat{y} = 2000 + 500x`} />.
+          <IM math={`\\hat{w}_0`} /> is the intercept (the price of a 0 square
+          foot house) and <IM math={`\\hat{w}_1`} /> is the slope (the increase
+          in price per square foot). To use concrete numbers for an example,
+          suppose our learned predictor is{" "}
+          <IM math={`\\hat{y} = 2000 + 500x`} />.
         </p>
 
         <TYU>
@@ -82,8 +84,9 @@ export default function Ridge() {
           <TYU.Header>
             Suppose we changed the square footage feature to{" "}
             <em>square miles</em>. How would that change the intercept? How
-            would that change the slope? What if instead, we changed the feature
-            to <em>square inches</em>.
+            would that change the slope?
+            <br /> <br />
+            What if instead, we changed the feature to <em>square inches</em>.
           </TYU.Header>
           <TYU.Explanation>
             <p>
@@ -104,13 +107,13 @@ export default function Ridge() {
               Since square miles are larger than square feet, when we convert
               the units the magnitude of the features should decrease:{" "}
               <IM math="100000" /> square feet is about <IM math="0.003" />{" "}
-              square miles. The dollar amounts are changing in this context, so
-              the change in <IM math="y" /> (the "rise") is the same. However,
-              the change in <IM math="x" /> (the "run") is much smaller since
-              these numbers are tiny. With how fractions work, decreasing the
-              magnitude of the slope's denominator without changing the
-              numerator will cause the slope to increase (e.g., dividing by a
-              smaller number).
+              square miles. The dollar amounts are not changing with this
+              transformation, so the change in <IM math="y" /> (the "rise") is
+              the same. However, the change in <IM math="x" /> (the "run") is
+              much smaller since these numbers are tiny. With how fractions
+              work, decreasing the magnitude of the slope's denominator without
+              changing the numerator will cause the slope to increase (e.g.,
+              dividing by a smaller number).
             </p>
 
             <p>
@@ -193,8 +196,9 @@ export default function Ridge() {
             It's difficult to define what it means to interpret something or
             what audience should find it interpretable.
           </MarginNote>
-          . Not all models are interpretable: the deep-learning thing everyone
-          is excited about are very difficult to interpret.
+          . Not all models are easy to interpret: the deep-learning models
+          everyone is excited about are can be very difficult to understand and
+          gain insights from.
         </p>
 
         <p>
@@ -235,40 +239,46 @@ export default function Ridge() {
               not mean there is a causal relationship between them. A classic
               example shows that there is a strong correlation between ice cream
               sales and shark attacks: as ice cream sales increase, the number
-              of shark attacks recorded also increase. It's probably obvious
-              that there shouldn't be any relation between ice cream and sharks,
-              so even though we can find a relationship between them, we should
-              be skeptical that it might happen by chance or there might be some
-              underlying factor that explains both: people are more likely to
-              buy ice cream during summer months, when they are also more likely
-              to go to the beach where they could be attacked by a shark!
+              of shark attacks recorded also increase. That means you could
+              theoretically learn a regression model that predicts the
+              likelihood of a shark attack from the number of ice cream sales.
+              So you might find a relationship like.
+            </p>
+            <BM math={`NumSharkAttakcs = 10 + 0.5 \\cdot IceCream`} />
+
+            <p>
+              It's probably obvious that there shouldn't be a direct cause
+              between ice cream and sharks. Even though we can find a
+              relationship between their values, we should be skeptical that it
+              might happen by chance or there might be some underlying factor
+              that explains both. In this case, people are more likely to buy
+              ice cream during summer months, when they are also more likely to
+              go to the beach where they could be attacked by a shark!
             </p>
 
             <p>
               This confusion between correlation and causation can be a huge
               problem in machine learning applications. In an ML task, we are
               specifically looking for correlations in the data and
-              extrapolating from them. This is how you get machine learning
-              systems used in the criminal justice system that predict that
-              black people are more likely to recommit a crime than their white
-              counterparts
+              extrapolating from them.
+            </p>
+            <p>
+              This is how you get awful machine learning systems used in the
+              criminal justice system that predict that black people are more
+              likely to recommit a crime than their white counterparts
               <MarginNote>
                 <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">
                   Machine Bias - ProPublica
                 </a>
                 .
               </MarginNote>
-              .{" "}
-            </p>
-            <p>
-              Some use this predictor's behavior to argue that race is a causal
-              factor in crime prevalence. They do this because they are mixing
-              up correlation and causation. A very clear underlying factor that
-              can explain this correlation is the historical (and current)
-              anti-black sentiment in the criminal justice system. Black
-              communities are more likely to be policed and are more likely to
-              be sentenced for minor crimes than their white counterparts. We
-              discuss this more in the chapter on fairness and ML.
+              . The model can't tell the difference between a correlation and a
+              causation. A very clear underlying factor that can explain this
+              correlation is the historical and current anti-black bias in the
+              criminal justice system: Black communities are more likely to be
+              policed and are more likely to be sentenced for minor crimes than
+              their white counterparts. We discuss this more in the chapter on
+              fairness and ML.
             </p>
           </li>
         </ul>
@@ -291,7 +301,6 @@ export default function Ridge() {
         </p>
 
         <p>TODO(picture): High degree polynomial through data</p>
-        <p>TODO(manim) coefficient growth?</p>
 
         <p>
           In the previous chapter, we said this model is likely to overfit if it
@@ -306,6 +315,8 @@ export default function Ridge() {
           <IM math="p" /> of a polynomial regression model tends to increase the
           magnitudes of the coefficients.
         </p>
+
+        <p>TODO(manim) coefficient growth?</p>
 
         <p>
           Overfitting doesn't just happen when you have a large degree
@@ -348,7 +359,7 @@ export default function Ridge() {
           from, there are <IM math={`2^d`} /> models that use every possible
           subset of those features{" "}
           <MarginNote>
-            Suppose you had features <IM math={`\\{a, b, c, d\ \}`} />. Try to
+            Suppose you had features <IM math={`\\{a, b, c, d\\}`} />. Try to
             count how many subsets of this set you can make. You should{" "}
             <IM math={`2^4 = 16`} /> which includes the empty subset.
           </MarginNote>
@@ -399,7 +410,7 @@ export default function Ridge() {
             <IM math={`L(w)`} /> The original loss function of interest.
           </li>
           <li>
-            <IM math={`R(w)`} /> A measurement of the magnitude of the
+            <IM math={`R(w)`} /> A new measurement of the magnitude of the
             coefficients in order to prevent overfitting.
           </li>
         </ul>
@@ -415,28 +426,28 @@ export default function Ridge() {
           <IM math={`\\lambda`} /> will be some tuning parameter that lets us
           weigh how much we care about the loss vs. the measure of coefficient
           magnitude. We will discuss the effect of this value and how to choose
-          it later. The intent of adding this <IM math={`R(w)`} /> to our
-          quality is to add a penalty for predictors that have large
-          coefficients. Remember the ML algorithm minimizes this quality metric,
-          so by adding a large number for large coefficients, will make the
-          model look "worse", even if it has low training error. This can help
-          us prevent overfitting since it's not just about minimizing training
-          error, but also balancing that with the magnitude of the coefficients.
+          it later.{" "}
+        </p>
+        <p>
+          The intent of adding this <IM math={`R(w)`} /> to our quality metric
+          is to add a penalty for predictors that have large coefficients.
+          Remember the ML algorithm minimizes this quality metric, so by adding
+          a large number for large coefficients, will make the model look
+          "worse". This can help us prevent overfitting since it's not just
+          about minimizing training error, but also balancing that with the
+          magnitude of the coefficients.
         </p>
 
         <h3>Measuring magnitude</h3>
         <p>
           How might we go about defining <IM math={`R(w)`} /> to measure the
-          magnitude of the coefficients. Ideally, we want this value to be small
-          if the coefficients are small and large if the coefficients are large.
-        </p>
-
-        <p>
-          As a notational convenience, we will think of the coefficients as a
-          vector (i.e., an array of numbers){" "}
+          magnitude of the coefficients. As a notational convenience, we will
+          think of the coefficients as a vector (i.e., an array of numbers){" "}
           <IM math={`w = \\left[w_0, w_1, ..., w_D\\right]`} />. The function we
           want to define <IM math={`R(w)`} /> should take this vector and return
-          a single number summarizing the magnitude of the coefficients.
+          a single number summarizing the magnitude of the coefficients. We want
+          this value to be small if the coefficients are small and large if the
+          coefficients are large.
         </p>
 
         <p>Your first idea might be to take the sum of the coefficients.</p>
@@ -445,8 +456,8 @@ export default function Ridge() {
 
         <p>
           Unfortunately, this will not work! Consider the case where one
-          coefficient is a number like <IM math={`10002`} /> and another is{" "}
-          <IM math={`-10001`} />. Even though they each have very large
+          coefficient is a number like <IM math={`10,002`} /> and another is{" "}
+          <IM math={`-10,001`} />. Even though they each have very large
           magnitudes, if you add them together, they cancel each other out
           resulting in a sum of <IM math={`-1`} />. This doesn't quite capture
           our intent of making <IM math={`R(w)`} /> large if the magnitudes of
@@ -465,24 +476,24 @@ export default function Ridge() {
           Mathematicians call this value the <b>L1 norm</b> and use the
           short-hand notation <IM math={`||w||_1`} /> when using it. In other
           words, we are using <IM math={`R(w) = ||w||_1`} /> as our measure of
-          overfitting. You can see how this function has exactly the properties
-          we want! The L1 norm will be larger as the coefficients grow in
-          magnitude, and the coefficients can't cancel out since we take that
+          overfitting. You can hopefully see why this solves the problem we had
+          before. The L1 norm will be larger as the coefficients grow in
+          magnitude and the coefficients can't cancel out since we take that
           absolute value.
         </p>
 
         <p>
           We won't actually discuss this L1 norm in detail now, but will reserve
-          discussion for it in the next chapter. Instead, we will use another
-          common norm as our measure of magnitude.
+          discussion for it in the next chapter. For this chapter, we will use
+          another common norm as our measure of magnitude called the{" "}
+          <b>L2 norm</b>.
         </p>
 
         <BM math={`R(w) = \\sum_{j=0}^D w_j^2`} />
 
         <p>
-          Mathematicians call this the <b>L2 norm</b>. They use the short-hand
-          notation <IM math={`||w||_2^2`} />
-          to describe the L2 norm
+          We use the short-hand notation <IM math={`||w||_2^2`} /> to describe
+          the L2 norm
           <MarginNote>
             📝 <em>Notation:</em> The L1 and L2 norms are specific examples of a{" "}
             <em>p</em>-norm. The <em>p</em>-norm is defined for any positive
@@ -496,9 +507,9 @@ export default function Ridge() {
           </MarginNote>
           . In other words, we are using <IM math={`R(w) = ||w||_2^2`} />. You
           can convince yourself that this will also solve the cancelling-out
-          problem like the L1 norm. In the next chapter, we will see how
-          choosing one over the other will impact your predictor. For the rest
-          of this chapter, we will focus on this L2 norm.
+          problem like the L1 norm. In the next chapter, we will see how the
+          differing effects of the L1 and L2 norms, but for the rest of this
+          chapter, we will focus on this L2 norm.
         </p>
 
         <h3>Ridge Regression</h3>
@@ -517,8 +528,13 @@ export default function Ridge() {
           magnitude. <IM math={`\\lambda`} /> typically ranges from{" "}
           <IM math={`0`} /> to <IM math={`\\infty`} />. The following cards ask
           you to think about what happens with extreme settings of this{" "}
-          <IM math={`\\lambda`} /> value. Try thinking through what you think
-          will happen before clicking to expand.
+          <IM math={`\\lambda`} /> value. Try thinking through what will happen
+          before clicking on them
+          <MarginNote>
+            Remember, part of effective learning is actively generating
+            knowledge!
+          </MarginNote>
+          .
         </p>
 
         <TYU>
@@ -562,7 +578,7 @@ export default function Ridge() {
             <p>
               This case is a bit trickier to think about
               <MarginNote>
-                We are a bit handwavy in our argument since{" "}
+                We are a bit hand-wavy in our argument since{" "}
                 <IM math={`\\infty`} /> isn't actually a number, but we use it
                 to think about a number getting arbitrarily large. You can make
                 all of the arguments below more formal by introducing limits,
@@ -620,18 +636,20 @@ export default function Ridge() {
           regularization, and will favor the least-squares solution. If you make{" "}
           <IM math={`\\lambda`} /> too large, you will penalize models that have
           any non-zero coefficients since the cost from regularization will
-          outweigh the loss function.
+          outweigh the loss function. If you set it to something in-between that
+          is more reasonable, you will expect the coefficient magnitudes to be
+          between those extremes as well.
         </p>
         <p>
-          So then our goal for doing ridge regression well, is choosing some{" "}
-          <IM math={`\\lambda`} /> in the middle. One that allows a model
-          sufficient complexity to learn while avoiding overfitting. As you
-          increase <IM math={`\\lambda`} />, the magnitude of the coefficients
-          will decrease (value of L2 norm goes down). In the following graph,
-          you can see exactly how the coefficients for a housing model decrease
-          as you increase <IM math={`\\lambda`} />. Each line of circles
-          represents a single predictor and the curves show the magnitude in
-          each of the predictors as <IM math={`\\lambda`} /> varies.
+          In the following graph, you can see an example of how the magnitude of
+          the coefficients for a housing model decrease as you increase{" "}
+          <IM math={`\\lambda`} />. Like in our discussion before, you can
+          imagine that if you let <IM math={`\\lambda \\rightarrow \\infty`} />,
+          all of the coefficients will be 0. Each vertical-line of circles
+          represents a single ridge regression predictor (trained with that{" "}
+          <IM math={`\\lambda`} />
+          ). Each feature's coefficient is associated a color, and you can see
+          how that coefficient changes as you increase <IM math={`\\lambda`} />.
         </p>
 
         <figure className="fullwidth">
@@ -643,8 +661,11 @@ export default function Ridge() {
         </figure>
 
         <p>
-          How do we go about choosing the right <IM math={`\\lambda`} />? The
-          exact same process we discuss in{" "}
+          So now our goal for doing ridge regression well, is choosing some{" "}
+          <IM math={`\\lambda`} /> in the middle. One that allows a model
+          sufficient complexity to learn while avoiding overfitting. How do we
+          go about choosing the right <IM math={`\\lambda`} />? The exact same
+          process we discuss in{" "}
           <Link href={assessPerfChapter.url}>
             <a>Chapter {assessPerfChapter.chapterNumber}</a>
           </Link>
@@ -722,18 +743,17 @@ export default function Ridge() {
           features has on the coefficients. We discussed earlier in this chapter
           that features on a smaller scale might require larger coefficients to
           compensate. This can lead to a false penalty for a coefficient that
-          needs to be large to deal with a feature on small scale. In other
-          words, it's not always the case that large coefficients mean
-          overfitting, it could also mean there is truly a large increase in
-          output per unit of the input due to the units.
+          needs to be large just to deal with such features. In other words,
+          it's not always the case that large coefficients mean overfitting, it
+          could also mean there is truly a large increase in output per unit of
+          the input due to the units.
         </p>
 
         <p>
-          An easy fix to this problem is to <b>normalize</b> the data so that
-          all of the features are "on the same scale". This does not mean all
-          the features need to be square feet, but rather, all of the features
-          have mean 0 and standard deviation 1. This prevents having to deal
-          with different features on entirely different ranges.
+          A common fix to this problem is to <b>normalize</b> the data so that
+          all of the features have mean 0 and standard deviation 1. This
+          prevents having to deal with different features on entirely different
+          range since you scale them down to the same range.
         </p>
 
         <p>
@@ -750,14 +770,14 @@ export default function Ridge() {
           feature <IM math={`j`} /> in the training set.
         </p>
         <BM
-          math={`\\mu_j(Train) = \\frac{1}{|Train|} \\sum_{x[j] \\in Train} x`}
+          math={`\\mu_j(Train) = \\frac{1}{|Train|} \\sum_{x \\in Train} h_j(x)`}
         />
         <p>
           We define <IM math={`\\sigma_j(Train)`} /> to be the standard
           deviation of feature <IM math={`j`} /> in the training set.{" "}
         </p>
         <BM
-          math={`\\sigma_j(Train) = \\sqrt{\\frac{1}{|Train|} \\sum_{x\\in Train}\\left( h_j(x_i) - \\mu_j(Train) \\right)^2}`}
+          math={`\\sigma_j(Train) = \\sqrt{\\frac{1}{|Train|} \\sum_{x\\in Train}\\left( h_j(x) - \\mu_j(Train) \\right)^2}`}
         />
 
         <p>
@@ -766,27 +786,35 @@ export default function Ridge() {
           the regularization term.
         </p>
 
-        <p>
-          ⚠️ <em>Important:</em> You must scale your validation data, your test
-          data, and all future data you predict on using the means and standard
-          deviations computed <em>from the training set</em>. Otherwise, the
-          units of the predictor and the data won't be comparable.
-        </p>
+        <Alert className="main-column" variant="warning">
+          <Alert.Heading>
+            ⚠️ <b>Important Note</b>
+          </Alert.Heading>
 
-        <p>
-          Suppose that the average square footage of houses in your training set
-          was 1000 square feet. This would get translated in the normalization
-          process so 0 means the same thing as 1000 square feet. Suppose your
-          validation set had a slightly different average square footage of 950
-          feet (this can happen just by chance). If you normalized by the mean
-          of the validation set, 0 in the validation set means 950 square feet
-          while the model learned on data where 0 means 1000 square feet! To
-          make sure all the data "means the same thing",{" "}
-          <em>
-            you must always transform your data using the exact same
-            transformations as your training data.
-          </em>
-        </p>
+          <p>
+            You must scale your validation data, your test data, and all future
+            data you predict on using the means and standard deviations computed{" "}
+            <em>from the training set</em>. Otherwise, the units of the
+            predictor and the data won't be comparable.
+          </p>
+
+          <p>
+            Suppose that the average square footage of houses in your training
+            set was 1000 square feet. After normalizing to be mean 0, this
+            changes the meaning of the numbers so 0 now means the same thing as
+            1000 square feet in the original space. Suppose your validation set
+            had a slightly different average square footage of 950 feet (this
+            can happen just by chance). If you normalized by the mean of the
+            validation set, 0 in the validation set means 950 square feet. This
+            can cause problems since 0 means different things in these different
+            sets! To make sure all the data "means the same thing",{" "}
+            <em>
+              you must always transform your data (e.g., test set, validation
+              set, future data) using the exact same transformations as your
+              training data.
+            </em>
+          </p>
+        </Alert>
       </section>
 
       <section>
@@ -800,12 +828,16 @@ export default function Ridge() {
           introduced the concept of regularization to change the quality metric
           in order to favor models with smaller coefficient magnitudes. There
           are many forms of how to regularize, but most have some{" "}
-          <b>hyperparameter</b> (or a value you decide that determines something
-          about the model) <IM math={`\\lambda`} /> that controls how much you
-          want to penalize large coefficients. In this chapter, we specifically
-          talked about regularizing with the L2 norm which is called ridge
-          regression. Finally, we talked about some practical considerations
-          when using regularization about the intercept and scaling features.
+          <b>hyperparameter</b>
+          <MarginNote>
+            Also called a "tuning parameter". It's a value you choose that will
+            impact how the model behaves.
+          </MarginNote>{" "}
+          <IM math={`\\lambda`} /> that controls how much you want to penalize
+          large coefficients. In this chapter, we specifically talked about
+          regularizing with the L2 norm which is called ridge regression.
+          Finally, we talked about some practical considerations when using
+          regularization about the intercept and scaling features.
         </p>
       </section>
     </Chapter>

@@ -363,7 +363,7 @@ export default function LinearRegression() {
             <IM math={`\\hat{w}_0, \\hat{w}_1`} /> so that we can use them to
             make predictions about other inputs. We will learn these parameters
             using a learning algorithm (currently unspecified). When making a
-            prediction with our learned parameters, we will use the follwoing
+            prediction with our learned parameters, we will use the following
             formula.
           </p>
 
@@ -439,7 +439,7 @@ export default function LinearRegression() {
             quality metric is the <b>residual sum of squares (or RSS)</b>
             <MarginNote>
               📝 <em>Notation:</em> A <IM math={`\\sum`} /> means "sum". It's a
-              concise way of writing the sum of multile things (like a for loop
+              concise way of writing the sum of multiple things (like a for loop
               from programming).
             </MarginNote>
             .
