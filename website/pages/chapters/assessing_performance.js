@@ -6,7 +6,6 @@ import TYU from "../../components/test_your_understanding";
 import Video from "../../components/video";
 
 export default function AssessingPerformance() {
-  var marginNoteCounter = new MarginNoteCounter();
   return (
     <Chapter fileName="assessing_performance">
       <section>
@@ -17,7 +16,7 @@ export default function AssessingPerformance() {
           minimizes our quality metric. We also introduced the important concept
           of the features used by the model, where you can transform your input
           data to learn more complex relationships (e.g. polynomial regression)
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             A quick review of these models:
             <ul>
               <li>
@@ -57,7 +56,7 @@ export default function AssessingPerformance() {
           gives you information about the model you should use, you should start
           with that. For example, if you have evidence to support that the
           underlying function is, say linear
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Example: There is strong empirical evidence that shows there is a
             linear relationship between femur length and your height.
           </MarginNote>
@@ -80,7 +79,7 @@ export default function AssessingPerformance() {
           from. Given the predictors (colored curves) in the animation above,
           which one will have the lowest RSS on the training dataset (the black
           dots)?
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Occasionally, we will have these expandable boxes that prompt you to
             think about the answer before reading through. There is an
             explanation of the answer inside the box, but try to think through
@@ -115,7 +114,7 @@ export default function AssessingPerformance() {
           predictor and the goal we set out to accomplish originally. Remember,
           in many contexts the goal of training a predictor is to use it out in
           the wild on new data as it comes in
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Like Redfin/Zillow trying to predict the price of a house on a new
             listing.
           </MarginNote>
@@ -172,7 +171,7 @@ export default function AssessingPerformance() {
         <p>
           On top of that, for any particular square footage, we might expect to
           see a range of possible prices for the house of that size
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             This is why our model always includes a{" "}
             <IM math={"+ \\varepsilon_i"} /> in the relationship between
             features/output.
@@ -190,7 +189,7 @@ export default function AssessingPerformance() {
           To get a visual intuition for what we mean by these distributions, we
           have a picture below. There is a distribution on the left for the how
           likely it is to see any particularly square footage{" "}
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             📝<em>Notation:</em> The <IM math="|" /> in the label of the
             right-hand graph is a conditional. This bar, when talking about
             probability, indicates we are conditioning on some event occurring.
@@ -221,7 +220,7 @@ export default function AssessingPerformance() {
           of our concept of RSS we discussed before. The loss function is a
           function that takes the true outcome and the prediction made by our
           predictor, and outputs a value to quantify the error made{" "}
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Our RSS used earlier can be used as a loss function for a single
             input/output{" "}
             <IM
@@ -256,7 +255,7 @@ export default function AssessingPerformance() {
           <IM math={`p(x,y)`} /> to mean the probability of seeing the pair{" "}
           <IM math={`(x, y)`} />. We can write the idea of the average loss
           incurred weighted by the probability with the formula
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             📝 <em>Notation:</em> We use <IM math={`x \\in X`} /> to say some
             element <IM math={`x`} /> in a set of possible elements{" "}
             <IM math={`X`} />. Then, the sum{" "}
@@ -325,7 +324,7 @@ export default function AssessingPerformance() {
           as a stand-in for that value. We call the error made by the model on
           the test set the <b>test error</b>, which we <em>can</em> compute. In
           the case of regression using RSS as the loss function
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             📝 <em>Notation:</em> We use a new notation for{" "}
             <IM math={`\\hat{f}`} /> to signify that it is the predictor defined
             by our estimates for the coefficients <IM math={`\\hat{w}`} /> by
@@ -348,7 +347,7 @@ export default function AssessingPerformance() {
         <p>
           More generally, a common definition of the test error is the average
           loss for whichever loss function <IM math={`L`} /> you are using
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             📝<em>Notation:</em> We use the notation <IM math={`|S|`} /> to mean
             the number of elements in the set <IM math={`S`} />. So{" "}
             <IM math={`|Test|`} /> is the number of test examples we are using.
@@ -437,7 +436,7 @@ export default function AssessingPerformance() {
 
         <p>
           Now consider what happens to the <em>true error</em>
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             We will mention what happens to test error in a bit
           </MarginNote>{" "}
           as we change this complexity. Remember, we can't compute the true
@@ -454,7 +453,7 @@ export default function AssessingPerformance() {
           no matter how much training data it had. As the complexity of the
           model approaches the complexity of the true function, we expect the
           true error to go down
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             This is assuming our training set is representative of the
             population. Usually, an assumption we have to make for the idea of
             using ML in the first place.
@@ -484,7 +483,7 @@ export default function AssessingPerformance() {
         <p>
           The model with the lowest true error is the optimal model, which we
           notate as <IM math="p^*" />
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             📝 <em>Notation:</em> A <IM math="*" /> denoting a variable usually
             means "optimal".{" "}
           </MarginNote>
@@ -493,7 +492,7 @@ export default function AssessingPerformance() {
           think that we can use the test error to choose the best model since
           it's estimating the true error. While that does seem reasonable, we
           will show later in this chapter why that won't work out{" "}
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             <b>
               Never use the test error to select which complexity model you
               should use.
@@ -561,7 +560,7 @@ export default function AssessingPerformance() {
           Whenever we are using machine learning to model the world, we need to
           balance the <em>signal</em> and the <em>noise</em> that are present in
           our data
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             <em>
               The Signal and the Noise: Why So Many Predictions Fail, but Some
               Don't
@@ -584,7 +583,7 @@ export default function AssessingPerformance() {
           distribution. Since it is a random sample, you could imagine it is
           just as likely that we would receive another dataset drawn from the
           same distribution that will look slightly different
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             For example, if I gave you a dataset of 100 coin flips it's just as
             likely to see a dataset of 52 heads and 48 tails as it is to see a
             dataset with 48 heads and 52 trails; both are drawn from the same
@@ -608,7 +607,7 @@ export default function AssessingPerformance() {
           predictor from each one, and averaged the results. The animation below
           shows this process and what this average predictor{" "}
           <IM math={`\\overline{f_{\\hat{w}}}(x)`} /> looks like
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             📝 <em>Notation:</em> We use the <IM math={`\\bar{x}`} /> notation
             to mean average.
           </MarginNote>
@@ -621,7 +620,7 @@ export default function AssessingPerformance() {
         <p>
           The <b>bias</b> of a model comes from it being too simple (or a
           mismatch with reality) that it fails to fit the signal in the data
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             This does not necessarily line up with our every-day use of the word
             bias (e.g., discriminatory actions/views against certain groups).
             While it is crucial to avoid that type of bias in our models, this
@@ -715,7 +714,7 @@ export default function AssessingPerformance() {
           In fact, in the case of measuring squared error with regression, you
           can exactly decompose the true error into contributions from bias and
           variance
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Don't worry about the squared business in the equation, just the
             idea that we can decompose the error.
           </MarginNote>
@@ -730,7 +729,7 @@ export default function AssessingPerformance() {
           The following animation shows how the bias and variance change with
           model complexity, and how those two with noise (which is independent
           of model complexity) add up to the true error curve we saw earlier.
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Notice this graph has some of the common things we mentioned earlier
             about the tendency of low vs high complexity models and their
             bias/variance.
@@ -766,7 +765,7 @@ export default function AssessingPerformance() {
           it is overfitting). As you increase the training set size, it becomes
           harder and harder for a fixed-complexity model to overfit once the
           amount of data exceeds its flexibility
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Remember our example of 20-degree polynomial's complexity is
             relative to how much data you have.
           </MarginNote>
@@ -784,7 +783,7 @@ export default function AssessingPerformance() {
           error! Notice, they don't converge to 0. There is a floor they
           converge to based on the bias and noise of the model. Irreducible
           noise will never go away. If you are using a model with high bias
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Using a linear model when the true function is, say, a cubic
             function
           </MarginNote>{" "}
@@ -980,7 +979,7 @@ export default function AssessingPerformance() {
         </p>
         <p>
           We specify this process a little more formally with pseudo-code:
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             We use the notation{" "}
             <code>
               <b>chunks \ chunk_i</b> to signify all chunks that aren't{" "}
@@ -1017,7 +1016,7 @@ export default function AssessingPerformance() {
           </code>
         </pre>
         <p>
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             It's okay to train on the whole training set now that we have
             selected a model. Don't train on test though!
           </MarginNote>
@@ -1057,7 +1056,7 @@ export default function AssessingPerformance() {
             <p>
               For large datasets, you can imagine Leave One Out Cross Validation
               can be quite slow{" "}
-              <MarginNote counter={marginNoteCounter}>
+              <MarginNote>
                 If you have 20,000 training points, you would need to train
                 20,000 predictors per model complexity!
               </MarginNote>
@@ -1098,7 +1097,7 @@ export default function AssessingPerformance() {
           a degree polynomial <IM math="p" /> in this chapter, you will see in
           this course almost every machine learning problem we will encounter
           requires these ideas from model selection
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Another term for "model selection" or "model complexity selection"
             is <b>hyperparameter tuning</b>. We will introduce this terminology
             later.
@@ -1107,7 +1106,7 @@ export default function AssessingPerformance() {
           learning (deep learning in particular) are all focused on how to tune
           the model's complexity in more efficient ways and how to prevent
           overfitting
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             We will briefly talk about some more advanced approaches near the
             end of the course.
           </MarginNote>

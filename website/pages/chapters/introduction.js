@@ -5,7 +5,6 @@ import Chapter from "../../components/chapter";
 import Video from "../../components/video";
 
 export default function Introduction() {
-  var marginNoteCounter = new MarginNoteCounter();
   return (
     <>
       <Chapter fileName="introduction">
@@ -99,11 +98,9 @@ export default function Introduction() {
               <p>
                 <b>Anyone can learn machine learning!</b> While this is true for
                 any topic
-                <MarginNote counter={marginNoteCounter}>
-                  See Carol Dweck's growth mindsets.
-                </MarginNote>
-                , it's important to highlight for the case of machine learning.
-                ML is notoriously seen as a difficult topic to master due to a
+                <MarginNote>See Carol Dweck's growth mindsets.</MarginNote>,
+                it's important to highlight for the case of machine learning. ML
+                is notoriously seen as a difficult topic to master due to a
                 traditional focus on advanced mathematical details and proofs.
                 While those ideas are important for an expert in machine
                 learning to know, they aren't necessary for forming an intuition
@@ -114,7 +111,7 @@ export default function Introduction() {
               <p>
                 This does not mean we won't use math at all! While we try to
                 minimize pre-requisite knowledge, we still require some
-                <MarginNote counter={marginNoteCounter}>
+                <MarginNote>
                   We do rely on a base-level understanding of probability and a
                   willingness to learn new notation and concepts
                 </MarginNote>
@@ -165,7 +162,7 @@ export default function Introduction() {
               "Make it Stick" by Peter C. Brown, Henry L. Roediger III, and Mark
               A. McDaniel
             </a>
-            <MarginNote counter={marginNoteCounter}>
+            <MarginNote>
               This book is fantastic! I wish I read it while I was in college!
             </MarginNote>
             . The book outlines two very popular, but ineffective, learning
@@ -240,7 +237,7 @@ export default function Introduction() {
               reality, you will need to practice bringing up <em>any</em> subset
               of knowledge. Therefore, your practice should reflect that goal if
               you want to see improvements of retrieval in realistic contexts
-              <MarginNote counter={marginNoteCounter}>
+              <MarginNote>
                 See{" "}
                 <a href="https://pubmed.ncbi.nlm.nih.gov/8084699/">
                   this study
@@ -291,7 +288,7 @@ export default function Introduction() {
             This is just trying to state in a very formal manner that machine
             learning is a program that improves at some task by learning from
             data rather than a human hard-coding the rules of the task
-            <MarginNote counter={marginNoteCounter}>
+            <MarginNote>
               <img
                 src="/animations/introduction/ml-steps.png"
                 alt="High level steps of ML"
@@ -313,14 +310,12 @@ export default function Introduction() {
             Instead, the machine learning approach is to feed a bunch of images
             that have already been labelled as cat images or dog images as input
             to some learning algorithm
-            <MarginNote counter={marginNoteCounter}>
-              We call this the training data.
-            </MarginNote>
-            , and letting that algorithm learn the patterns from the data
-            itself. The ultimate goal of such a system is to train the computer
-            to not just be able to answer this dog-vs.-cat question for images
-            it has seen, but also to <em>generalize</em> to any dog or cat
-            picture it might encounter in the future.
+            <MarginNote>We call this the training data.</MarginNote>, and
+            letting that algorithm learn the patterns from the data itself. The
+            ultimate goal of such a system is to train the computer to not just
+            be able to answer this dog-vs.-cat question for images it has seen,
+            but also to <em>generalize</em> to any dog or cat picture it might
+            encounter in the future.
           </p>
 
           <p>
@@ -340,13 +335,13 @@ export default function Introduction() {
             applications that are of import in machine learning. We spend the
             majority of our focus on these five examples for consistency and
             simplicity
-            <MarginNote counter={marginNoteCounter}>
+            <MarginNote>
               This helps you form connections between these concepts.
             </MarginNote>
             . Each case study will span more than one chapter as indicated in
             the table of contents; each chapter corresponds roughly to one
             lecture of the UW CSE/STAT 416 course
-            <MarginNote counter={marginNoteCounter}>
+            <MarginNote>
               As a reminder from the section on "How Learning Works", it's
               important for you to be constantly pausing and reflection so that
               you can test your understanding and connect ideas to other

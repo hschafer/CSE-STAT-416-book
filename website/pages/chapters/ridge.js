@@ -7,7 +7,6 @@ import TYU from "../../components/test_your_understanding";
 import bookContents from "../../data/table_of_contents";
 
 export default function Ridge() {
-  var marginNoteCounter = new MarginNoteCounter();
   var linRegChapter = bookContents.getChapterInfo("linear_regression");
   var assessPerfChapter = bookContents.getChapterInfo("assessing_performance");
 
@@ -188,7 +187,7 @@ export default function Ridge() {
           The ability to look at the learned predictor and draw inferences about
           the phenomena is why we consider linear regression to be an{" "}
           <b>interpretable model</b>
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             There isn't a good formal definition of interpretable so we just
             have some some hand-wavy idea of a model that you can interpret.
             It's difficult to define what it means to interpret something or
@@ -253,7 +252,7 @@ export default function Ridge() {
               systems used in the criminal justice system that predict that
               black people are more likely to recommit a crime than their white
               counterparts
-              <MarginNote counter={marginNoteCounter}>
+              <MarginNote>
                 <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">
                   Machine Bias - ProPublica
                 </a>
@@ -348,14 +347,14 @@ export default function Ridge() {
           evaluate. In fact, with <IM math={`d`} /> possible features to select
           from, there are <IM math={`2^d`} /> models that use every possible
           subset of those features{" "}
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Suppose you had features <IM math={`\\{a, b, c, d\ \}`} />. Try to
             count how many subsets of this set you can make. You should{" "}
             <IM math={`2^4 = 16`} /> which includes the empty subset.
           </MarginNote>
           . This is far too many models to evaluate for even moderate number of
           features{" "}
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             Even for 20 features, there are <IM math={`2^{10} = 1,048,576`} />{" "}
             possible subsets of those features. That's a lot of models to
             evaluate! This is nothing compared to large datasets like genomic
@@ -484,7 +483,7 @@ export default function Ridge() {
           Mathematicians call this the <b>L2 norm</b>. They use the short-hand
           notation <IM math={`||w||_2^2`} />
           to describe the L2 norm
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             📝 <em>Notation:</em> The L1 and L2 norms are specific examples of a{" "}
             <em>p</em>-norm. The <em>p</em>-norm is defined for any positive
             number <IM math={`p`} /> and has the value{" "}
@@ -562,7 +561,7 @@ export default function Ridge() {
           <TYU.Explanation>
             <p>
               This case is a bit trickier to think about
-              <MarginNote counter={marginNoteCounter}>
+              <MarginNote>
                 We are a bit handwavy in our argument since{" "}
                 <IM math={`\\infty`} /> isn't actually a number, but we use it
                 to think about a number getting arbitrarily large. You can make
@@ -671,7 +670,7 @@ export default function Ridge() {
           regularize the whole coefficient vector{" "}
           <IM math={`w = [w_0, w_1, ..., w_D]`} />. That might have been a bit
           overkill and will likely cause problems in practice{" "}
-          <MarginNote counter={marginNoteCounter}>
+          <MarginNote>
             <img
               className="border-image"
               src="/animations/ridge/all_the_coeffs.png"
