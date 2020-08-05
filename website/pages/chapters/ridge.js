@@ -1,8 +1,8 @@
 import { BM, IM } from "../../components/latex";
-import { MarginNote, MarginNoteCounter } from "../../components/marginnote";
 
 import Chapter from "../../components/chapter";
 import Link from "next/link";
+import MarginNote from "../../components/marginnote";
 import TYU from "../../components/test_your_understanding";
 import bookContents from "../../data/table_of_contents";
 

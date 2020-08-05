@@ -1,9 +1,9 @@
-import { MarginNote, MarginNoteCounter } from "./marginnote";
+import { MarginNoteContext, MarginNoteCounter } from "../contexts/margin_note";
 import React, { useState } from "react";
 
 import Button from "react-bootstrap/Button";
 import Layout from "./layout";
-import MarginNoteContext from "../contexts/margin_note";
+import MarginNote from "./marginnote";
 import TYU from "./test_your_understanding";
 import TYUContext from "../contexts/test_your_understanding";
 import bookContents from "../data/table_of_contents";
@@ -18,8 +18,8 @@ export default function Chapter({ children, fileName }) {
     setExpandAllTYU(!expandAllTYU);
   }
 
-  // For MarginNotes
-  var marginNoteCounter = new MarginNoteCounter();
+  // For margin note
+  const marginNoteCounter = new MarginNoteCounter();
 
   return (
     <Layout

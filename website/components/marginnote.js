@@ -1,20 +1,7 @@
+import { MarginNoteContext, MarginNoteCounter } from "../contexts/margin_note";
 import React, { useContext, useState } from "react";
 
-import MarginNoteContext from "../contexts/margin_note";
-
-class MarginNoteCounter {
-  constructor() {
-    this.count = 1;
-  }
-
-  getAndUpdate() {
-    var oldCount = this.count;
-    this.count++;
-    return oldCount;
-  }
-}
-
-function MarginNote({ children }) {
+export default function MarginNote({ children }) {
   const marginNoteContext = useContext(MarginNoteContext);
   const counter = marginNoteContext.marginNoteCounter;
 
@@ -35,5 +22,3 @@ function MarginNote({ children }) {
     </>
   );
 }
-
-export { MarginNote, MarginNoteCounter };

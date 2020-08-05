@@ -1,7 +1,7 @@
 import { BM, IM } from "../../components/latex";
-import { MarginNote, MarginNoteCounter } from "../../components/marginnote";
 
 import Chapter from "../../components/chapter";
+import MarginNote from "../../components/marginnote";
 import TYU from "../../components/test_your_understanding";
 import Video from "../../components/video";
 
