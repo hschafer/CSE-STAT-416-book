@@ -26,15 +26,17 @@ export default function Ridge() {
           a regression model and learn how we can potentially spot overfitting
           from the coefficients themselves. This will lead us to a discussion of{" "}
           <b>regularization</b>. As a quick preview, regularization is the
-          process of adding a mechanism to our quality metric to try to push the
-          model away from overfitting.
+          process of adding a mechanism to our quality metric as a mechanism to
+          prevent overfitting.
         </p>
 
         <h2>Interpreting Coefficients</h2>
         <p>
           Recall that back in{" "}
           <Link href={linRegChapter.url}>
-            <a>Chapter {linRegChapter.chapterNumber}</a>
+            <a>
+              Chapter {linRegChapter.chapterNumber}: {linRegChapter.title}
+            </a>
           </Link>{" "}
           , we introduced the idea of how to interpret the coefficients of of a
           linear regression model{" "}
@@ -76,8 +78,7 @@ export default function Ridge() {
         <p>
           One thing to note is that these coefficients are generally dependent
           on the "scale" of the data. If you change the scale of the features,
-          the magnitudes of the coefficients will change. The next questions
-          want you to think through how you think this relationship works.
+          the magnitudes of the coefficients will change.
         </p>
 
         <TYU>
@@ -219,7 +220,7 @@ export default function Ridge() {
             </p>
             <p>
               If you use one model and it find a certain effect of one feature
-              (i.e., the coefficient for square footage is 500), it's entirely
+              (e.g., the coefficient for square footage is 500), it's entirely
               possible that if you use a different model or use more/fewer
               features, you will find completely different coefficient. So just
               by adding or removing other features, you might claim a different
@@ -310,7 +311,7 @@ export default function Ridge() {
           tend to have really large coefficients as they become more and more
           overfit. In other words, in order to get that really wiggly behavior
           in the polynomial, the coefficients must be large in magnitude (
-          <IM math={`|\\hat{w}_j| >> 0`} />
+          <IM math={`|\\hat{w}_j| \\gg 0`} />
           ). The following animation shows how increasing the degree{" "}
           <IM math="p" /> of a polynomial regression model tends to increase the
           magnitudes of the coefficients.
@@ -321,9 +322,15 @@ export default function Ridge() {
         <p>
           Overfitting doesn't just happen when you have a large degree
           polynomial. It can also happen with a simple linear model that uses
-          many features. To prevent overfitting, you need enough data based on
-          the complexity of the model. As you use more features, the complexity
-          tends to increase which requires you to have more features.
+          many features. As you use more features in the model, its complexity
+          tends to increase
+          <MarginNote>
+            Assuming the features you are adding are distinct and meaningful
+          </MarginNote>
+          . As a simple example, a model that uses square footage and number of
+          bathrooms can learn more complex relationships than a model that just
+          uses square footage. To prevent complex models from overfitting, you
+          will need to make sure you have a sufficient amount of data.
         </p>
 
         <p>
@@ -371,16 +378,17 @@ export default function Ridge() {
             evaluate! This is nothing compared to large datasets like genomic
             data where you have around 20,000 genes to use as data inputs!
           </MarginNote>
+          . So while model selection using cross validation or a validation set
+          works for polynomial regression, it won't necessarily be feasible to
+          try that for models of other types.
         </p>
 
         <p>
-          So while model selection using cross validation or a validation set
-          works for polynomial regression, it won't necessarily be feasible to
-          try that for models of other types. What if we allowed ourselves to
-          use more complex models, but encouraged them to not overfit? This is
-          where the idea of <b>regularization</b> is introduced. Regularization
-          is a mechanism that you add to your quality metric to encourage it to
-          favor predictors that are not overfit. For our regression case,
+          What if we were able to use a more complex model to start, but somehow
+          encouraged it to not overfit? This is where the idea of{" "}
+          <b>regularization</b> is introduced. Regularization is a mechanism
+          that you add to your quality metric to encourage it to favor
+          predictors that are not overfit. For our regression case,
           regularization often looks like trying to control the coefficients so
           they don't get "too large" by some measurement of their magnitude.
         </p>
@@ -388,9 +396,8 @@ export default function Ridge() {
       <section>
         <h2>Regularization</h2>
         <p>
-          The way we introduced it earlier, our learning algorithm's goal was to
-          minimize our quality metric in the form of some loss function{" "}
-          <IM math={`L(w)`} />.
+          Originally, we showed that the ML algorithm's goal is to minimize our
+          quality metric in the form of some loss function <IM math={`L(w)`} />.
         </p>
 
         <BM math={`\\hat{w} = \\min_wL(w)`} />
@@ -410,8 +417,10 @@ export default function Ridge() {
             <IM math={`L(w)`} /> The original loss function of interest.
           </li>
           <li>
-            <IM math={`R(w)`} /> A new measurement of the magnitude of the
-            coefficients in order to prevent overfitting.
+            <IM math={`R(w)`} /> A regularization penalty to make models that
+            are more complex look worse. This generally takes the form of a
+            function that returns large numbers for complex models and small
+            numbers for simple models.
           </li>
         </ul>
 
@@ -438,7 +447,7 @@ export default function Ridge() {
           magnitude of the coefficients.
         </p>
 
-        <h3>Measuring magnitude</h3>
+        <h3>Coefficient magnitude as regularizer</h3>
         <p>
           How might we go about defining <IM math={`R(w)`} /> to measure the
           magnitude of the coefficients. As a notational convenience, we will
@@ -505,11 +514,11 @@ export default function Ridge() {
             This why we use the L2 norm notation <IM math={`||w||_2^2`} /> is
             squared.
           </MarginNote>
-          . In other words, we are using <IM math={`R(w) = ||w||_2^2`} />. You
-          can convince yourself that this will also solve the cancelling-out
-          problem like the L1 norm. In the next chapter, we will see how the
-          differing effects of the L1 and L2 norms, but for the rest of this
-          chapter, we will focus on this L2 norm.
+          . In other words, we are using <IM math={`R(w) = ||w||_2^2`} /> as our
+          regularizer. You can convince yourself that this will also solve the
+          cancelling-out problem like the L1 norm. In the next chapter, we will
+          see how the differing effects of the L1 and L2 norms, but for the rest
+          of this chapter, we will focus on this L2 norm.
         </p>
 
         <h3>Ridge Regression</h3>
@@ -613,7 +622,7 @@ export default function Ridge() {
             <p>
               Consider a different case where every coefficient{" "}
               <IM math={`j`} />, <IM math={`w_j = 0`} />. We would say then that
-              the whole vector <IM math={`w = 0`} /> as a notational
+              the whole vector <IM math={`w = \\bm{0}`} /> as a notational
               convenience. Then <IM math={`||w||_2^2 = 0`} /> since all of its
               coefficients are 0. We can then argue that{" "}
               <IM math={`\\lambda ||w||_2^2 = 0`} /> since any number times 0 is
@@ -667,7 +676,10 @@ export default function Ridge() {
           go about choosing the right <IM math={`\\lambda`} />? The exact same
           process we discuss in{" "}
           <Link href={assessPerfChapter.url}>
-            <a>Chapter {assessPerfChapter.chapterNumber}</a>
+            <a>
+              Chapter {assessPerfChapter.chapterNumber}:{" "}
+              {assessPerfChapter.title}
+            </a>
           </Link>
           ! We try out lots of possible settings of <IM math={`\\lambda`} /> and
           see which one does best on a validation set or in cross validation.
@@ -684,6 +696,8 @@ export default function Ridge() {
           practical considerations we can make to improve this process and make
           sure it works well.
         </p>
+
+        <h3>The intercept</h3>
 
         <p>
           The first is a rather subtle point about which coefficients you should
@@ -738,6 +752,8 @@ export default function Ridge() {
           </li>
         </ul>
 
+        <h3>Normalization</h3>
+
         <p>
           The other big problem we run into is the effect that the scale of the
           features has on the coefficients. We discussed earlier in this chapter
@@ -753,7 +769,9 @@ export default function Ridge() {
           A common fix to this problem is to <b>normalize</b> the data so that
           all of the features have mean 0 and standard deviation 1. This
           prevents having to deal with different features on entirely different
-          range since you scale them down to the same range.
+          range since you scale them down to the same range. It's also common to
+          do the same procedure on your outputs so the <IM math={`y`} /> values
+          are mean 0 and standard deviation 1.
         </p>
 
         <p>
