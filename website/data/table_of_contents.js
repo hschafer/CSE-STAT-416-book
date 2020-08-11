@@ -23,6 +23,11 @@ const tableOfContents = [
         title: "Regularization: Ridge",
         file: "ridge",
       },
+      {
+        chapterNumber: "4",
+        title: "Feature Selection: LASSO",
+        file: "feature_selection_lasso",
+      },
     ],
   },
   {
