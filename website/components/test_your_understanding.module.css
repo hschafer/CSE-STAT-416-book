@@ -12,7 +12,32 @@
   font-size: 1.4rem;
 }
 
-.card_button {
+.mc_question {
+  margin-left: 1em;
+}
+
+.mc_question_choices {
+  margin-top: 1em;
+  margin-bottom: 0;
+  font-size: 1.2rem;
+}
+
+.mc_question_choices :global(.valid-feedback),
+.mc_question_choices :global(.invalid-feedback) {
+  visibility: hidden;
+  display: block;
+}
+
+.mc_question_choices .feedback_visible :global(.valid-feedback),
+.mc_question_choices .feedback_visible :global(.invalid-feedback) {
+  visibility: visible;
+}
+
+.mc_question_choices .close {
+  float: right;
+}
+
+.header_text {
   text-align: left;
   font-size: 1.2rem;
   padding-top: 3px;
