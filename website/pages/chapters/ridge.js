@@ -8,9 +8,6 @@ import TYU from "../../components/test_your_understanding";
 import bookContents from "../../data/table_of_contents";
 
 export default function Ridge() {
-  var linRegChapter = bookContents.getChapterInfo("linear_regression");
-  var assessPerfChapter = bookContents.getChapterInfo("assessing_performance");
-
   return (
     <Chapter fileName="ridge">
       <section>
@@ -32,13 +29,8 @@ export default function Ridge() {
 
         <h2>Interpreting Coefficients</h2>
         <p>
-          Recall that back in{" "}
-          <Link href={linRegChapter.url}>
-            <a>
-              Chapter {linRegChapter.chapterNumber}: {linRegChapter.title}
-            </a>
-          </Link>{" "}
-          , we introduced the idea of how to interpret the coefficients of of a
+          Recall that back in {bookContents.linkTo("linear_regression")}, we
+          introduced the idea of how to interpret the coefficients of of a
           linear regression model{" "}
           <IM math={`\\hat{y} = \\hat{w}_0 + \\hat{w}_1x`} />, where{" "}
           <IM math={`\\hat{w}_0`} /> is the intercept (the price of a 0 square
@@ -702,14 +694,8 @@ export default function Ridge() {
           <IM math={`\\lambda`} /> in the middle. One that allows a model
           sufficient complexity to learn while avoiding overfitting. How do we
           go about choosing the right <IM math={`\\lambda`} />? The exact same
-          process we discuss in{" "}
-          <Link href={assessPerfChapter.url}>
-            <a>
-              Chapter {assessPerfChapter.chapterNumber}:{" "}
-              {assessPerfChapter.title}
-            </a>
-          </Link>
-          ! We try out lots of possible settings of <IM math={`\\lambda`} /> and
+          process we discuss in {bookContents.linkTo("assessing_performance")}!
+          We try out lots of possible settings of <IM math={`\\lambda`} /> and
           see which one does best on a validation set or in cross validation.
         </p>
       </section>

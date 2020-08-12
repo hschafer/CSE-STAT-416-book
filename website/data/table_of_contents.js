@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const tableOfContents = [
   {
     chapterNumber: "0",
@@ -113,6 +115,17 @@ class BookContents {
     }
 
     return chapter[0];
+  }
+
+  linkTo(file) {
+    const chapter = this.getChapterInfo(file);
+    return (
+      <Link href={chapter.url}>
+        <a>
+          Chapter {chapter.chapterNumber}: {chapter.title}
+        </a>
+      </Link>
+    );
   }
 
   tocMap(caseStudyFun, chapterFun) {
