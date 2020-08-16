@@ -177,6 +177,31 @@ export default function Ridge() {
         </p>
 
         <p>
+          For a concrete example, suppose your ML algorithm learns the predictor{" "}
+          <IM math={`\\hat{y} = 100 + 200x[1] + 300x[2]`} /> where{" "}
+          <IM math={`x[1]`} /> is the square footage and <IM math={`x[2]`} /> is
+          then number of bathrooms. Using this idea above, you would interpret
+          the learned coefficients as follows:
+        </p>
+
+        <ul>
+          <li>
+            <IM math={`\\hat{w}_0 = 100`} /> means the price of a 0 square foot
+            house with 0 bathrooms is $100.
+          </li>
+          <li>
+            <IM math={`\\hat{w}_1 = 200`} /> means if you add one square foot to
+            the house, we expect the price to go up by $200{" "}
+            <em>assuming the number of bathrooms does not change</em>.
+          </li>
+          <li>
+            <IM math={`\\hat{w}_2 = 300`} /> means if you add one bathroom to
+            the house, we expect the price to go up by $300{" "}
+            <em>assuming the square footage does not change</em>.
+          </li>
+        </ul>
+
+        <p>
           A consequence of this need to fix all other features, makes something
           like the coefficients in polynomial regression difficult to interpret.
           If you learn a predictor <IM math={`\\hat{y} = 2 + 3x + 4x^2`} />,
