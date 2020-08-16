@@ -873,14 +873,15 @@ export default function Ridge() {
           that regression models that overfit tend to have high coefficients. We
           introduced the concept of regularization to change the quality metric
           in order to favor models with smaller coefficient magnitudes. There
-          are many forms of how to regularize, but most have some{" "}
-          <b>hyperparameter</b>
+          are many forms of how to regularize, but most have some tuning
+          parameter
           <MarginNote>
-            Also called a "tuning parameter". It's a value you choose that will
-            impact how the model behaves.
+            These "tuning parameters" that you have to choose are also commonly
+            called <b>hyperparameters</b>. We will introduce this terminology
+            next time.
           </MarginNote>{" "}
           <IM math={`\\lambda`} /> that controls how much you want to penalize
-          large coefficients. In this chapter, we specifically talked about
+          overfit models. In this chapter, we specifically talked about
           regularizing with the L2 norm which is called ridge regression.
           Finally, we talked about some practical considerations when using
           regularization about the intercept and scaling features.
