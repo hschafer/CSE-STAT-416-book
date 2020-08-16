@@ -460,23 +460,26 @@ export default function Ridge() {
           <IM math={`\\lambda`} /> will be some tuning parameter that lets us
           weigh how much we care about the loss vs. the measure of coefficient
           magnitude. We will discuss the effect of this value and how to choose
-          it later.{" "}
+          it later.
         </p>
         <p>
           The intent of adding this <IM math={`R(w)`} /> to our quality metric
-          is to add a penalty for predictors that have large coefficients.
-          Remember the ML algorithm minimizes this quality metric, so by adding
-          a large number for large coefficients, will make the model look
-          "worse". This can help us prevent overfitting since it's not just
-          about minimizing training error, but also balancing that with the
-          magnitude of the coefficients.
+          is to add a penalty for predictors that seem overfit. Remember the ML
+          algorithm minimizes this quality metric, so by adding a large number
+          for overfit models, will make the model look "worse". This can help us
+          prevent overfitting since it's not just about minimizing training
+          error, but also balancing that this regularization penalty.
         </p>
 
         <h3>Coefficient magnitude as regularizer</h3>
         <p>
-          How might we go about defining <IM math={`R(w)`} /> to measure the
-          magnitude of the coefficients. As a notational convenience, we will
-          think of the coefficients as a vector (i.e., an array of numbers){" "}
+          How might we go about defining <IM math={`R(w)`} /> to get a sense of
+          overfitting? Recall in our regression case, we noticed that overfit
+          predictors tend to have large magnitude coefficients. Therefore, we
+          will want to define <IM math={`R(w)`} /> to somehow capture the
+          magnitude of the coefficients to spot any overfitting. As a notational
+          convenience, we will think of the coefficients as a vector (i.e., an
+          array of numbers){" "}
           <IM math={`w = \\left[w_0, w_1, ..., w_D\\right]`} />. The function we
           want to define <IM math={`R(w)`} /> should take this vector and return
           a single number summarizing the magnitude of the coefficients. We want
