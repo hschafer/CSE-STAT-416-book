@@ -1,24 +1,13 @@
-class MarginNoteCounter {
-  constructor() {
-    this.count = 1;
-  }
+import { MarginNoteContext, MarginNoteCounter } from "../contexts/margin_note";
+import React, { useContext, useState } from "react";
 
-  getAndUpdate() {
-    var oldCount = this.count;
-    this.count++;
-    return oldCount;
-  }
-}
+export default function MarginNote({ children }) {
+  const marginNoteContext = useContext(MarginNoteContext);
+  const counter = marginNoteContext.marginNoteCounter;
 
-function MarginNote({ children, counter }) {
-  if (counter === undefined) {
-    var prefix = "";
-    var id = "margin-" + Math.random().toString(36).substring(7);
-  } else {
-    var count = counter.getAndUpdate();
-    var prefix = "" + count;
-    var id = "margin-" + prefix;
-  }
+  var [count, _] = useState(counter.getAndUpdate());
+  var prefix = "" + count;
+  var id = "margin-" + prefix;
   return (
     <>
       <label htmlFor={id} className="margin-toggle">
@@ -33,5 +22,3 @@ function MarginNote({ children, counter }) {
     </>
   );
 }
-
-export { MarginNote, MarginNoteCounter };

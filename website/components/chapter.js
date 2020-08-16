@@ -1,54 +1,45 @@
+import { MarginNoteContext, MarginNoteCounter } from "../contexts/margin_note";
+import React, { useState } from "react";
+
+import Button from "react-bootstrap/Button";
 import Layout from "./layout";
-import styles from "./chapter.module.css";
-import tableOfContents from "../table_of_contents";
-
-function findChapterInfo(fileName) {
-  var flattenedChapters = tableOfContents
-    .map((entry) => (entry.caseStudy ? entry.chapters : [entry]))
-    .flat(1);
-  var chapterIndex = flattenedChapters.findIndex(
-    (chapter) => chapter.file === fileName
-  );
-
-  if (chapterIndex === undefined) {
-    throw new Error("File name not found");
-  }
-  console.log(flattenedChapters);
-  console.log(chapterIndex);
-
-  return {
-    chapter: flattenedChapters[chapterIndex],
-    prevChapter:
-      chapterIndex > 0 ? flattenedChapters[chapterIndex - 1] : undefined,
-    nextChapter:
-      chapterIndex < flattenedChapters.length - 1
-        ? flattenedChapters[chapterIndex + 1]
-        : undefined,
-  };
-}
-
-function toURL(chapter) {
-  if (chapter) {
-    return `/chapters/${chapter.file}`;
-  } else {
-    return undefined;
-  }
-}
+import MarginNote from "./marginnote";
+import TYU from "./test_your_understanding";
+import TYUContext from "../contexts/test_your_understanding";
+import bookContents from "../data/table_of_contents";
 
 export default function Chapter({ children, fileName }) {
-  const chapterInfo = findChapterInfo(fileName);
+  const chapter = bookContents.getChapterInfo(fileName);
+
+  // For expand all TYU cards
+  const [expandAllTYU, setExpandAllTYU] = useState(false);
+
+  function expandAll(evt) {
+    setExpandAllTYU(!expandAllTYU);
+  }
+
+  // For margin note
+  const marginNoteCounter = new MarginNoteCounter();
+
   return (
     <Layout
-      prevPage={toURL(chapterInfo.prevChapter)}
-      nextPage={toURL(chapterInfo.nextChapter)}
+      prevPage={chapter.prevChapter?.url}
+      nextPage={chapter.nextChapter?.url}
     >
-      <article>
-        <h1>
-          Chapter {chapterInfo.chapter.chapterNumber}:{" "}
-          {chapterInfo.chapter.title}
-        </h1>
-        {children}
-      </article>
+      <TYUContext.Provider value={{ expandAllTYU, setExpandAllTYU }}>
+        <MarginNoteContext.Provider value={{ marginNoteCounter }}>
+          <article>
+            <h1>
+              Chapter {chapter.chapterNumber}: {chapter.title}
+            </h1>
+            <Button variant="info" onClick={expandAll}>
+              {expandAllTYU ? "Close" : "Open"} all 'Test Your Understanding'
+              cards
+            </Button>
+            {children}
+          </article>
+        </MarginNoteContext.Provider>
+      </TYUContext.Provider>
     </Layout>
   );
 }

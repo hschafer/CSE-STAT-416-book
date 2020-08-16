@@ -1,6 +1,7 @@
 .nav {
   border-bottom: 1px solid lightgray;
   background-color: #9e89b3;
+  width: 100%;
 }
 
 .nav .navlink,
@@ -8,11 +9,11 @@
   color: #fffff8 !important;
 }
 
+/* Change button style to not look ugly */
 button.unbutton {
   font-size: inherit;
   font-family: inherit;
   border: 0;
-  padding: 0;
   background-color: inherit;
 }
 
@@ -20,6 +21,20 @@ button.unbutton:focus {
   outline: none;
 }
 
-.caseStudyChapter a {
-  padding-left: 3.5em;
+/* Make sure the nav elements are wide enough that any click triggers and onclick. Previously, clicks on the edges would fail*/
+.navdropdown a {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.navdropdown a > * {
+  width: 100%;
+  text-align: left;
+  display: inline-block;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.caseStudyDropdown a > span {
+  padding-left: 3rem;
 }

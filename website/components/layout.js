@@ -6,8 +6,8 @@ import Link from "next/link";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
+import bookContents from "../data/table_of_contents.js";
 import styles from "./layout.module.css";
-import tableOfContents from "../table_of_contents.js";
 import { useState } from "react";
 
 function makeChapter(chapter) {
@@ -32,7 +32,7 @@ function makeCaseStudy(caseStudy) {
   }
 
   return (
-    <div key={caseStudy.caseStudy}>
+    <div className={styles.caseStudyDropdown} key={caseStudy.caseStudy}>
       <NavDropdown.Item>
         <button
           onClick={onClick}
@@ -46,19 +46,11 @@ function makeCaseStudy(caseStudy) {
 
       <Collapse in={open} className={styles.caseStudyChapter}>
         <div id={`case-study-${caseStudy.caseStudy}`}>
-          {caseStudy.chapters.map(makeDropdownElement)}
+          {caseStudy.chapters.map(makeChapter)}
         </div>
       </Collapse>
     </div>
   );
-}
-
-function makeDropdownElement(entry) {
-  if (entry.caseStudy) {
-    return makeCaseStudy(entry);
-  } else {
-    return makeChapter(entry);
-  }
 }
 
 export default function Layout({
@@ -87,7 +79,7 @@ export default function Layout({
               className={styles.navdropdown}
               id="basic-nav-dropdown"
             >
-              {tableOfContents.map(makeDropdownElement)}
+              {bookContents.tocMap(makeCaseStudy, makeChapter)}
             </NavDropdown>
             {prevPage ? (
               <Link href={prevPage}>

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Layout from "../components/layout";
 import Link from "next/link";
-import tableOfContents from "../table_of_contents.js";
+import bookContents from "../data/table_of_contents.js";
 
 function chapterToLI(chapter) {
   return (
@@ -52,19 +52,15 @@ export default function Home() {
           <h2>Table of Contents</h2>
 
           <ol id="table-of-contents">
-            {tableOfContents.map(function (entry) {
-              if (entry.caseStudy) {
-                return (
-                  <li key={entry.caseStudy} className="case-study">
-                    <h3>{entry.title}</h3>
-                    <ol>{entry.chapters.map(chapterToLI)}</ol>
-                  </li>
-                );
-              } else {
-                // It's a chapter
-                return chapterToLI(entry);
-              }
-            })}
+            {bookContents.tocMap(
+              (caseStudy) => (
+                <li key={caseStudy.caseStudy} className="case-study">
+                  <h3>{caseStudy.title}</h3>
+                  <ol>{caseStudy.chapters.map(chapterToLI)}</ol>
+                </li>
+              ),
+              chapterToLI
+            )}
           </ol>
 
           <h2>Acknowledgements</h2>

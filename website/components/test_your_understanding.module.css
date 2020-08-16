@@ -1,5 +1,25 @@
+.tyuAccordion > .tyuCard {
+  overflow: visible;
+}
+
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
 .question_mark {
-  font-size: 1.4rem;
-  vertical-align: middle;
   font-weight: bolder;
+  font-size: 1.4rem;
+}
+
+.card_button {
+  text-align: left;
+  font-size: 1.2rem;
+  padding-top: 3px;
+}
+
+@media (max-width: 760px) {
+  :global(#content) section .tyuAccordion {
+    width: 90%;
+  }
 }

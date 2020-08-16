@@ -1,13 +1,15 @@
 /* Global layout */
+body {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
 body,
 #content * {
   /* Fight the bootstrap powers */
   box-sizing: unset;
   /* Undo those styles from Tufte */
-  width: unset;
-  margin-left: unset;
-  margin-right: unset;
-  padding-left: unset;
   max-width: unset;
 }
 
@@ -46,6 +48,10 @@ blockquote {
 #content section > video,
 #content section .main-column {
   width: 55%;
+}
+
+.border-image {
+  border: 1px solid gray;
 }
 
 /* TODO Better styling for tables */
