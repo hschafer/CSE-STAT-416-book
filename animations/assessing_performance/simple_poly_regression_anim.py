@@ -15,18 +15,6 @@ class Animation(BScene):
         xs, ys, config = simple_poly_regression_get_data(seed=100399, N=10)
         axes, dots = axes_and_data(xs, ys, config)
 
-        # model_text = BTexMobject(
-        #    r"\text{Model:}\ y_i = w_p x^p + \dots + w_2 x^2 + w_1 x + w_0 + \varepsilon_i",
-        #    tex_to_color_map={
-        #        "y_i": BLUE,
-        #        r"w_p": COL_GREEN,
-        #        r"w_2": COL_GREEN,
-        #        r"w_1": COL_GREEN,
-        #        r"w_0": COL_GREEN,
-        #        r"\varepsilon_i": COL_PURPLE,
-        #    },
-        #    color=COL_BLACK,
-        # )
         plot = VGroup(axes, dots)
         fns = []
         labels = []

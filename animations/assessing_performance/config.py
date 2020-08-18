@@ -133,7 +133,6 @@ def fhat(x, Xtrain, Ytrain, deg):
 def fhat_vector(X, Xtrain, Ytrain, deg):
     xhat = H(X, deg)
     b = beta(H(Xtrain, deg), Ytrain)
-    out = np.matmul(xhat, b)
     return np.matmul(xhat, b)  # the matmul returns a 1x1 array
 
 

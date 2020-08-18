@@ -317,7 +317,10 @@ export default function AssessingPerformance() {
           would decrease.
         </p>
 
-        <p>TODO(manim): Training error curve</p>
+        <Video
+          src="/animations/assessing_performance/poly_regression_train_error_anim.mp4"
+          type="mp4"
+        />
 
         <p>
           Now consider what happens to the <em>true error</em>
@@ -328,7 +331,10 @@ export default function AssessingPerformance() {
           error in most contexts, but it's still useful to think about.
         </p>
 
-        <p>TODO(manim): True error animation</p>
+        <Video
+          src="/animations/assessing_performance/poly_regression_test_error_anim.mp4"
+          type="mp4"
+        />
 
         <p>
           At first, when the model is too simple, the true error is higher.
