@@ -230,8 +230,174 @@ export default function FeatureSelectionLASSO() {
 
       <section>
         <h2>Feature selection</h2>
+        <p>
+          <b>Feature selection</b> is the process of trying to select a subset
+          of the features available that somehow seem "the most important".
+          Usually the hope of feature selection is to be able to throw away all
+          of the "irrelevant" features that don't seem to matter as much. There
+          are three key benefits to carefully selecting which features you use
+          rather than using all of them:
+        </p>
 
-        <h3>Sparsity Examples</h3>
+        <ul>
+          <li>
+            <em>Complexity</em>: Models with more features tend to be more
+            complex and are more likely to overfit. By selecting only
+            "important" features, we can simplify our models.
+          </li>
+          <li>
+            <em>Interpretability</em>: If we have a process to select which
+            features are the most "important", we can hopefully gain insight to
+            the underlying workings of the phenomena. For example, even if we
+            have 20 or so features for determining housing prices, maybe square
+            footage is really the only "important" feature and that can drive
+            our understanding of how house markets work.
+          </li>
+          <li>
+            <p>
+              <em>Efficiency</em>: Suppose we had <em>many</em> features that
+              our model could use. For example, if we were trying to analyze the
+              human genome to model a disease, we could use a feature for each
+              of the human's approximately 25,000 genes. Not only would it be
+              slow to learn all 25,000 coefficients, but it would also require
+              evaluating a sum with 25,000 coefficients multiplied by the input!
+            </p>
+            <p>
+              However, if we enforce that we only care about "important" genes,
+              we can ignore all the other ones and leave their coefficients as
+              0. We call a coefficient vector <IM math={`\\hat{w}`} />{" "}
+              <b>sparse</b> if many of its coefficients are 0. If we know our
+              learned coefficients are sparse, we can speed up the time to make
+              a prediction by only looking at the non-zero coefficients.
+            </p>
+
+            <BM
+              math={`\\hat{y} = \\sum_{\\hat{w}_j \\neq 0} \\hat{w}_jh_j(x)`}
+            />
+          </li>
+        </ul>
+
+        <h3>Sparsity examples</h3>
+        <p>
+          To gain a better intuition for why sparsity and feature selection are
+          important, lets consider some real life examples where sparsity might
+          matter.
+        </p>
+
+        <h4>Housing prices</h4>
+
+        {/* TODO inlining CSS here since I don't have a good story yet on what multi-columns should look like */}
+        <p>
+          In our example of housing data, you could imagine a lot of possible
+          features about a house that could be used in predicting its price.
+          Below, we show a partial list of some relevant features of the house.
+          It would be nice if we had some procedure that highlighted
+          (underlined) the "most important" of these features to make our task
+          simpler
+          <MarginNote>
+            This is just an example, I have no idea what is actually important
+            in determining price of a house!
+          </MarginNote>
+          .
+        </p>
+
+        <div
+          className="main-column"
+          style={{ display: "flex", "justify-content": "space-between" }}
+        >
+          <ul>
+            <li>
+              <u>Lot size</u>
+            </li>
+            <li>
+              <u>Single family home</u>
+            </li>
+            <li>
+              <u>Year built</u>
+            </li>
+            <li>
+              <u>Last sold price</u>
+            </li>
+            <li>Last sale price pr sq.ft.</li>
+            <li>
+              <u>Finish sq.ft.</u>
+            </li>
+            <li>
+              <u>Unfinished sq.ft.</u>
+            </li>
+            <li>Finished basement sq.ft.</li>
+            <li>
+              <u># floors</u>
+            </li>
+            <li>
+              <u>Flooring types</u>
+            </li>
+            <li>Parking type</li>
+            <li>Parking amount</li>
+            <li>Cooling</li>
+            <li>
+              <u>Heating</u>
+            </li>
+            <li>Exterior materials</li>
+            <li>Roof type</li>
+            <li>Structure styling</li>
+          </ul>
+          <ul>
+            <li>Dishwasher</li>
+            <li>Garbage disposal</li>
+            <li>Microwave</li>
+            <li>Range / Oven</li>
+            <li>Refrigerator</li>
+            <li>Washer</li>
+            <li>Dryer</li>
+            <li>Laundry location</li>
+            <li>Heating type</li>
+            <li>Jetted tub</li>
+            <li>Deck</li>
+            <li>Fenced yard</li>
+            <li>Lawn</li>
+            <li>Garden</li>
+            <li>Sprinkler system</li>
+            <li>...</li>
+          </ul>
+        </div>
+        <p>
+          If an algorithm could tell us which of the many features are
+          important, it makes our model a lot easier to interpret when we can
+          ignore features that seem "less important".
+        </p>
+
+        <h4>Reading Minds</h4>
+        <p>
+          Suppose you wanted to build a model to take a brain scan and based on
+          the electro-chemical signals shown in the scan, predict how happy
+          someone is on a scale from sad (0) to happy (10). This is a regression
+          problem where the inputs are information you extract from the brain
+          scan (maybe whether or not a neuron at a pixel is active or not) and
+          the output could be a number on this scale from 0 to 10.
+        </p>
+
+        <figure className="fullwidth">
+          <img
+            className="border-image"
+            src="/animations/feature_selection_lasso/read-mind.png"
+            alt="Diagram showing brain scan"
+          />
+        </figure>
+
+        <p>
+          If we had a process for feature selection, we could hopefully identify
+          which parts of the brain are the most important for determining
+          happiness! If this model was sparse, we can only focus on the parts of
+          the brain that had non-zero coefficients (meaning they were
+          important)/
+        </p>
+
+        <p>
+          So now that we have some ideas of why sparsity and feature selection
+          matter, lets talk about some algorithms to help us identify what "most
+          important features" means and how to find them.
+        </p>
       </section>
 
       <section>
