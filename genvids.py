@@ -109,7 +109,6 @@ def manim(af, hard, tc, manim_args, copy=False):
 
     args = [
         "manimgl",
-        "-o",
         "--video_dir",
         af.video_output_dir,
         af.srcfile,
@@ -231,7 +230,7 @@ if __name__ == "__main__":
     if args.quiet:
         manim_args.append("--quiet")
     if args.preview:
-        manim_args.append("--preview")
+        manim_args.append("--open")
     if args.low_quality:
         manim_args.append("--low_quality")
     if args.save_last_frame:
