@@ -98,9 +98,7 @@ def preview_file(path):
     FNULL.close()
 
 
-def manim(af, vidcache, hard, tc, manim_args, copy=False):
-    if not os.path.exists(vidcache):
-        os.makedirs(vidcache)
+def manim(af, hard, tc, manim_args, copy=False):
 
     # extend python path to inclde this directory
     env = os.environ.copy()
@@ -110,13 +108,12 @@ def manim(af, vidcache, hard, tc, manim_args, copy=False):
     env["PYTHONPATH"] = f"{af.dirname}:.:{ppath}"
 
     args = [
-        "manim",
+        "manimgl",
+        "-o",
+        "--video_dir",
+        af.video_output_dir,
         af.srcfile,
         ANIMATION_CLASS_NAME,
-        "--video_output_dir",
-        af.video_output_dir,
-        "--media_dir",
-        vidcache,
     ]
     args.extend(manim_args)
 
@@ -194,11 +191,6 @@ if __name__ == "__main__":
     )
     parser.add_argument("--out", default="videos", help="Output video directory")
     parser.add_argument(
-        "--vidcache",
-        default=".vidcache",
-        help="Store intermediate media to generate videos",
-    )
-    parser.add_argument(
         "--hard",
         action="store_true",
         help="Recompile all animations even if animation codes hasn't changed",
@@ -257,4 +249,4 @@ if __name__ == "__main__":
             else:
                 print(f"{fname} must end in '_anim.py' or be a directory, ignoring")
         for af in anims:
-            manim(af, args.vidcache, args.hard, tc, manim_args, copy=args.copy)
+            manim(af, args.hard, tc, manim_args, copy=args.copy)

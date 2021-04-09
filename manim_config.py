@@ -1,4 +1,4 @@
-from manimlib.imports import *
+from manimlib import *
 
 
 COL_BACKGROUND = "#fffff8"
@@ -16,7 +16,7 @@ class BScene(Scene):
         super().__init__(**kwargs)
 
 
-class BTexMobject(TexMobject):
+class BTexMobject(Tex):
     def __init__(self, *args, **kwargs):
         new_kwargs = {
             "color": COL_BLACK,
@@ -27,7 +27,7 @@ class BTexMobject(TexMobject):
         super().__init__(*args, **new_kwargs)
 
 
-class BTextMobject(TextMobject):
+class BTextMobject(Text):
     def __init__(self, *args, **kwargs):
         new_kwargs = {
             "color": COL_BLACK,
