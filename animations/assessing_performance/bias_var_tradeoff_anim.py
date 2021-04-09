@@ -28,7 +28,7 @@ class Animation(BTrainTestScene):
             color=color,
         )
 
-        fnl = BTextMobject(text, color=color)
+        fnl = BText(text, color=color)
         fnl.scale(0.75)
         ypos = max(self.y_min, min(self.y_max, fng.function(self.x_max)))
         fnl.move_to(self.axes.c2p(self.x_max, ypos, 0) + RIGHT * 0.75)
@@ -43,7 +43,7 @@ class Animation(BTrainTestScene):
         noise_grp = self.function_and_label(noise, "Noise", COL_PURPLE)
         true_grp = self.function_and_label(true_error, r"True \\ Error", COL_GOLD)
 
-        title = BTextMobject(
+        title = BText(
             "True Error = Bias$^2$ + Variance + Noise",
             tex_to_color_map={
                 "True Error": COL_GOLD,

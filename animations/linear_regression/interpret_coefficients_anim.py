@@ -9,7 +9,7 @@ class Animation(LinearScene):
         self.add(self.axes, self.dots)
 
         # Model text
-        model_text = BTextMobject(
+        model_text = BText(
             r"Model: {$y_i = w_0 + w_1x_i + \varepsilon_i$}",
             color=GREEN,
             tex_to_color_map={r"Model:": COL_BLACK},
@@ -23,7 +23,7 @@ class Animation(LinearScene):
         # Highlight w_0
         w_0_point = self.axes.coords_to_point(0, self.w_0, 0)
         w_0_point = Dot(w_0_point, color=GREEN)
-        w_0_text = BTexMobject(r"w_0", color=GREEN)
+        w_0_text = BTex(r"w_0", color=GREEN)
         w_0_text.scale(TEXT_SCALE)
         w_0_text.next_to(w_0_point, LEFT)
         self.play(Write(w_0_text), FadeIn(w_0_point))
@@ -41,14 +41,14 @@ class Animation(LinearScene):
 
         # Create run
         run = DashedLine(start=start_point, end=corner, color=BLUE)
-        run_text = BTexMobject(r"1", color=BLUE)
+        run_text = BTex(r"1", color=BLUE)
         run_text.scale(TEXT_SCALE)
         run_text.next_to(run, DOWN)
         self.play(ShowCreation(run), FadeIn(run_text))
 
         # Create rise
         rise = DashedLine(start=corner, end=end_point, color=BLUE)
-        rise_text = BTexMobject(r"w_1", color=BLUE)
+        rise_text = BTex(r"w_1", color=BLUE)
         rise_text.scale(TEXT_SCALE)
         rise_text.next_to(rise, RIGHT, buff=0.05)
         self.play(ShowCreation(rise), FadeIn(rise_text))

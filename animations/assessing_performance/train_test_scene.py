@@ -15,17 +15,17 @@ def train_error(x):
 class BTrainTestScene(BScene):
     def set_axes_labels(self):
         axeslabels = []
-        y_label = BTextMobject("Error", color=GRAY)
+        y_label = BText("Error", color=GRAY)
         y_label.scale(0.75)
         y_label.move_to(self.axes.c2p(self.x_min, self.y_max, 0) + UP * 0.25)
 
-        x_label_low = BTextMobject(r"Low Model \\ Complexity", color=GRAY)
+        x_label_low = BText(r"Low Model \\ Complexity", color=GRAY)
         x_label_low.scale(0.75)
         x_label_low.move_to(
             self.axes.c2p(self.x_min, self.y_min, 0) + DOWN * 0.5 + RIGHT
         )
 
-        x_label_high = BTextMobject(r"High Model \\ Complexity", color=GRAY)
+        x_label_high = BText(r"High Model \\ Complexity", color=GRAY)
         x_label_high.scale(0.75)
         x_label_high.move_to(
             self.axes.c2p(self.x_max, self.y_min, 0) + DOWN * 0.5 + LEFT
@@ -52,7 +52,7 @@ class BTrainTestScene(BScene):
             function=true_error,
             color=COL_GOLD,
         )
-        self.true_flabel = BTextMobject(r"True \\ Error", color=COL_GOLD)
+        self.true_flabel = BText(r"True \\ Error", color=COL_GOLD)
         self.true_flabel.scale(0.75)
 
         # move to the right of the axes
@@ -68,7 +68,7 @@ class BTrainTestScene(BScene):
             color=COL_BLUE,
         )
 
-        self.train_flabel = BTextMobject(r"Train \\ Error", color=COL_BLUE)
+        self.train_flabel = BText(r"Train \\ Error", color=COL_BLUE)
         self.train_flabel.scale(0.75)
 
         # move to the right of the axes

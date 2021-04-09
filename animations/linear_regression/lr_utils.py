@@ -92,8 +92,9 @@ class ModelScene(BScene):
         self.graph.move_to(self.graph_shift)
 
         # Create text
-        self.data_text = BTexMobject(r"(x_1, y_1), ..., (x_n, y_n)")
-        self.function_text = BTextMobject(
+        self.data_text = BTex(r"(x_1, y_1), ..., (x_n, y_n)")
+
+        self.function_text = BText(
             r"True function: {$f($}{$x$}{$)$}",
             tex_to_color_map={"{$f($}": GREEN, "{$)$}": GREEN},
         )
@@ -113,7 +114,7 @@ class LinearScene(ModelScene):
         super().custom_setup(**kwargs)
 
         # Create text for predictor
-        self.predictor_text = BTextMobject(
+        self.predictor_text = BText(
             r"Predictor: {$\hat{f}($}{$x$}{$)$}",
             tex_to_color_map={"{$\\hat{f}($}": BLUE, "{$)$}": BLUE},
         )
@@ -162,10 +163,10 @@ class GradientDescentScene(BScene):
 
         # Create axis labels
         axis_scale = 0.7
-        x_label = BTexMobject(r"w_1")
+        x_label = BTex(r"w_1")
         x_label.next_to(axes.x_axis.get_last_point(), DOWN)
         x_label.scale(axis_scale)
-        y_label = BTexMobject(r"RSS(w_1)")
+        y_label = BTex(r"RSS(w_1)")
         y_label.scale(axis_scale)
         y_label.next_to(axes.y_axis, LEFT)
         self.add(axes, x_label, y_label)

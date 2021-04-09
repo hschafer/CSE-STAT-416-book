@@ -36,7 +36,7 @@ class Animation(BTrainTestScene):
             np.array([x2, 0, 0]),
             color=COL_BLACK,
         )
-        fhat_label = BTexMobject(r"\hat{f}", color=COL_BLACK)
+        fhat_label = BTex(r"\hat{f}", color=COL_BLACK)
         fhat_label.move_to(np.array([x2, -0.5, 0]))
         fhat_grp = VGroup(fhat_line, fhat_label)
         fhat_grp.shift(self.centershift)
@@ -48,7 +48,7 @@ class Animation(BTrainTestScene):
             np.array([x1, 0, 0]),
             color=COL_BLACK,
         )
-        fprime_label = BTexMobject(r"f'", color=COL_BLACK)
+        fprime_label = BTex(r"f'", color=COL_BLACK)
         fprime_label.move_to(np.array([x1, -0.5, 0]))
         fprime_grp = VGroup(fprime_line, fprime_label)
         fprime_grp.shift(self.centershift)

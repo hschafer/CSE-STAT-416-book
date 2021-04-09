@@ -64,7 +64,7 @@ class BBiasVarianceScene(BScene):
         self.true_fn = degfungraph(
             self.xtrue, self.ytrue, self.true_dim, COL_BLUE, config
         )
-        self.true_flabel = BTexMobject("f(x)", color=COL_BLUE)
+        self.true_flabel = BTex("f(x)", color=COL_BLUE)
 
         # move to the right of the axes
         self.true_flabel.move_to(
@@ -118,7 +118,7 @@ class BBiasVarianceScene(BScene):
         fg, dots = self.fns_and_dots(seed=1001001)
         self.fns_mobj.append(fg)
 
-        flabel = BTexMobject("f_{\hat{w}}(x)", color=COL_PURPLE)
+        flabel = BTex("f_{\hat{w}}(x)", color=COL_PURPLE)
 
         # move to the right of the axes
         flabel.move_to(
@@ -163,7 +163,7 @@ class BBiasVarianceScene(BScene):
             color=COL_RED,
         )
         self.meanf.shift(self.centershift)
-        meanf_label = BTexMobject(r"\overline{f_{\hat{w}}}(x)", color=COL_RED)
+        meanf_label = BTex(r"\overline{f_{\hat{w}}}(x)", color=COL_RED)
         y_pos = min(max(self.meanf.function(self.x_max), self.y_min), self.y_max)
         meanf_label.move_to(self.axes.c2p(self.x_max, y_pos, 0) + RIGHT * 0.75)
 
@@ -195,7 +195,7 @@ class BBiasVarianceScene(BScene):
         self.upper_varf.shift(self.centershift)
         self.lower_varf.shift(self.centershift)
 
-        var_label = BTexMobject(
+        var_label = BTex(
             r"\overline{\left(\overline{f_{\hat{w}}} - f_{\hat{w}}\right)^2}",
             color=COL_GOLD,
         )

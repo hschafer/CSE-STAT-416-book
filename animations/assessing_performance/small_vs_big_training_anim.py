@@ -17,16 +17,16 @@ class Animation(BScene):
         axes, dots = axes_and_data(XS, YS, config)
 
         plot = VGroup(axes, dots)
-        label = BTextMobject("Given two points, which polynomial model fits best?")
+        label = BText("Given two points, which polynomial model fits best?")
         label.next_to(plot, UP)
 
         deg1 = degfungraph(XS, YS, 1, COL_RED, config)
-        deg1label = BTextMobject("$p = 1$?")
+        deg1label = BText("$p = 1$?")
         deg1label.next_to(plot, UP)
         deg1grp = VGroup(deg1, deg1label)
 
         deg2 = degfungraph(XS, YS, 2, COL_GREEN, config)
-        deg2label = BTextMobject("$p = 2$?")
+        deg2label = BText("$p = 2$?")
         deg2label.next_to(plot, UP)
         deg2grp = VGroup(deg2, deg2label)
 
