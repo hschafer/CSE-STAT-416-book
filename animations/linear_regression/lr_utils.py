@@ -94,9 +94,9 @@ class ModelScene(BScene):
         # Create text
         self.data_text = BTex(r"(x_1, y_1), ..., (x_n, y_n)")
 
-        self.function_text = BText(
-            r"True function: {$f($}{$x$}{$)$}",
-            tex_to_color_map={"{$f($}": GREEN, "{$)$}": GREEN},
+        self.function_text = BTex(
+            r"\text{True function:}\ {{f(}}x{{)}}",
+            tex_to_color_map={"f(": GREEN, ")": GREEN},
         )
         self.text_group = VGroup(self.data_text, self.function_text).arrange(DOWN)
         self.text_group.to_corner(UP + LEFT)
