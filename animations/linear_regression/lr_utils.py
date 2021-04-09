@@ -75,21 +75,21 @@ class ModelScene(BScene):
         self.graph_shift = graph_shift
 
         self.axes = Axes(
-            x_min=X_MIN,
-            x_max=X_MAX,
-            y_min=Y_MIN,
-            y_max=Y_MAX,
-            # center_point=[-1, -1, 0],
+            x_range=(X_MIN, X_MAX),
+            y_range=(Y_MIN, Y_MAX),
+            height=5,
+            width=5,
             axis_config={
+                "stroke_color": GREY_D,
+                "stroke_width": 2,
                 "include_tip": False,
                 "include_ticks": False,
-                "color": COL_BLACK,
             },
         )
-        self.function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
+
+        self.function = self.axes.get_graph(f, color=GREEN)
 
         self.graph = Group(self.axes, self.function)
-        self.graph.move_to(self.graph_shift)
 
         # Create text
         self.data_text = BTex(r"(x_1, y_1), ..., (x_n, y_n)")
@@ -104,7 +104,7 @@ class ModelScene(BScene):
         # Draw points
         self.dots = Group()
         for x, y in zip(XS, YS):
-            point = self.axes.coords_to_point(x, y, 0)
+            point = self.axes.c2p(x, y)
             dot = Dot(point, color=COL_BLACK)
             self.dots.add(dot)
 
