@@ -402,10 +402,197 @@ export default function FeatureSelectionLASSO() {
 
       <section>
         <h2>Algorithm 1: All Subsets</h2>
-
+        <p>
+          In some sense, the simplest thing we could hope to try is every
+          possible subset of the features and see which subset performs the
+          best. We call this approach the <b>all subsets</b> algorithm. This
+          algorithm is not "clever" in any sense, since it is just going to try
+          every possible combination of the features to find the subset of
+          features that seems best.
+        </p>
+        <p>
+          To form a baseline, we start with the subset of features that is the
+          empty set (using no features). Mathematically, this is assuming the
+          noise-only model <IM math={`y_i = \\varepsilon_i`} />. Assuming our
+          features are at least somewhat useful, any model that uses more
+          features than noise-only model one would perform better. Having the
+          noise-only model helps form a baseline though!
+        </p>
+        <p>
+          When thinking about the all subsets algorithm, we will visualize the
+          results as a graph that shows the training error of each learned
+          predictor as we increase the number of features in each subset. So
+          with this noise-only model, we start with the training error when
+          using 0 features.
+        </p>
+        <p>TODO(manim) 0 features in all subsets image</p>
+        <p>
+          We then consider all models that use a single feature from the set of
+          possible features. The animation below shows the training error of a
+          predictor trained under a model using a single feature. The first dot
+          shows the training error of a predictor under the model where we only
+          use the number of bathrooms; the second dot, shows the training error
+          of the predictor under the model where we only use the number of
+          bedrooms; etc.
+        </p>
+        <p>
+          Once we have tried every model that uses one feature, we can identify
+          which set of features of size 1 is "best" by choosing the one with the
+          lowest training error (in our animation, this is the square footage of
+          the living room)
+          <MarginNote>
+            There will end up being a couple problems with this approach, but we
+            will get to them later.
+          </MarginNote>
+          .
+        </p>
+        <p>TODO(manim) animation of all subsets of size 1 </p>
+        <p>
+          We then repeat this process using all subsets of features of size 2
+          (i.e., all pairs of features). The process is the same, but there are
+          more subsets to try here: For each pair of features, train a predictor
+          under a model that uses those two features and record its training
+          error.
+        </p>
+        <p>TODO(manim) animation of subsets of size 2</p>
+        <p>
+          <em>Important Note:</em> It's not necessarily the case that these best
+          subsets will be nested as you increase the number of features in a
+          subset. In other words, he feature that is in the best subset of size
+          1 won't necessarily be in the best subset of features of size 2. For
+          example, in our animations above, the best single feature was the
+          square footage of the living room while the best pair of features was
+          the number of bedrooms and the number of bathrooms. This could happen
+          when individually, the features might not contain much information,
+          but together they are meaningful.
+        </p>
+        <p>
+          This process repeats for all possible subset sizes. The last model
+          that will be evaluated is the model that uses all features.
+        </p>
+        <p>TODO(manim) all subsets graph</p>
+        <p>
+          You can see that the training error of the best model for each feature
+          set size decreases as you add more features. While this is not true
+          for all models using more features (e.g., all the gray dots in the
+          animation), it is generally true for the model with the lowest
+          training error at each feature set size. You wouldn't expect the
+          training error to go up by using a more complex model!
+        </p>
         <h3>Selecting best subset</h3>
+        <p>
+          So how do we go about choosing the best subset to use from this
+          process? Hopefully you can tell from our previous discussions that you
+          wouldn't want to choose the subset size that yields the lowest
+          training error since that would prefer models that are overfit! If we
+          chose based on training error, you would almost always choose the
+          model that uses all features!
+        </p>
+        <p>
+          Instead, we might try what we have done before when considering how to
+          choose the best model out of many possible models and try to choose
+          the one that has the lowest <em>true error</em>. The following
+          animation shows how we expect the true error to generally behave as
+          you use more features. This graph should not be surprising given our
+          discussion of bias and variance from earlier chapters!
+        </p>
+        <p>TODO(manim) all subsets with true error</p>
 
+        <p>
+          Remember, that we can't actually compute the true error in most cases,
+          but we still like to think about minimizing the true error as the goal
+          of defining which model is "best". In this case each model corresponds
+          to which subset to features to use, so the "best" model is the "best"
+          subset of features. So instead, we would approximate the true error
+          with a <em>validation set</em> in order to select the best subset of
+          features{" "}
+          <MarginNote>
+            Make sure you understand why we use a <em>validation set</em> for
+            this rather than a <em>test set</em>.
+          </MarginNote>
+          . Alternatively, you could also use cross validation instead of a
+          validation set. There are more advanced methods for selecting the best
+          subset, but we won't go into detail here since they can get complex
+          pretty fast{" "}
+          <MarginNote>
+            If you're curious, you can learn about one such metric for selecting
+            the best model called the{" "}
+            <a href="https://en.wikipedia.org/wiki/Bayesian_information_criterion">
+              Bayesian information criterion
+            </a>
+            .
+          </MarginNote>
+          .
+        </p>
+
+        <p>
+          Here is a helpful framing to remember how this algorithm works: The
+          all subsets algorithm is really just a special case of our general
+          hyperparameter tuning algorithm described in the last chapter! Instead
+          of trying to choose the optimal setting of <IM math={`\\lambda`} />{" "}
+          from a set of possible <IM math={`\\lambda`} />
+          s, you are trying to choose the optimal subset of features from all
+          possible subsets. They are really the same algorithm that loop over a
+          different set of choices.
+        </p>
         <h3>Algorithmic Efficiency</h3>
+        <p>
+          We haven't discussed the details of analyzing the efficiency of
+          training a single model. These analyses tend to be pretty complex and
+          depend a lot on the specifics of the algorithm you use and some
+          assumptions you make about how they run. This is okay though, since in
+          the context of selecting one of many models, we generally worry about
+          the number of predictors we have to train as being the main bottleneck
+          here rather than the time taken to train a single predictor. This
+          means to think about how efficient the all subsets algorithm is, we
+          need to ask how many predictors we will train over the whole process.
+        </p>
+
+        <p>
+          Lets explicitly write out the models we evaluated if he had 3 total
+          features <IM math={`h_0(x), h_1(x), h_2(x)`} /> that we wanted to try
+          all subsets of.
+        </p>
+
+        <ul>
+          <li>
+            <IM math={`y_i = \\varepsilon_i`} />
+          </li>
+          <li>
+            <IM math={`y_i = w_0h_0(x_i) + \\varepsilon_i`} />
+          </li>
+          <li>
+            <IM math={`y_i = w_1h_1(x_i) + \\varepsilon_i`} />
+          </li>
+          <li>
+            <IM math={`y_i = w_2h_2(x_i) + \\varepsilon_i`} />
+          </li>
+          <li>
+            <IM math={`y_i = w_0h_0(x_i) + w_1h_1(x_i) + \\varepsilon_i`} />
+          </li>
+          <li>
+            <IM math={`y_i = w_0h_0(x_i) + w_2h_2(x_i) + \\varepsilon_i`} />
+          </li>
+          <li>
+            <IM math={`y_i = w_1h_1(x_i) + w_2h_2(x_i) + \\varepsilon_i`} />
+          </li>
+          <li>
+            <IM
+              math={`y_i = w_0h_0(x_i) + w_1h_1(x_i) + w_2h_2(x_i) + \\varepsilon_i`}
+            />
+          </li>
+        </ul>
+
+        <p>
+          So with these 3 features to choose from, there ended up being 8 models
+          we had to learn predictors for. In general, how many predictors will
+          need to be trained if we had <IM math={`d`} /> features? As a note,
+          sometimes it gets a bit tricky whether or not you include{" "}
+          <IM math={`h_0(x)`} /> in your count of features since by convention,
+          it's the model's intercept term. It's very common for people to ignore
+          it in their feature count, so when we say "using <IM math={`d`} />{" "}
+          features", we really mean using q
+        </p>
 
         <h3>Approximating with greedy algorithm</h3>
       </section>
