@@ -50,3 +50,12 @@ def make_box(
     bg.surround(label, buff=1.0)
 
     return VGroup(bg, label)
+
+
+# when you want to write some text to be transformed centered at a previous
+# text object
+def replacement_text(prev, text, **kwargs):
+    text_mobj = BTextMobject(text, **kwargs)
+    text_mobj.move_to(prev.get_center())
+
+    return text_mobj

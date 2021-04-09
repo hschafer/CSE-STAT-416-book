@@ -49,7 +49,10 @@ export default function AssessingPerformance() {
           function.
         </p>
 
-        <p>TODO(manim): Many curves</p>
+        <Video
+          src="/animations/assessing_performance/simple_poly_regression_anim.mp4"
+          type="mp4"
+        />
 
         <p>
           If you have prior information, or a domain expert you're working with
@@ -432,7 +435,10 @@ export default function AssessingPerformance() {
           would decrease.
         </p>
 
-        <p>TODO(manim): Training error curve</p>
+        <Video
+          src="/animations/assessing_performance/poly_regression_train_error_anim.mp4"
+          type="mp4"
+        />
 
         <p>
           Now consider what happens to the <em>true error</em>
@@ -443,7 +449,10 @@ export default function AssessingPerformance() {
           error in most contexts, but it's still useful to think about.
         </p>
 
-        <p>TODO(manim): True error animation</p>
+        <Video
+          src="/animations/assessing_performance/poly_regression_test_error_anim.mp4"
+          type="mp4"
+        />
 
         <p>
           At first, when the model is too simple, the true error is higher.
@@ -509,6 +518,13 @@ export default function AssessingPerformance() {
           models more complex than <IM math="p^*" /> tend to overfit.
         </p>
 
+        <figure>
+          <img
+            src="/animations/assessing_performance/train_test_anim.png"
+            alt="Plot of train and test error, with underfit model and overfit model regions highlighted"
+          />
+        </figure>
+
         <p>
           <b>Overfitting</b> happens when your model matches too closely to the
           noise in the training data rather than learning the generalized
@@ -526,7 +542,10 @@ export default function AssessingPerformance() {
           </li>
         </ul>
 
-        <p>TODO(manim): overfitting animation. Change w's to p's</p>
+        <Video
+          src="/animations/assessing_performance/overfitting_anim.mp4"
+          type="mp4"
+        />
 
         <p>
           In English, this says a model is overfit if there is another model
@@ -614,7 +633,10 @@ export default function AssessingPerformance() {
           .
         </p>
 
-        <p>TODO(manim): Average predictor</p>
+        <Video
+          src="/animations/assessing_performance/avg_deg_1_anim.mp4"
+          type="mp4"
+        />
 
         <h3>Bias</h3>
         <p>
@@ -646,7 +668,12 @@ export default function AssessingPerformance() {
           math={`\\text{Bias:}\\ \\ \\mathbb{E}\\left[\\left|f(x) - \\overline{f_{\\hat{w}}}(x)\\right|\\right]`}
         />
 
-        <p>TODO(manim): Bias </p>
+        <figure>
+          <img
+            src="/animations/assessing_performance/bias_deg_1_anim.png"
+            alt="Large bias in an underfit model"
+          />
+        </figure>
 
         <p>
           Low complexity (simple) models tend to have high bias which is why the
@@ -688,7 +715,10 @@ export default function AssessingPerformance() {
           math={`\\text{Variance:}\\ \\ \\mathbb{E}\\left[\\left(\\overline{f_{\\hat{w}}}(x) - f_{\\hat{w}}(x)\\right)^2\\right]`}
         />
 
-        <p>TODO(manim): variance animation</p>
+        <Video
+          src="/animations/assessing_performance/var_deg_8_anim.mp4"
+          type="mp4"
+        />
 
         <p>
           High complexity models tend to have high variance. Or in other words,
@@ -736,7 +766,12 @@ export default function AssessingPerformance() {
           </MarginNote>
         </p>
 
-        <p>TODO(manim) Bias-variance tradeoff</p>
+        <figure>
+          <img
+            src="/animations/assessing_performance/bias_var_tradeoff_anim.png"
+            alt="Bias variance tradeoff with idealized curves"
+          />
+        </figure>
 
         <p>
           One subtle point we have been leaving out is the discussion of the
