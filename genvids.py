@@ -234,7 +234,7 @@ if __name__ == "__main__":
     if args.low_quality:
         manim_args.append("--low_quality")
     if args.save_last_frame:
-        manim_args.append("--save_last_frame")
+        manim_args.append("-s")
 
     if len(args.files) > 0:
         anims = set()
