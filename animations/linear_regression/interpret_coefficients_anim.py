@@ -9,8 +9,8 @@ class Animation(LinearScene):
         self.add(self.axes, self.dots)
 
         # Model text
-        model_text = BText(
-            r"Model: {$y_i = w_0 + w_1x_i + \varepsilon_i$}",
+        model_text = BTex(
+            r"\text{Model:}\ y_i = w_0 + w_1x_i + \varepsilon_i",
             color=GREEN,
             tex_to_color_map={r"Model:": COL_BLACK},
         )

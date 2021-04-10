@@ -114,9 +114,9 @@ class LinearScene(ModelScene):
         super().custom_setup(**kwargs)
 
         # Create text for predictor
-        self.predictor_text = BText(
-            r"Predictor: {$\hat{f}($}{$x$}{$)$}",
-            tex_to_color_map={"{$\\hat{f}($}": BLUE, "{$)$}": BLUE},
+        self.predictor_text = BTex(
+            r"\text{Predictor:}\ \hat{f}(x)",
+            tex_to_color_map={"\\hat{f}(": BLUE, ")": BLUE},
         )
         self.predictor_text.next_to(self.text_group, DOWN)
 

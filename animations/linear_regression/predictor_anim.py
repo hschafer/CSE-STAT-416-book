@@ -23,7 +23,7 @@ class Animation(LinearScene):
             residuals.add(residual)
 
         # Text for residual
-        residual_text = BText(r"Errors observed", color=RED)
+        residual_text = BText(r"Errors observed", font_size=30, color=RED)
         residual_text.next_to(self.text_group, RIGHT, buff=2)
 
         # Animate text and residual

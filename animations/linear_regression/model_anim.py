@@ -11,13 +11,13 @@ class Animation(ModelScene):
         self.add(self.graph, self.text_group, self.dots)
 
         # Write Model
-        model_text = BText(
-            r"Model: $y_i$ $=$ {$f($}{$x_i$}{$)$} + $\varepsilon_i$",
+        model_text = BTex(
+            r"\text{Model:}\ y_i = f(x_i) + \varepsilon_i",
             tex_to_color_map={
-                "{$f($}": GREEN,
-                "{$)$}": GREEN,
-                "$y_i$": BLUE,
-                r"$\varepsilon_i$": MAROON,
+                "f(": GREEN,
+                ")": GREEN,
+                "y_i": BLUE,
+                r"\varepsilon_i": MAROON,
             },
         )
 
@@ -56,9 +56,7 @@ class Animation(ModelScene):
         )
         self.wait()
 
-        ev_text = BText(
-            r"{$f($}{$x_i$}{$)$}", tex_to_color_map={"{$f($}": GREEN, "{$)$}": GREEN,}
-        )
+        ev_text = BTex(r"f(x_i)", tex_to_color_map={"f(": GREEN, ")": GREEN,})
         self.play(
             ApplyMethod(
                 ev_line.next_to, origin - np.array([0.05, 0, 0]), UP, {"buff": 0}
