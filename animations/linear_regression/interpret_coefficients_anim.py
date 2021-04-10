@@ -5,7 +5,7 @@ class Animation(LinearScene):
     def construct(self):
         TEXT_SCALE = 0.7
 
-        self.custom_setup(line_color=GREEN, graph_shift=[0, 0, 0])
+        self.custom_setup(line_color=GREEN)
         self.add(self.axes, self.dots)
 
         # Model text

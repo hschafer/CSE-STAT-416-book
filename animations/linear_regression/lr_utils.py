@@ -67,7 +67,20 @@ YS = np.array(
     ]
 )
 
-DEFAULT_GRAPH_SHIFT = [-1, -1, 0]
+
+def make_axes():
+    return Axes(
+        x_range=(X_MIN, X_MAX),
+        y_range=(Y_MIN, Y_MAX),
+        height=5,
+        width=5,
+        axis_config={
+            "stroke_color": GREY_D,
+            "stroke_width": 2,
+            "include_tip": False,
+            "include_ticks": False,
+        },
+    )
 
 
 class ModelScene(BScene):
@@ -84,18 +97,7 @@ class ModelScene(BScene):
         self.text_group.to_corner(UP + LEFT)
 
         # Create graph
-        self.axes = Axes(
-            x_range=(X_MIN, X_MAX),
-            y_range=(Y_MIN, Y_MAX),
-            height=5,
-            width=5,
-            axis_config={
-                "stroke_color": GREY_D,
-                "stroke_width": 2,
-                "include_tip": False,
-                "include_ticks": False,
-            },
-        )
+        self.axes = make_axes()
 
         self.axes.next_to(self.text_group, BOTTOM + RIGHT, buff=0.25)
         self.function = self.axes.get_graph(f, color=GREEN)
@@ -140,46 +142,28 @@ class GradientDescentScene(BScene):
         # Must create the functions/axes before everything else so they all move together
 
         # Create axes
-        axes = Axes(
-            x_min=X_MIN,
-            x_max=X_MAX,
-            y_min=Y_MIN,
-            y_max=Y_MAX,
-            axis_config={
-                "include_tip": False,
-                "include_ticks": False,
-                "color": COL_BLACK,
-            },
-        )
+        axes = make_axes()
+
         # Draw graph of original function
-        function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
-
-        # Create sub-graph for moving dot
-        path = FunctionGraph(function=f, x_min=start_x, x_max=end_x)
-
-        # Group them together for movement
-        group = Group(axes, function, path)
-        group.move_to([0, 0, 0])
+        function = axes.get_graph(f, color=GREEN)
 
         # Create axis labels
-        axis_scale = 0.7
-        x_label = BTex(r"w_1")
-        x_label.next_to(axes.x_axis.get_last_point(), DOWN)
-        x_label.scale(axis_scale)
-        y_label = BTex(r"RSS(w_1)")
-        y_label.scale(axis_scale)
-        y_label.next_to(axes.y_axis, LEFT)
+        x_label = axes.get_x_axis_label(r"w_1")
+        y_label = axes.get_y_axis_label(r"RSS(w_1)")
         self.add(axes, x_label, y_label)
 
         # Draw function
         self.play(ShowCreation(function))
 
         # Draw start point
-        point = axes.coords_to_point(start_x, f(start_x), 0)
-        dot = Dot(point, color=BLUE)
+        dot = Dot(color=BLUE)
+        dot.move_to(axes.i2gp(start_x, function))
         self.play(FadeIn(dot))
 
         # Move the point down the function
-        self.play(MoveAlongPath(dot, path=path, run_time=2.5))
+        x_tracker = ValueTracker(start_x)
+        f_always(dot.move_to, lambda: axes.i2gp(x_tracker.get_value(), function))
+
+        self.play(x_tracker.animate.set_value(end_x), run_time=2.5)
 
         self.wait(3)
