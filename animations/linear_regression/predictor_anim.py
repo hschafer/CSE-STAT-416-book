@@ -24,7 +24,7 @@ class Animation(LinearScene):
 
         # Text for residual
         residual_text = BText(r"Errors observed", font_size=30, color=RED)
-        residual_text.next_to(self.text_group, RIGHT, buff=2)
+        residual_text.next_to(self.graph, UP + RIGHT, buff=0.5)
 
         # Animate text and residual
         self.play(Write(residual_text))

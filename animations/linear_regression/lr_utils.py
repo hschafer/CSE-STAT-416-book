@@ -71,9 +71,19 @@ DEFAULT_GRAPH_SHIFT = [-1, -1, 0]
 
 
 class ModelScene(BScene):
-    def custom_setup(self, graph_shift=DEFAULT_GRAPH_SHIFT):
-        self.graph_shift = graph_shift
+    def custom_setup(self):
+        # Create text
+        self.data_text = BTex(r"(x_1, y_1), ..., (x_n, y_n)")
 
+        self.function_text = BTex(
+            r"\text{True function:}\ {{f(}}x{{)}}",
+            tex_to_color_map={"f(": GREEN, ")": GREEN},
+        )
+        self.text_group = VGroup(self.data_text, self.function_text).arrange(DOWN)
+        self.text_group.fix_in_frame()
+        self.text_group.to_corner(UP + LEFT)
+
+        # Create graph
         self.axes = Axes(
             x_range=(X_MIN, X_MAX),
             y_range=(Y_MIN, Y_MAX),
@@ -87,19 +97,9 @@ class ModelScene(BScene):
             },
         )
 
+        self.axes.next_to(self.text_group, BOTTOM + RIGHT, buff=0.25)
         self.function = self.axes.get_graph(f, color=GREEN)
-
         self.graph = Group(self.axes, self.function)
-
-        # Create text
-        self.data_text = BTex(r"(x_1, y_1), ..., (x_n, y_n)")
-
-        self.function_text = BTex(
-            r"\text{True function:}\ {{f(}}x{{)}}",
-            tex_to_color_map={"f(": GREEN, ")": GREEN},
-        )
-        self.text_group = VGroup(self.data_text, self.function_text).arrange(DOWN)
-        self.text_group.to_corner(UP + LEFT)
 
         # Draw points
         self.dots = Group()
