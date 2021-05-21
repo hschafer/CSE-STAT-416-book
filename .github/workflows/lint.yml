@@ -21,7 +21,7 @@ jobs:
         run: yarn install --frozen-lockfile
         working-directory: website
       - name: Black
-        uses: psf/black@master
+        uses: psf/black@stable
       - name: Prettier
         run: yarn lint:prettier
         working-directory: website
