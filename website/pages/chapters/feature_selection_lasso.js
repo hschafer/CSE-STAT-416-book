@@ -585,16 +585,119 @@ export default function FeatureSelectionLASSO() {
 
         <p>
           So with these 3 features to choose from, there ended up being 8 models
-          we had to learn predictors for. In general, how many predictors will
-          need to be trained if we had <IM math={`d`} /> features? As a note,
-          sometimes it gets a bit tricky whether or not you include{" "}
-          <IM math={`h_0(x)`} /> in your count of features since by convention,
-          it's the model's intercept term. It's very common for people to ignore
-          it in their feature count, so when we say "using <IM math={`d`} />{" "}
-          features", we really mean using q
+          we had to learn predictors for.
+        </p>
+
+        <p>
+          In general, how many predictors will need to be trained if we had{" "}
+          <IM math={`d`} /> features? It turns out it will be something like{" "}
+          <IM math={`2^d`} />! That's an exponential growth in the number of
+          models you need to train as you increase the number of features{" "}
+          <IM math={`d`} />.{" "}
+          <MarginNote>
+            As a reminder, <IM math={`h_0(x)`} /> usually represents an a
+            constant value so that we can learn a intercept. In general, we do
+            not include an intercept in discussions of feature selection. So
+            when we are describing a model with <IM math={"d"} /> features, we
+            are describing a model with <IM math={"d"} /> non-intercept
+            features. Or stated in another was as a model with{" "}
+            <IM math={"d + 1"} /> features where <IM math={`h_0(x) = 1`} />.
+          </MarginNote>
+          If you had 10 features, that would require training 1,024 models. If
+          you had 20 features, that would be over a million models! Exponential
+          growth is extremely bad when thinking about how an algorithm might
+          work in a real-world context.
+        </p>
+
+        <p>
+          To imagine why this exponential growth is so bad, imagine that on your
+          computer, you could train 1000 models in about 1 minute. That means to
+          do all-subsets selection with 10 features, it should take you about a
+          minute. To try all subsets with 20 features, it would take about 17
+          hours! 17 hours might not sound too bad, but if you tried this
+          all-subsets selection on data with 100 features, it would take over
+          <IM math={"2.1 \times 10^{21}"} /> years (which is many times the
+          length of the age of the universe!). You might be thinking that no one
+          would really want to use 100 features to search through, but 100 is
+          actually a very modest number of features in the world of big datasets
+          with thousands or millions of measurements for each point.
         </p>
 
         <h3>Approximating with greedy algorithm</h3>
+
+        <p>
+          So hopefully, it is clear that we will not be able to exactly find the
+          best subset of features with an algorithm as described above.
+          Unfortunately, there is no such algorithm to find the best subset that
+          can avoid trying out all possible subsets. This means that we will
+          need to <i>approximate</i> the best subset as best as we can, without
+          needing to spend all that time finding the exact best subset.
+        </p>
+
+        <p>
+          A very common type of approximation algorithms are called{" "}
+          <b>greedy algorithms</b>. Greedy algorithms that ones that iteratively
+          build up a solution by "greedily" grabbing the next thing that "looks
+          best". Greedy algorithms are generally efficient, but won't guarantee
+          finding the right solution since they are only focused on making a
+          locally optimal choice at each step.
+        </p>
+
+        <p>
+          For feature selection, there are two main flavors of greedy
+          algorithms:
+        </p>
+
+        <ul>
+          <li>
+            <b>Forward Stepwise</b>: Starts with a model that uses no features,
+            and then on each iteration of the algorithm, adds one feature that
+            best improves model performance with the current set of features.
+            See below for an example.
+          </li>
+          <li>
+            <b>Backward Stepwise</b>: Starts with a model using{" "}
+            <em>all features</em>, and then on each iteration of the algorithm,
+            removes one feature that seems to help the model the least (e.g.,
+            removing that feature leads to the smallest increase in error).
+          </li>
+        </ul>
+
+        <p>
+          There are also more complicated heuristics that try to do both of
+          these approaches in a back-and-forth manner. We will not discuss these
+          combined approaches, but encourage to look them up if you are
+          interested!
+        </p>
+
+        <p>
+          Here is an example of a forward stepwise greedy algorithm for feature
+          selection. Note that how many features <IM math={`k`} /> you want to
+          select is yet another hyperparameter that you would need to select by
+          some method like cross-validation. This example greedy algorithm
+          assumes we have decided to use some number of target features{" "}
+          <IM math={`k`} /> out of the <IM math={`k`} /> possible features.
+        </p>
+
+        {/* Please God have a better way of formatting this */}
+        <pre>
+          <code>
+            <IM math={`S_0 \\leftarrow \\{\\}`} />
+            <br />
+            for <IM math={`i \\leftarrow 1..k`} />:
+            <br />
+            {"    "} 1. Find feature <IM math={`f_i`} /> that is not already
+            selected in <IM math={`S_{i-1}`} />,
+            <br />
+            {"    "} that when combined with <IM math={`S_{i-1}`} />, minimizes
+            the loss the most.
+            <br />
+            <br />
+            {"    "} 2. <IM math={`S_i \\leftarrow S_{i-1} \\cup \\{f_i\\}`} />
+            <br />
+            Return <IM math={`S_k`} />
+          </code>
+        </pre>
       </section>
 
       <section>
