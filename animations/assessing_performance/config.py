@@ -164,7 +164,7 @@ def axes_and_data(XS, YS, config, pos=(0.0, 0.0, 0.0), radius=DEFAULT_DOT_RADIUS
         y_min=ymin,
         y_max=ymax,
         center_point=pos,
-        axis_config={"include_tip": False, "include_ticks": False, "color": GRAY},
+        axis_config={"include_tip": False, "include_ticks": False, "color": GREY_C},
     )
 
     dots = get_dots_for_axes(XS, YS, axes, config)

@@ -20,7 +20,7 @@ class PolyRegressionWithErrorScene(BScene):
 
         self.plot_grp = VGroup(self.axes, dots)
 
-        self.plot_text = BTextMobject(plot_title)
+        self.plot_text = BText(plot_title)
         self.plot_text.next_to(self.plot_grp, 2 * UP)
 
         self.fngraphs = list(
@@ -50,7 +50,7 @@ class PolyRegressionWithErrorScene(BScene):
         self.error_plot_and_fn = VGroup(self.error_plot, self.error_fn)
         self.error_plot_and_fn.next_to(self.plot_grp, 4 * RIGHT)
 
-        self.error_label = BTextMobject(error_title)
+        self.error_label = BText(error_title)
         self.error_label.move_to(
             (self.error_plot.get_center()[0], self.plot_text.get_center()[1], 0)
         )

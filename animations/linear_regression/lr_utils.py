@@ -67,43 +67,46 @@ YS = np.array(
     ]
 )
 
-DEFAULT_GRAPH_SHIFT = [-1, -1, 0]
+
+def make_axes():
+    return Axes(
+        x_range=(X_MIN, X_MAX),
+        y_range=(Y_MIN, Y_MAX),
+        height=5,
+        width=5,
+        axis_config={
+            "stroke_color": GREY_D,
+            "stroke_width": 2,
+            "include_tip": False,
+            "include_ticks": False,
+        },
+    )
 
 
 class ModelScene(BScene):
-    def custom_setup(self, graph_shift=DEFAULT_GRAPH_SHIFT):
-        self.graph_shift = graph_shift
-
-        self.axes = Axes(
-            x_min=X_MIN,
-            x_max=X_MAX,
-            y_min=Y_MIN,
-            y_max=Y_MAX,
-            # center_point=[-1, -1, 0],
-            axis_config={
-                "include_tip": False,
-                "include_ticks": False,
-                "color": COL_BLACK,
-            },
-        )
-        self.function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
-
-        self.graph = Group(self.axes, self.function)
-        self.graph.move_to(self.graph_shift)
-
+    def custom_setup(self):
         # Create text
-        self.data_text = BTexMobject(r"(x_1, y_1), ..., (x_n, y_n)")
-        self.function_text = BTextMobject(
-            r"True function: {$f($}{$x$}{$)$}",
-            tex_to_color_map={"{$f($}": GREEN, "{$)$}": GREEN},
+        self.data_text = BTex(r"(x_1, y_1), ..., (x_n, y_n)")
+
+        self.function_text = BTex(
+            r"\text{True function:}\ {{f(}}x{{)}}",
+            tex_to_color_map={"f(": GREEN, ")": GREEN},
         )
         self.text_group = VGroup(self.data_text, self.function_text).arrange(DOWN)
+        self.text_group.fix_in_frame()
         self.text_group.to_corner(UP + LEFT)
+
+        # Create graph
+        self.axes = make_axes()
+
+        self.axes.next_to(self.text_group, BOTTOM + RIGHT, buff=0.25)
+        self.function = self.axes.get_graph(f, color=GREEN)
+        self.graph = Group(self.axes, self.function)
 
         # Draw points
         self.dots = Group()
         for x, y in zip(XS, YS):
-            point = self.axes.coords_to_point(x, y, 0)
+            point = self.axes.c2p(x, y)
             dot = Dot(point, color=COL_BLACK)
             self.dots.add(dot)
 
@@ -113,9 +116,9 @@ class LinearScene(ModelScene):
         super().custom_setup(**kwargs)
 
         # Create text for predictor
-        self.predictor_text = BTextMobject(
-            r"Predictor: {$\hat{f}($}{$x$}{$)$}",
-            tex_to_color_map={"{$\\hat{f}($}": BLUE, "{$)$}": BLUE},
+        self.predictor_text = BTex(
+            r"\text{Predictor:}\ \hat{f}(x)",
+            tex_to_color_map={"\\hat{f}(": BLUE, ")": BLUE},
         )
         self.predictor_text.next_to(self.text_group, DOWN)
 
@@ -139,46 +142,28 @@ class GradientDescentScene(BScene):
         # Must create the functions/axes before everything else so they all move together
 
         # Create axes
-        axes = Axes(
-            x_min=X_MIN,
-            x_max=X_MAX,
-            y_min=Y_MIN,
-            y_max=Y_MAX,
-            axis_config={
-                "include_tip": False,
-                "include_ticks": False,
-                "color": COL_BLACK,
-            },
-        )
+        axes = make_axes()
+
         # Draw graph of original function
-        function = FunctionGraph(x_min=X_MIN, x_max=X_MAX, function=f, color=GREEN)
-
-        # Create sub-graph for moving dot
-        path = FunctionGraph(function=f, x_min=start_x, x_max=end_x)
-
-        # Group them together for movement
-        group = Group(axes, function, path)
-        group.move_to([0, 0, 0])
+        function = axes.get_graph(f, color=GREEN)
 
         # Create axis labels
-        axis_scale = 0.7
-        x_label = BTexMobject(r"w_1")
-        x_label.next_to(axes.x_axis.get_last_point(), DOWN)
-        x_label.scale(axis_scale)
-        y_label = BTexMobject(r"RSS(w_1)")
-        y_label.scale(axis_scale)
-        y_label.next_to(axes.y_axis, LEFT)
+        x_label = axes.get_x_axis_label(r"w_1")
+        y_label = axes.get_y_axis_label(r"RSS(w_1)")
         self.add(axes, x_label, y_label)
 
         # Draw function
         self.play(ShowCreation(function))
 
         # Draw start point
-        point = axes.coords_to_point(start_x, f(start_x), 0)
-        dot = Dot(point, color=BLUE)
+        dot = Dot(color=BLUE)
+        dot.move_to(axes.i2gp(start_x, function))
         self.play(FadeIn(dot))
 
         # Move the point down the function
-        self.play(MoveAlongPath(dot, path=path, run_time=2.5))
+        x_tracker = ValueTracker(start_x)
+        f_always(dot.move_to, lambda: axes.i2gp(x_tracker.get_value(), function))
+
+        self.play(x_tracker.animate.set_value(end_x), run_time=2.5)
 
         self.wait(3)

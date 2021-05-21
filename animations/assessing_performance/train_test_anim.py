@@ -11,7 +11,7 @@ class Animation(BTrainTestScene):
             np.array([5, 0, 0]),
             color=COL_BLUE,
         )
-        opt_label = BTexMobject(r"p^{*}", color=COL_BLUE)
+        opt_label = BTex(r"p^{*}", color=COL_BLUE)
         opt_label.move_to(np.array([5.0, -0.5, 0]))
         opt_grp = VGroup(opt_line, opt_label)
         opt_grp.shift(self.centershift)
@@ -29,7 +29,7 @@ class Animation(BTrainTestScene):
         )
 
         underfit_rect.shift(self.centershift)
-        underfit_text = BTextMobject(r"Underfit \\ Model", color=COL_BLACK)
+        underfit_text = BText(r"Underfit \\ Model", color=COL_BLACK)
         underfit_text.scale(0.75)
         underfit_text.move_to(self.axes.c2p(1.5, 1, 0))
 
@@ -47,7 +47,7 @@ class Animation(BTrainTestScene):
         )
 
         overfit_rect.shift(self.centershift)
-        overfit_text = BTextMobject(r"Overfit \\ Model", color=COL_BLACK)
+        overfit_text = BText(r"Overfit \\ Model", color=COL_BLACK)
         overfit_text.scale(0.75)
         overfit_text.move_to(self.axes.c2p(11, 3, 0))
 

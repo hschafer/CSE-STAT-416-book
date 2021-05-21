@@ -22,7 +22,7 @@ class Animation(BScene):
         for deg, col in self.deg_col:
             fns.append(degfungraph(xs, ys, deg, col, config))
 
-            l = BTexMobject(f"p = {deg}", color=col)
+            l = BTex(f"p = {deg}", color=col)
             if len(labels) > 0:
                 l.next_to(labels[-1], DOWN / 2, aligned_edge=LEFT)
 

@@ -20,8 +20,6 @@ jobs:
       - name: Install Node Dependencies
         run: yarn install --frozen-lockfile
         working-directory: website
-      - name: Black
-        uses: psf/black@master
       - name: Prettier
         run: yarn lint:prettier
         working-directory: website
