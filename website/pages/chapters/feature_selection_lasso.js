@@ -60,7 +60,9 @@ export default function FeatureSelectionLASSO() {
           regularizer results in Ridge regression, where we find the
           coefficients that minimize the following quality metric.
         </p>
-        <BM math={`\\hat{w} = \\min_w RSS(w) + \\lambda ||w_{1:D}||_2^2`} />
+        <BM
+          math={`\\hat{w} = \\text{arg}\\min_w RSS(w) + \\lambda ||w_{1:D}||_2^2`}
+        />
         <p>
           Recall that <IM math={`\\lambda`} /> is a tuning parameter to control
           how much we care about this penalty. Another common term for a tuning
@@ -702,6 +704,41 @@ export default function FeatureSelectionLASSO() {
 
       <section>
         <h2>Algorithm 2: Ridge Regression</h2>
+
+        <p>
+          One idea for trying to interpret which features are the most important
+          for a prediction task would be to interpret the coefficients learned
+          from a model regularized with the ridge penalty. As a reminder, the
+          ridge quality metric is
+        </p>
+
+        <BM math={`\\text{arg}\\min_w L(w) + ||w_{1:D}||_2^2`} />
+
+        <p>
+          The intuition is that since Ridge penalizes features coefficients with
+          large magnitude, that features whose coefficients are still large
+          penalty should be very important for the prediction task. In other
+          words, the ridge penalty puts a "price" on having larger magnitude
+          coefficients. If a coefficient is large despite having to pay the
+          "price", that must be a feature that is important.
+        </p>
+
+        <p>
+          We will attempt to define a procedure that lets us use the
+          coefficients learned in a Ridge model to identify important features.
+          We'll start by training our Ridge model on the data with all features
+          present, and then plotting out the coefficient for each feature (shown
+          as the magnitude of the blue bars below). Note that some coefficients
+          are positive (above 0) while others are negative (below 0).
+        </p>
+
+        <figure className="fullwidth">
+          <img
+            className="border-image"
+            src="/animations/feature_selection_lasso/ridge_coefficients.png"
+            alt="Bar chart showing magnitude of Ridge model coefficients."
+          />
+        </figure>
 
         <h3>Problems with Ridge for feature selection</h3>
       </section>
